@@ -34,7 +34,7 @@ cd PowershellScripts
 
 | Requirement | Details |
 |-------------|---------|
-| **PowerShell** | 5.1 or higher |
+| **PowerShell** | 7 or higher |
 | **Permissions** | Administrator rights for most scripts |
 | **Operating System** | Windows 10/11, Windows Server 2016+ |
 | **Modules** | PSWindowsUpdate, Microsoft.Graph, ActiveDirectory |
@@ -263,5 +263,6 @@ This project is licensed under the [GNU General Public License v3.0](LICENSE) - 
 ![Last Commit](https://img.shields.io/github/last-commit/roalhelm/PowershellScripts)
 
 ---
+
 
 **💼 Ready for Enterprise Use** | **🚀 Continuously Updated** | **🛡️ Security Focused** | **📱 Modern Design**
