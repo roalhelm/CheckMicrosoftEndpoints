@@ -206,7 +206,7 @@ function Show-ServiceSelectionMenu {
     
     Write-Host "`n🔧 MICROSOFT ENDPOINT CONNECTIVITY TESTER V2.0" -ForegroundColor Cyan
     Write-Host "="*60 -ForegroundColor DarkCyan
-    Write-Host "Wählen Sie die zu testenden Microsoft Services aus:" -ForegroundColor Yellow
+    Write-Host "Select the Microsoft Services to test:" -ForegroundColor Yellow
     Write-Host ""
     
     $menuOptions = @(
@@ -220,7 +220,7 @@ function Show-ServiceSelectionMenu {
         @{ Key = "8"; Name = "Windows Activation"; Param = "Activation" }
         @{ Key = "9"; Name = "Microsoft Edge"; Param = "Edge" }
         @{ Key = "10"; Name = "Windows Telemetry"; Param = "Telemetry" }
-        @{ Key = "A"; Name = "ALLE SERVICES"; Param = "All" }
+        @{ Key = "A"; Name = "ALL SERVICES"; Param = "All" }
     )
     
     foreach ($option in $menuOptions) {
@@ -233,14 +233,14 @@ function Show-ServiceSelectionMenu {
     }
     
     Write-Host ""
-    Write-Host "Geben Sie die Nummern der gewünschten Services ein (z.B. 1,3,5 oder A für alle):" -ForegroundColor Cyan
-    Write-Host "Zusätzliche Optionen:" -ForegroundColor Yellow
-    Write-Host "  - Drücken Sie 'P' um Ping-Tests zu überspringen" -ForegroundColor Gray
-    Write-Host "  - Drücken Sie 'S' um Geschwindigkeitstests zu überspringen" -ForegroundColor Gray
-    Write-Host "  - Drücken Sie 'H' um HTML-Report zu generieren" -ForegroundColor Gray
-    Write-Host "  - Drücken Sie 'Q' für stillen Modus" -ForegroundColor Gray
+    Write-Host "Enter the numbers of the desired services (e.g. 1,3,5 or A for all):" -ForegroundColor Cyan
+    Write-Host "Additional options:" -ForegroundColor Yellow
+    Write-Host "  - Press 'P' to skip ping tests" -ForegroundColor Gray
+    Write-Host "  - Press 'S' to skip speed tests" -ForegroundColor Gray
+    Write-Host "  - Press 'H' to generate HTML report" -ForegroundColor Gray
+    Write-Host "  - Press 'Q' for quiet mode" -ForegroundColor Gray
     
-    $userInput = Read-Host "`nIhre Auswahl"
+    $userInput = Read-Host "`nYour selection"
     
     # Parse input for service selection
     $selections = $userInput -split ',' | ForEach-Object { $_.Trim().ToUpper() }
@@ -257,7 +257,7 @@ function Show-ServiceSelectionMenu {
     }
     
     if ($selectedServices.Count -eq 0) {
-        Write-Host "Keine gültigen Services ausgewählt. Verwende alle Services." -ForegroundColor Yellow
+        Write-Host "No valid services selected. Using all services." -ForegroundColor Yellow
         return @("All")
     }
     
@@ -270,15 +270,15 @@ if ($Services -contains 'Interactive') {
     
     # Ask for additional options
     Write-Host ""
-    $skipOptions = Read-Host "Optionen: (P)ing überspringen, (S)peed überspringen, (H)TML-Report, (Q)uiet, oder Enter für Standard"
+    $skipOptions = Read-Host "Options: Skip (P)ing, Skip (S)peed, Generate (H)TML-Report, (Q)uiet, or Enter for default"
     
     if ($skipOptions -match 'P') { $SkipPing = $true }
     if ($skipOptions -match 'S') { $SkipSpeed = $true }
     if ($skipOptions -match 'Q') { $Quiet = $true }
     if ($skipOptions -match 'H') { 
         $HtmlReport = "Microsoft-Endpoints-Report-$(Get-Date -Format 'yyyyMMdd-HHmmss').html"
-        $htmlChoice = Read-Host "HTML-Report im Browser öffnen? (j/n)"
-        if ($htmlChoice -match '^(j|y|yes|ja)') { $OpenReport = $true }
+        $htmlChoice = Read-Host "Open HTML report in browser? (y/n)"
+        if ($htmlChoice -match '^(y|yes)') { $OpenReport = $true }
     }
     
     Clear-Host
@@ -416,44 +416,44 @@ $backendUrls = @{
 # Service impact descriptions for failed connectivity
 $serviceImpacts = @{
     'Windows Update for Business' = @{
-        'Impact' = 'Windows Updates und Feature Updates können nicht heruntergeladen werden'
-        'Symptoms' = 'Update-Fehler, veraltete Sicherheitspatches, fehlende Feature-Updates'
+        'Impact' = 'Windows Updates and Feature Updates cannot be downloaded'
+        'Symptoms' = 'Update errors, outdated security patches, missing feature updates'
     }
     'Windows Autopatch' = @{
-        'Impact' = 'Automatische Patch-Verwaltung funktioniert nicht'
-        'Symptoms' = 'Manuelle Update-Verwaltung erforderlich, keine automatischen Deployment-Zeitpläne'
+        'Impact' = 'Automatic patch management does not work'
+        'Symptoms' = 'Manual update management required, no automatic deployment schedules'
     }
     'Intune' = @{
-        'Impact' = 'Geräte-Enrollment, App-Deployment und Compliance-Checks funktionieren nicht'
-        'Symptoms' = 'Neue Geräte können nicht registriert werden, Apps installieren nicht, Compliance-Berichte fehlen'
+        'Impact' = 'Device enrollment, app deployment, and compliance checks do not work'
+        'Symptoms' = 'New devices cannot be enrolled, apps do not install, compliance reports missing'
     }
     'Microsoft Defender' = @{
-        'Impact' = 'Antivirus-Updates und Cloud-Schutz funktionieren nicht'
-        'Symptoms' = 'Veraltete Virensignaturen, keine Cloud-basierten Bedrohungsanalysen, eingeschränkter Schutz'
+        'Impact' = 'Antivirus updates and cloud protection do not work'
+        'Symptoms' = 'Outdated virus signatures, no cloud-based threat analysis, limited protection'
     }
     'Azure Active Directory' = @{
-        'Impact' = 'Anmeldung und Geräte-Authentication können fehlschlagen'
-        'Symptoms' = 'Login-Probleme, Geräte-Registrierung fehlgeschlagen, SSO funktioniert nicht'
+        'Impact' = 'Sign-in and device authentication may fail'
+        'Symptoms' = 'Login problems, device registration failed, SSO does not work'
     }
     'Microsoft 365' = @{
-        'Impact' = 'Office-Apps, SharePoint und OneDrive funktionieren nicht vollständig'
-        'Symptoms' = 'Office-Apps starten nicht, Dokumente synchronisieren nicht, Admin Center nicht erreichbar'
+        'Impact' = 'Office apps, SharePoint, and OneDrive do not work properly'
+        'Symptoms' = 'Office apps do not start, documents do not sync, Admin Center not accessible'
     }
     'Microsoft Store' = @{
-        'Impact' = 'App-Installation und -Updates aus dem Microsoft Store funktionieren nicht'
-        'Symptoms' = 'Store öffnet nicht, Apps können nicht installiert/aktualisiert werden'
+        'Impact' = 'App installation and updates from Microsoft Store do not work'
+        'Symptoms' = 'Store does not open, apps cannot be installed/updated'
     }
     'Windows Activation' = @{
-        'Impact' = 'Windows-Aktivierung und Lizenzvalidierung funktionieren nicht'
-        'Symptoms' = 'Aktivierungsfehler, Lizenz-Warnungen, eingeschränkte Funktionalität'
+        'Impact' = 'Windows activation and license validation do not work'
+        'Symptoms' = 'Activation errors, license warnings, limited functionality'
     }
     'Microsoft Edge' = @{
-        'Impact' = 'Browser-Updates und Enterprise-Features funktionieren eingeschränkt'
-        'Symptoms' = 'SmartScreen deaktiviert, keine automatischen Updates, Enterprise-Policies funktionieren nicht'
+        'Impact' = 'Browser updates and enterprise features work with limitations'
+        'Symptoms' = 'SmartScreen disabled, no automatic updates, enterprise policies do not work'
     }
     'Windows Telemetry' = @{
-        'Impact' = 'Diagnose-Daten und Fehlerberichte werden nicht übertragen'
-        'Symptoms' = 'Keine Windows-Diagnosedaten, Fehlerberichte gehen verloren, Update-Qualität kann beeinträchtigt sein'
+        'Impact' = 'Diagnostic data and error reports are not transmitted'
+        'Symptoms' = 'No Windows diagnostic data, error reports lost, update quality may be impaired'
     }
 }
 
@@ -532,11 +532,11 @@ function Show-ServiceImpactWarning {
     )
     
     if ($serviceImpacts.ContainsKey($ServiceName)) {
-        Write-Host "    ⚠️  AUSWIRKUNGEN:" -ForegroundColor Yellow
+        Write-Host "    ⚠️  IMPACT:" -ForegroundColor Yellow
         Write-Host "       • $($serviceImpacts[$ServiceName].Impact)" -ForegroundColor Yellow
-        Write-Host "    🔍 SYMPTOME:" -ForegroundColor Cyan
+        Write-Host "    🔍 SYMPTOMS:" -ForegroundColor Cyan
         Write-Host "       • $($serviceImpacts[$ServiceName].Symptoms)" -ForegroundColor Cyan
-        Write-Host "    🚫 Betroffene Endpunkte: $($FailedEndpoints.Count)" -ForegroundColor Red
+        Write-Host "    🚫 Affected endpoints: $($FailedEndpoints.Count)" -ForegroundColor Red
         Write-Host ""
     }
 }
@@ -592,7 +592,7 @@ function New-HtmlReport {
     # Generate HTML content
     $htmlContent = @"
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -797,25 +797,25 @@ function New-HtmlReport {
     <div class="container">
         <div class="header">
             <h1>🌐 Microsoft Endpoint Connectivity Report</h1>
-            <p>Erstellt am $timestamp | Testdauer: $($testDuration.ToString("hh\:mm\:ss"))</p>
+            <p>Generated on $timestamp | Test Duration: $($testDuration.ToString("hh\:mm\:ss"))</p>
         </div>
         
         <div class="summary">
             <div class="stat-card">
                 <div class="stat-value">$totalEndpoints</div>
-                <div class="stat-label">Getestete Endpunkte</div>
+                <div class="stat-label">Tested Endpoints</div>
             </div>
             <div class="stat-card success">
                 <div class="stat-value">$successfulEndpoints</div>
-                <div class="stat-label">Erfolgreich</div>
+                <div class="stat-label">Successful</div>
             </div>
             <div class="stat-card danger">
                 <div class="stat-value">$failedEndpoints</div>
-                <div class="stat-label">Fehlgeschlagen</div>
+                <div class="stat-label">Failed</div>
             </div>
             <div class="stat-card info">
                 <div class="stat-value">$successRate%</div>
-                <div class="stat-label">Erfolgsrate</div>
+                <div class="stat-label">Success Rate</div>
             </div>
 "@
 
@@ -824,7 +824,7 @@ function New-HtmlReport {
         $htmlContent += @"
             <div class="stat-card">
                 <div class="stat-value">$($pingStats.Average)ms</div>
-                <div class="stat-label">Ø Latenz</div>
+                <div class="stat-label">Avg Latency</div>
             </div>
 "@
     }
@@ -834,7 +834,7 @@ function New-HtmlReport {
         $htmlContent += @"
             <div class="stat-card">
                 <div class="stat-value">$($speedStats.Average)</div>
-                <div class="stat-label">Ø Speed (Kbps)</div>
+                <div class="stat-label">Avg Speed (Kbps)</div>
             </div>
 "@
     }
@@ -849,14 +849,14 @@ function New-HtmlReport {
     if ($failedEndpoints -eq 0) {
         $htmlContent += @"
             <div class="alert alert-success">
-                <strong>✅ Ausgezeichnet!</strong> Alle getesteten Microsoft Endpunkte sind erreichbar und funktionsfähig.
+                <strong>✅ Excellent!</strong> All tested Microsoft endpoints are reachable and functional.
             </div>
 "@
     } else {
         $htmlContent += @"
             <div class="alert alert-danger">
-                <strong>⚠️ Warnung!</strong> $failedEndpoints von $totalEndpoints Microsoft Endpunkten sind nicht erreichbar. 
-                Dies kann zu Funktionseinschränkungen bei den betroffenen Services führen.
+                <strong>⚠️ Warning!</strong> $failedEndpoints of $totalEndpoints Microsoft endpoints are not reachable. 
+                This may lead to functional limitations in the affected services.
             </div>
 "@
     }
@@ -864,7 +864,7 @@ function New-HtmlReport {
     # Add services section
     $htmlContent += @"
             <div class="section">
-                <h2>📋 Service-Details</h2>
+                <h2>📋 Service Details</h2>
 "@
 
     # Generate service-specific tables
@@ -874,7 +874,7 @@ function New-HtmlReport {
 
         
         $statusClass = if ($serviceFailures -eq 0) { "success" } else { "danger" }
-        $statusText = if ($serviceFailures -eq 0) { "✅ Alle OK" } else { "❌ $serviceFailures Fehler" }
+        $statusText = if ($serviceFailures -eq 0) { "✅ All OK" } else { "❌ $serviceFailures Errors" }
         
         $htmlContent += @"
                 <div class="service-group">
@@ -944,10 +944,10 @@ function New-HtmlReport {
             $impact = $ServiceImpacts[$serviceName]
             $htmlContent += @"
                     <div class="impact-section">
-                        <div class="impact-title">⚠️ Mögliche Auswirkungen bei Fehlern:</div>
+                        <div class="impact-title">⚠️ Possible Impact of Failures:</div>
                         <ul class="impact-list">
-                            <li><strong>Funktionsbeeinträchtigung:</strong> $($impact.Impact)</li>
-                            <li><strong>Mögliche Symptome:</strong> $($impact.Symptoms)</li>
+                            <li><strong>Functional Impact:</strong> $($impact.Impact)</li>
+                            <li><strong>Possible Symptoms:</strong> $($impact.Symptoms)</li>
                         </ul>
                     </div>
 "@
@@ -962,36 +962,36 @@ function New-HtmlReport {
     if ($pingStats -or $speedStats) {
         $htmlContent += @"
             <div class="section">
-                <h2>📊 Performance-Statistiken</h2>
+                <h2>📊 Performance Statistics</h2>
 "@
         
         if ($pingStats) {
             $htmlContent += @"
                 <div class="service-group">
-                    <div class="service-header">🏓 Ping-Latenz Statistiken</div>
+                    <div class="service-header">🏓 Ping Latency Statistics</div>
                     <table>
                         <tr>
-                            <th>Metrik</th>
-                            <th>Wert</th>
-                            <th>Bewertung</th>
+                            <th>Metric</th>
+                            <th>Value</th>
+                            <th>Rating</th>
                         </tr>
                         <tr>
-                            <td>Durchschnittliche Latenz</td>
+                            <td>Average Latency</td>
                             <td class="$(if($pingStats.Average -lt 50){"ping-excellent"}elseif($pingStats.Average -lt 100){"ping-good"}else{"ping-poor"})">$($pingStats.Average) ms</td>
-                            <td>$(if($pingStats.Average -lt 50){"🌟 Exzellent"}elseif($pingStats.Average -lt 100){"👍 Gut"}else{"⚠️ Verbesserungsbedarf"})</td>
+                            <td>$(if($pingStats.Average -lt 50){"🌟 Excellent"}elseif($pingStats.Average -lt 100){"👍 Good"}else{"⚠️ Needs Improvement"})</td>
                         </tr>
                         <tr>
-                            <td>Beste Latenz</td>
+                            <td>Best Latency</td>
                             <td class="ping-excellent">$($pingStats.Min) ms</td>
                             <td>-</td>
                         </tr>
                         <tr>
-                            <td>Schlechteste Latenz</td>
+                            <td>Worst Latency</td>
                             <td class="ping-poor">$($pingStats.Max) ms</td>
                             <td>-</td>
                         </tr>
                         <tr>
-                            <td>Getestete Hosts</td>
+                            <td>Tested Hosts</td>
                             <td>$($pingStats.Count)</td>
                             <td>-</td>
                         </tr>
@@ -1003,26 +1003,26 @@ function New-HtmlReport {
         if ($speedStats) {
             $htmlContent += @"
                 <div class="service-group">
-                    <div class="service-header">🚀 Geschwindigkeits-/Antwortzeit Statistiken</div>
+                    <div class="service-header">🚀 Speed/Response Time Statistics</div>
                     <table>
                         <tr>
-                            <th>Metrik</th>
-                            <th>Wert</th>
+                            <th>Metric</th>
+                            <th>Value</th>
                         </tr>
                         <tr>
-                            <td>Durchschnittliche Speed/Antwortzeit</td>
+                            <td>Average Speed/Response Time</td>
                             <td>$($speedStats.Average) Kbps/ms</td>
                         </tr>
                         <tr>
-                            <td>Beste Performance</td>
+                            <td>Best Performance</td>
                             <td>$($speedStats.Min) Kbps/ms</td>
                         </tr>
                         <tr>
-                            <td>Schlechteste Performance</td>
+                            <td>Worst Performance</td>
                             <td>$($speedStats.Max) Kbps/ms</td>
                         </tr>
                         <tr>
-                            <td>Getestete Endpoints</td>
+                            <td>Tested Endpoints</td>
                             <td>$($speedStats.Count)</td>
                         </tr>
                     </table>
@@ -1039,8 +1039,8 @@ function New-HtmlReport {
     $htmlContent += @"
         </div>
         <div class="footer">
-            <p><strong>Microsoft Endpoint Connectivity Tester V2.0</strong> | Ausgeführt auf: $computerName von $userName</p>
-            <p>Generiert von PowerShell Script: CheckMicrosoftEndpointsV2.ps1 | © 2025 Ronny Alhelm</p>
+            <p><strong>Microsoft Endpoint Connectivity Tester V2.0</strong> | Executed on: $computerName by $userName</p>
+            <p>Generated by PowerShell Script: CheckMicrosoftEndpointsV2.ps1 | © 2025 Ronny Alhelm</p>
         </div>
     </div>
 </body>
@@ -1053,7 +1053,7 @@ function New-HtmlReport {
         return $true
     }
     catch {
-        Write-Error "Fehler beim Erstellen der HTML-Datei: $_"
+        Write-Error "Error creating HTML file: $_"
         return $false
     }
 }
@@ -1064,7 +1064,7 @@ $selectedBackendUrls = @{}
 if ($Services -contains 'All') {
     $selectedBackendUrls = $backendUrls
     if (-not $Quiet) {
-        Write-Host "🚀 Alle Microsoft Services wurden für Tests ausgewählt" -ForegroundColor Green
+        Write-Host "🚀 All Microsoft Services have been selected for testing" -ForegroundColor Green
     }
 } else {
     # Service name mapping for parameter validation
@@ -1086,26 +1086,26 @@ if ($Services -contains 'All') {
         if ($serviceName -and $backendUrls.ContainsKey($serviceName)) {
             $selectedBackendUrls[$serviceName] = $backendUrls[$serviceName]
             if (-not $Quiet) {
-                Write-Host "✅ $serviceName wurde für Tests ausgewählt" -ForegroundColor Cyan
+                Write-Host "✅ $serviceName has been selected for testing" -ForegroundColor Cyan
             }
         } else {
-            Write-Warning "Service '$service' nicht gefunden oder ungültig"
+            Write-Warning "Service '$service' not found or invalid"
         }
     }
 }
 
 if ($selectedBackendUrls.Count -eq 0) {
-    Write-Error "Keine gültigen Services ausgewählt. Script wird beendet."
+    Write-Error "No valid services selected. Script will exit."
     exit 1
 }
 
 # Display test configuration
 if (-not $Quiet) {
-    Write-Host "`n📋 TEST-KONFIGURATION:" -ForegroundColor Yellow
-    Write-Host "   • Ausgewählte Services: $($selectedBackendUrls.Keys -join ', ')" -ForegroundColor White
-    Write-Host "   • Ping-Tests: $(if($SkipPing){'❌ Übersprungen'}else{'✅ Aktiviert'})" -ForegroundColor $(if($SkipPing){'Red'}else{'Green'})
-    Write-Host "   • Geschwindigkeits-Tests: $(if($SkipSpeed){'❌ Übersprungen'}else{'✅ Aktiviert'})" -ForegroundColor $(if($SkipSpeed){'Red'}else{'Green'})
-    Write-Host "   • Modus: $(if($Quiet){'🔇 Still'}else{'🔊 Verbose'})" -ForegroundColor $(if($Quiet){'Gray'}else{'Cyan'})
+    Write-Host "`n📋 TEST CONFIGURATION:" -ForegroundColor Yellow
+    Write-Host "   • Selected Services: $($selectedBackendUrls.Keys -join ', ')" -ForegroundColor White
+    Write-Host "   • Ping Tests: $(if($SkipPing){'❌ Skipped'}else{'✅ Enabled'})" -ForegroundColor $(if($SkipPing){'Red'}else{'Green'})
+    Write-Host "   • Speed Tests: $(if($SkipSpeed){'❌ Skipped'}else{'✅ Enabled'})" -ForegroundColor $(if($SkipSpeed){'Red'}else{'Green'})
+    Write-Host "   • Mode: $(if($Quiet){'🔇 Quiet'}else{'🔊 Verbose'})" -ForegroundColor $(if($Quiet){'Gray'}else{'Cyan'})
 }
 
 # Flatten selected URLs for testing
@@ -1122,15 +1122,15 @@ $script:startTime = Get-Date
 $results = @()
 
 # Build test description
-$testTypes = @("Konnektivität")
+$testTypes = @("Connectivity")
 if (-not $SkipPing) { $testTypes += "Ping" }
-if (-not $SkipSpeed) { $testTypes += "Geschwindigkeit" }
+if (-not $SkipSpeed) { $testTypes += "Speed" }
 
 if (-not $Quiet) {
-    Write-Host "`n🔍 Starte Endpunkt-Tests ($($testTypes -join ', '))..." -ForegroundColor Cyan
+    Write-Host "`n🔍 Starting endpoint tests ($($testTypes -join ', '))..." -ForegroundColor Cyan
     
     $estimatedTime = $testUrls.Count * (1 + $(if(-not $SkipPing){2}else{0}) + $(if(-not $SkipSpeed){3}else{0}))
-    Write-Host "Geschätzte Dauer: ca. $([math]::Round($estimatedTime/60, 1)) Minuten für $($testUrls.Count) Endpunkte" -ForegroundColor Yellow
+    Write-Host "Estimated duration: approx. $([math]::Round($estimatedTime/60, 1)) minutes for $($testUrls.Count) endpoints" -ForegroundColor Yellow
     Write-Host ""
 }
 
@@ -1142,7 +1142,7 @@ foreach ($url in $testUrls) {
     $testHost = ($url -replace 'https://', '').Split('/')[0]
     
     # Progress indicator
-    Write-Progress -Activity "Teste Microsoft Endpunkte" -Status "Teste $testHost ($currentUrl von $totalUrls)" -PercentComplete (($currentUrl / $totalUrls) * 100)
+    Write-Progress -Activity "Testing Microsoft Endpoints" -Status "Testing $testHost ($currentUrl of $totalUrls)" -PercentComplete (($currentUrl / $totalUrls) * 100)
     
     # Test basic connectivity
     $result = Test-NetConnection -ComputerName $testHost -Port 443 -WarningAction SilentlyContinue
@@ -1155,13 +1155,13 @@ foreach ($url in $testUrls) {
     # If basic connectivity works, test ping and speed based on parameters
     if ($result.TcpTestSucceeded) {
         if (-not $Quiet) {
-            Write-Host "  ✅ $testHost - Verbindung OK" -ForegroundColor Green
+            Write-Host "  ✅ $testHost - Connection OK" -ForegroundColor Green
         }
         
         # Test ping if not skipped
         if (-not $SkipPing) {
             if (-not $Quiet) {
-                Write-Host "  🏓 $testHost - Teste Ping..." -ForegroundColor Blue
+                Write-Host "  🏓 $testHost - Testing Ping..." -ForegroundColor Blue
             }
             $pingLatency = Test-PingLatency -HostName $testHost
         }
@@ -1169,13 +1169,13 @@ foreach ($url in $testUrls) {
         # Test speed if not skipped
         if (-not $SkipSpeed) {
             if (-not $Quiet) {
-                Write-Host "  📊 $testHost - Teste Geschwindigkeit..." -ForegroundColor Magenta
+                Write-Host "  📊 $testHost - Testing Speed..." -ForegroundColor Magenta
             }
             $downloadSpeed = Test-DownloadSpeed -Url $url
         }
     } else {
         if (-not $Quiet) {
-            Write-Host "  ❌ $testHost - Nicht erreichbar" -ForegroundColor Red
+            Write-Host "  ❌ $testHost - Not reachable" -ForegroundColor Red
         }
     }
     
@@ -1189,7 +1189,7 @@ foreach ($url in $testUrls) {
     }
 }
 
-Write-Progress -Activity "Teste Microsoft Endpunkte" -Completed
+Write-Progress -Activity "Testing Microsoft Endpoints" -Completed
 
 # Output grouped results by backend with enhanced information
 $failedServices = @()
@@ -1203,7 +1203,7 @@ foreach ($backend in $selectedBackendUrls.Keys) {
     $tableColumns = @(
         @{Name="URL"; Expression={$_.URL}; Width=40},
         @{Name="Status"; Expression={$_.Status}; Width=8},
-        @{Name="IP-Adresse"; Expression={$_.IPAddress}; Width=15}
+        @{Name="IP Address"; Expression={$_.IPAddress}; Width=15}
     )
     
     if (-not $SkipPing) {
@@ -1224,7 +1224,7 @@ foreach ($backend in $selectedBackendUrls.Keys) {
             $avgPing = ($successfulEndpoints | Where-Object { $_.PingLatency_ms -ne $null } | Measure-Object PingLatency_ms -Average).Average
             if ($avgPing) {
                 $pingColor = if ($avgPing -lt 50) { "Green" } elseif ($avgPing -lt 100) { "Yellow" } else { "Red" }
-                Write-Host "📊 Durchschnittliche Latenz: $([math]::Round($avgPing, 2)) ms" -ForegroundColor $pingColor
+                Write-Host "📊 Average Latency: $([math]::Round($avgPing, 2)) ms" -ForegroundColor $pingColor
             }
         }
         
@@ -1232,27 +1232,27 @@ foreach ($backend in $selectedBackendUrls.Keys) {
             $avgSpeed = ($successfulEndpoints | Where-Object { $_.DownloadSpeed_Kbps -ne $null } | Measure-Object DownloadSpeed_Kbps -Average).Average
             if ($avgSpeed) {
                 $speedColor = if ($avgSpeed -gt 1000) { "Green" } elseif ($avgSpeed -gt 100) { "Yellow" } else { "Red" }
-                Write-Host "🚀 Durchschnittliche Antwortzeit/Speed: $([math]::Round($avgSpeed, 2)) ms/Kbps" -ForegroundColor $speedColor
+                Write-Host "🚀 Average Response Time/Speed: $([math]::Round($avgSpeed, 2)) ms/Kbps" -ForegroundColor $speedColor
             }
         }
     }
     
     $failedEndpoints = $backendResults | Where-Object { $_.Status -eq 'FAILED' }
     if ($failedEndpoints.Count -gt 0) {
-        Write-Host "❌ $($failedEndpoints.Count) Endpunkt(e) für $backend sind NICHT erreichbar!" -ForegroundColor Red
+        Write-Host "❌ $($failedEndpoints.Count) endpoint(s) for $backend are NOT reachable!" -ForegroundColor Red
         $failedServices += $backend
         Show-ServiceImpactWarning -ServiceName $backend -FailedEndpoints $failedEndpoints
     } else {
-        Write-Host "✅ Alle Endpunkte für $backend sind erreichbar." -ForegroundColor Green
+        Write-Host "✅ All endpoints for $backend are reachable." -ForegroundColor Green
         
         # Performance rating (only if ping tests were performed)
         if (-not $SkipPing -and $avgPing) {
             if ($avgPing -lt 50) {
-                Write-Host "🌟 Exzellente Netzwerk-Performance!" -ForegroundColor Green
+                Write-Host "🌟 Excellent network performance!" -ForegroundColor Green
             } elseif ($avgPing -lt 100) {
-                Write-Host "👍 Gute Netzwerk-Performance" -ForegroundColor Yellow
+                Write-Host "👍 Good network performance" -ForegroundColor Yellow
             } else {
-                Write-Host "⚠️  Langsame Netzwerk-Performance - Überprüfung empfohlen" -ForegroundColor Red
+                Write-Host "⚠️  Slow network performance - check recommended" -ForegroundColor Red
             }
         }
     }
@@ -1261,7 +1261,7 @@ foreach ($backend in $selectedBackendUrls.Keys) {
 # Summary table of all results with enhanced metrics
 if (-not $Quiet) {
     Write-Host "`n" + "="*100 -ForegroundColor White
-    Write-Host "GESAMTÜBERSICHT ALLER GETESTETEN ENDPUNKTE" -ForegroundColor White
+    Write-Host "OVERALL SUMMARY OF ALL TESTED ENDPOINTS" -ForegroundColor White
     Write-Host "="*100 -ForegroundColor White
 
     # Create dynamic summary table columns
@@ -1269,7 +1269,7 @@ if (-not $Quiet) {
         @{Name="URL"; Expression={$_.URL}; Width=45},
         @{Name="Host"; Expression={$_.Host}; Width=30},
         @{Name="Status"; Expression={$_.Status}; Width=8},
-        @{Name="IP-Adresse"; Expression={$_.IPAddress}; Width=15}
+        @{Name="IP Address"; Expression={$_.IPAddress}; Width=15}
     )
     
     if (-not $SkipPing) {
@@ -1285,7 +1285,7 @@ if (-not $Quiet) {
 
 # Overall performance statistics
 if (-not $Quiet -and (-not $SkipPing -or -not $SkipSpeed)) {
-    Write-Host "`n📈 GESAMTE NETZWERK-PERFORMANCE STATISTIKEN:" -ForegroundColor Cyan
+    Write-Host "`n📈 OVERALL NETWORK PERFORMANCE STATISTICS:" -ForegroundColor Cyan
     Write-Host "-"*60 -ForegroundColor DarkCyan
 
     $successfulTests = $results | Where-Object { $_.Status -eq 'OK' }
@@ -1298,11 +1298,11 @@ if (-not $Quiet -and (-not $SkipPing -or -not $SkipSpeed)) {
             $minPing = ($testsWithPing | Measure-Object PingLatency_ms -Minimum).Minimum
             $maxPing = ($testsWithPing | Measure-Object PingLatency_ms -Maximum).Maximum
             
-            Write-Host "🏓 Ping-Statistiken:" -ForegroundColor Yellow
-            Write-Host "   • Durchschnitt: $([math]::Round($overallAvgPing, 2)) ms" -ForegroundColor White
+            Write-Host "🏓 Ping Statistics:" -ForegroundColor Yellow
+            Write-Host "   • Average: $([math]::Round($overallAvgPing, 2)) ms" -ForegroundColor White
             Write-Host "   • Minimum: $([math]::Round($minPing, 2)) ms" -ForegroundColor Green
             Write-Host "   • Maximum: $([math]::Round($maxPing, 2)) ms" -ForegroundColor Red
-            Write-Host "   • Getestete Hosts: $($testsWithPing.Count)" -ForegroundColor Cyan
+            Write-Host "   • Tested Hosts: $($testsWithPing.Count)" -ForegroundColor Cyan
         }
     }
 
@@ -1314,11 +1314,11 @@ if (-not $Quiet -and (-not $SkipPing -or -not $SkipSpeed)) {
             $minSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Minimum).Minimum
             $maxSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Maximum).Maximum
             
-            Write-Host "🚀 Geschwindigkeits-/Antwortzeit-Statistiken:" -ForegroundColor Yellow
-            Write-Host "   • Durchschnitt: $([math]::Round($overallAvgSpeed, 2)) ms/Kbps" -ForegroundColor White
+            Write-Host "🚀 Speed/Response Time Statistics:" -ForegroundColor Yellow
+            Write-Host "   • Average: $([math]::Round($overallAvgSpeed, 2)) ms/Kbps" -ForegroundColor White
             Write-Host "   • Minimum: $([math]::Round($minSpeed, 2)) ms/Kbps" -ForegroundColor Green
             Write-Host "   • Maximum: $([math]::Round($maxSpeed, 2)) ms/Kbps" -ForegroundColor Red
-            Write-Host "   • Getestete Endpoints: $($testsWithSpeed.Count)" -ForegroundColor Cyan
+            Write-Host "   • Tested Endpoints: $($testsWithSpeed.Count)" -ForegroundColor Cyan
         }
     }
 }
@@ -1336,7 +1336,7 @@ if ($HtmlReport) {
     }
     
     if (-not $Quiet) {
-        Write-Host "`n📄 Generiere HTML-Report..." -ForegroundColor Cyan
+        Write-Host "`n📄 Generating HTML Report..." -ForegroundColor Cyan
     }
     
     $htmlSuccess = New-HtmlReport -Results $results -SelectedServices $selectedBackendUrls -FailedServices $failedServices -ServiceImpacts $serviceImpacts -SkipPing $SkipPing -SkipSpeed $SkipSpeed -FilePath $HtmlReport
@@ -1351,7 +1351,7 @@ if ($HtmlReport) {
         }
         
         if (-not $Quiet) {
-            Write-Host "✅ HTML-Report erfolgreich erstellt: $fullPath" -ForegroundColor Green
+            Write-Host "✅ HTML Report successfully created: $fullPath" -ForegroundColor Green
         }
         
         # Open report in browser if requested
@@ -1359,15 +1359,15 @@ if ($HtmlReport) {
             try {
                 Start-Process $fullPath
                 if (-not $Quiet) {
-                    Write-Host "🌐 HTML-Report wird im Browser geöffnet..." -ForegroundColor Cyan
+                    Write-Host "🌐 Opening HTML Report in browser..." -ForegroundColor Cyan
                 }
             }
             catch {
-                Write-Warning "Konnte HTML-Report nicht im Browser öffnen: $_"
+                Write-Warning "Could not open HTML Report in browser: $_"
             }
         }
     } else {
-        Write-Error "Fehler beim Erstellen des HTML-Reports"
+        Write-Error "Error creating HTML Report"
     }
 }
 
@@ -1377,11 +1377,11 @@ if ($results.Status -contains 'FAILED') {
     $totalTested = $results.Count
     
     if (-not $Quiet) {
-        Write-Host "`n🚨 WARNUNG: $totalFailed von $totalTested Microsoft-Endpunkten sind NICHT erreichbar!" -ForegroundColor Red
+        Write-Host "`n🚨 WARNING: $totalFailed of $totalTested Microsoft endpoints are NOT reachable!" -ForegroundColor Red
         Write-Host "="*80 -ForegroundColor Red
         
         if ($failedServices.Count -gt 0) {
-            Write-Host "📋 BETROFFENE SERVICES UND MÖGLICHE AUSWIRKUNGEN:" -ForegroundColor Yellow
+            Write-Host "📋 AFFECTED SERVICES AND POSSIBLE IMPACTS:" -ForegroundColor Yellow
             Write-Host "-"*50 -ForegroundColor Yellow
             foreach ($service in $failedServices) {
                 Write-Host "🔴 $service" -ForegroundColor Red
@@ -1389,14 +1389,14 @@ if ($results.Status -contains 'FAILED') {
                     Write-Host "   └─ $($serviceImpacts[$service].Impact)" -ForegroundColor Yellow
                 }
             }
-            Write-Host "`n💡 EMPFEHLUNG: Überprüfen Sie Ihre Firewall- und Proxy-Konfiguration für die oben genannten Services." -ForegroundColor Cyan
+            Write-Host "`n💡 RECOMMENDATION: Check your firewall and proxy configuration for the services mentioned above." -ForegroundColor Cyan
         }
     }
     exit 1
 } else {
     if (-not $Quiet) {
-        Write-Host "`n✅ ERFOLG: Alle $($results.Count) Microsoft-Endpunkte sind erreichbar!" -ForegroundColor Green
-        Write-Host "🎉 Alle Microsoft Cloud Services sollten ordnungsgemäß funktionieren." -ForegroundColor Green
+        Write-Host "`n✅ SUCCESS: All $($results.Count) Microsoft endpoints are reachable!" -ForegroundColor Green
+        Write-Host "🎉 All Microsoft Cloud Services should function properly." -ForegroundColor Green
     }
     exit 0
 }
