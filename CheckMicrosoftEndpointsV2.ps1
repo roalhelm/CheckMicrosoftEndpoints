@@ -306,13 +306,24 @@ $backendUrls = @{
     ) | Sort-Object -Unique
     
     'Windows Autopatch' = @(
-        'https://api.update.microsoft.com',
+<#        'https://api.update.microsoft.com',
         'https://autopatch.microsoft.com',
         'https://config.edge.skype.com',
         'https://graph.microsoft.com',
         'https://login.microsoftonline.com',
         'https://manage.microsoft.com',
         'https://nexusrules.officeapps.live.com'
+#>
+#########################################################################
+        'https://mmdcustomer.microsoft.com',
+        'https://mmdls.microsoft.com',
+        'https://devicelistenerprod.microsoft.com',
+        'https://login.Windows.net',
+        'https://device.autopatch.microsoft.com',
+        'https://services.autopatch.microsoft.com',
+        'https://payloadprod*.blob.core.windows.net',
+        'https://*.webpubsub.azure.com'
+#########################################################################
     ) | Sort-Object -Unique
     
     'Intune' = @(
