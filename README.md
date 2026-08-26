@@ -1,290 +1,183 @@
 
-# 🛠️ PowerShell Administrative Scripts Collection
+# Microsoft Endpoint Connectivity Tests
 
-[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?logo=powershell)](https://github.com/PowerShell/PowerShell)
-[![License](https://img.shields.io/badge/License-GPL%20v3-green.svg)](LICENSE)
-[![Last Update](https://img.shields.io/badge/Last%20Update-October%202025-brightgreen)](https://github.com/roalhelm/PowershellScripts)
-[![Scripts](https://img.shields.io/badge/Scripts-25%2B-orange)](https://github.com/roalhelm/PowershellScripts)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-0078D4?logo=powershell&logoColor=white)](https://learn.microsoft.com/powershell/)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11%20%7C%20Server-0078D4)]()
+[![Docs](https://img.shields.io/badge/Docs-Technical%20Reference-6A5ACD)](Info_EN.md)
 
-A comprehensive collection of PowerShell scripts for system administration, Microsoft Intune, Windows Updates, user/group management, network diagnostics, and remediation tasks in modern Windows enterprise environments.
+PowerShell scripts to validate connectivity to Microsoft service endpoints used by Intune, Windows Update, Defender, Microsoft 365, Azure AD, and other enterprise cloud services.
 
-## 🌟 Highlights
+This repository is designed for real-world IT and endpoint troubleshooting: firewall validation, proxy check, network diagnostics, and endpoint accessibility testing from Windows clients and servers.
 
-- **🔌 Microsoft Endpoint Connectivity Tester V2.1** - Advanced connectivity, latency, and performance tests with HTML reports
+## Architecture
 
----
+```mermaid
+flowchart TB
+    subgraph L1[Data Flow]
+        A[Windows Client / Server]
+        B[CheckMicrosoftEndpointsV2.ps1]
+        C[CheckMEMEndpoints.ps1]
+        D[MaintainEndpointBaseline.ps1]
+    end
 
-## 🚀 Quick Start
+    subgraph L2[Firewall / Proxy / Internet]
+        E[Firewall / Proxy / DNS]
+        F[Internet Path]
+    end
 
-```powershell
-# Clone repository
-git clone https://github.com/roalhelm/PowershellScripts.git
-cd PowershellScripts
+    subgraph L3[Endpoint Validation]
+        G[HTTPS TCP Connectivity]
+        H[Ping / Latency]
+        I[Response Time Checks]
+        J[MEM / Intune Baseline]
+    end
 
-# Example: Microsoft Endpoint Connectivity Test with HTML Report
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "NetworkReport.html" -OpenReport
+    subgraph L4[Microsoft Services]
+        K[Windows Update]
+        L[Intune / Endpoint Manager]
+        M[Defender]
+        N[Microsoft 365 / Azure AD]
+    end
 
-# Example: Test only Intune and Defender
-.\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport "MyReport.html"
+    subgraph L5[Reporting]
+        O[HTML Report]
+        P[Drift & Baseline Output]
+    end
+
+    A --> B
+    A --> C
+    A --> D
+
+    B --> G
+    B --> H
+    B --> I
+    C --> J
+    D --> P
+
+    E --> F
+    F --> G
+    F --> H
+    F --> I
+    F --> J
+
+    G --> K
+    G --> L
+    G --> M
+    G --> N
+    H --> K
+    H --> L
+    H --> M
+    H --> N
+    I --> K
+    I --> L
+    I --> M
+    I --> N
+
+    B --> O
+    C --> P
 ```
 
----
+## Included Scripts
 
-## 📋 System Requirements
+- [CheckMicrosoftEndpointsV2.ps1](CheckMicrosoftEndpointsV2.ps1)  
+  Full endpoint connectivity test with selectable services, latency checks, response-time measurement, and optional HTML reporting.
 
-| Requirement | Details |
-|-------------|---------|
-| **PowerShell** | 5.1 or higher |
-| **Permissions** | Standard user for endpoint test scripts |
-| **Operating System** | Windows 10/11, Windows Server 2016+ |
+- [CheckMEMEndpoints.ps1](CheckMEMEndpoints.ps1)  
+  Focused Microsoft Endpoint Manager / Intune validation with baseline-based testing and legacy API fallback support.
 
+- [MaintainEndpointBaseline.ps1](MaintainEndpointBaseline.ps1)  
+  Detects endpoint drift against a saved baseline and can update or enforce drift checks in automation.
 
----
+- [Info.md](Info.md) and [Info_EN.md](Info_EN.md)  
+  Detailed technical documentation with endpoint sources, methodology, and service references.
 
-## 🏆 Featured Script: Microsoft Endpoint Connectivity Tester V2.1
+## Use Cases
 
-### ✨ New Features in Version 2.1
-- **🎨 HTML Report Generation** - Professional, responsive reports
-- **🎯 Service Selection** - Test only relevant Microsoft Services
-- **⚡ Performance Options** - Skip ping/speed tests for faster execution
-- **📱 Responsive Design** - Reports work on all devices
-- **🔍 Interactive Menu** - User-friendly service selection
+- Validate Microsoft cloud connectivity from enterprise networks
+- Check firewall, proxy, routing, or DNS-related connectivity issues
+- Verify Intune and Endpoint Manager access
+- Test Windows Update, Defender, Microsoft 365, Azure AD, Autopatch, and related services
+- Generate quick status reports for IT operations teams
 
-### 🎮 Usage
+## Requirements
+
+- PowerShell 5.1 or later
+- Windows 10, Windows 11, or Windows Server 2016+
+- Internet access for endpoint testing
+- No administrator rights required for most checks
+
+## Quick Start
 
 ```powershell
-# Interactive mode (recommended for new users)
+# Change to the repository folder
+cd "C:\path\to\CheckMicrosoftEndpoints"
+
+# Interactive service selection
 .\CheckMicrosoftEndpointsV2.ps1
 
-# All services with full report
+# Test all services
+.\CheckMicrosoftEndpointsV2.ps1 -Services All
+
+# Test Intune + Defender and generate HTML report
+.\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport "Microsoft-Endpoints.html" -OpenReport
+
+# MEM / Intune validation
+.\CheckMEMEndpoints.ps1
+```
+
+## Supported Service Categories
+
+- Windows Update for Business
+- Windows Autopatch
+- Microsoft Intune
+- Microsoft Defender
+- Azure Active Directory
+- Microsoft 365
+- Microsoft Store
+- Windows Activation
+- Microsoft Edge
+- Windows Telemetry
+
+## HTML Report Example
+
+```powershell
 .\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "NetworkReport.html" -OpenReport
-
-# Quick test for critical services only
-.\CheckMicrosoftEndpointsV2.ps1 -Services WindowsUpdate,Intune,AzureAD -SkipSpeed
-
-# Automated test for CI/CD
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -Quiet -HtmlReport "report.html"
 ```
 
-### 🎯 Supported Microsoft Services
-- **Windows Update for Business** - Update endpoints and delivery services
-- **Windows Autopatch** - Automatic patch management
-- **Microsoft Intune** - Device management and compliance
-- **Microsoft Defender** - Security and threat protection
-- **Azure Active Directory** - Identity services and authentication
-- **Microsoft 365** - Office apps and cloud services
-- **Microsoft Store** - App distribution and updates
-- **Windows Activation** - Licensing and activation
-- **Microsoft Edge** - Browser services and enterprise features
-- **Windows Telemetry** - Diagnostic data and error reporting
+This creates a readable HTML report summarizing connectivity state, service results, latency, and response times.
 
----
+## Baseline Maintenance
 
-## 🎨 HTML Report Features (CheckMicrosoftEndpointsV2.ps1)
-
-### 📊 Dashboard Overview
-- **Statistical Cards** - Tested endpoints, success/failure rate, performance metrics
-- **Color-coded Indicators** - Instant visual assessment
-- **Responsive Grid Layout** - Works on desktop, tablet, mobile
-
-### 📋 Detailed Service Tables
-- **Service-specific Grouping** - Clear organization by Microsoft Services
-- **Status Badges** - OK/FAILED with color coding
-- **IP Addresses** - For network troubleshooting
-- **Performance Metrics** - Latency and response-time data (optional)
-
-### 📈 Performance Analysis
-- **Latency Rating** - Automatic classification (Excellent/Good/Needs Improvement)
-- **Response-Time Statistics** - Min/Max/Average
-- **Service Impact Analysis** - What failures mean in practice
-
-### 🎨 Modern Design
-- **Microsoft Design Language** - Familiar look for IT professionals
-- **Gradient Headers** - Professional appearance
-- **Shadows and Animations** - Modern web aesthetics
-- **Print-friendly** - Optimized for PDF export
-
----
-
-## 💼 Practical Examples
-
-### 🔧 Daily IT Administration
 ```powershell
-# Morning network check with report
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "Daily-$(Get-Date -Format 'yyyy-MM-dd').html" -OpenReport
-
-```
-
-### 🚀 Deployment Preparation
-```powershell
-# Pre-deployment network validation
-.\CheckMicrosoftEndpointsV2.ps1 -Services WindowsUpdate,Intune,AzureAD -HtmlReport "Pre-Deployment-Check.html"
-```
-
-### 📊 Monitoring & Reporting
-```powershell
-# Scheduled task for regular reports
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -Quiet -HtmlReport "Weekly-Report-$(Get-Date -Format 'yyyy-MM-dd').html"
-
-# Create performance baseline
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "Baseline-Performance.html"
-```
-
----
-
-## 🔧 Advanced Configuration
-
-### ⚙️ Script Parameter Overview
-
-#### CheckMicrosoftEndpointsV2.ps1
-```powershell
-# All available parameters
--Services        # All, WindowsUpdate, Intune, Defender, AzureAD, Microsoft365, Store, Activation, Edge, Telemetry, Interactive
--SkipPing        # Skip ping tests (faster)
--SkipSpeed       # Skip speed tests (faster)
--Quiet           # Silent mode (for automation)
--HtmlReport      # Path for HTML report (for example: report.html)
--OpenReport      # Automatically open report in browser
-```
-
-#### MaintainEndpointBaseline.ps1
-```powershell
-# Monthly maintenance check (warns for endpoint drift and stale baseline)
+# Check for drift
 .\MaintainEndpointBaseline.ps1
 
-# Update baseline after intentional endpoint changes
+# Update the saved baseline after intentional changes
 .\MaintainEndpointBaseline.ps1 -UpdateBaseline
 
-# CI mode: fail build when drift is detected
+# Fail automation when drift is detected
 .\MaintainEndpointBaseline.ps1 -FailOnDrift
-
-# Customize review interval (default: 31 days)
-.\MaintainEndpointBaseline.ps1 -ReviewIntervalDays 35
 ```
 
-### 🗓️ Suggested Monthly Routine
-1. Run `.\MaintainEndpointBaseline.ps1`
-2. Review drift output and validate against current Microsoft Learn docs
-3. If changes are intentional, run `.\MaintainEndpointBaseline.ps1 -UpdateBaseline`
-4. Commit updated scripts and `.endpoint-baseline.json`
+## Documentation
+
+- [Info_EN.md](Info_EN.md) — technical documentation in English
+- [Info.md](Info.md) — technische Doku auf Deutsch
+
+## License
+
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
+## Author
+
+Ronny Alhelm
 
 ---
 
-## 📈 Version History & Changelog
-
-### 🏆 CheckMicrosoftEndpointsV2.ps1 Evolution
-
-#### Version 2.1 (October 2025) - Current
-- ✨ **HTML Report Generation** - Responsive design with Microsoft Look & Feel
-- 🎯 **Service Selection** - Interactive menu + parameter-based selection
-- ⚡ **Performance Options** - Configurable test depth
-- 📱 **Mobile-Optimized** - Reports work on all devices
-- 🔍 **Enhanced Analytics** - Detailed performance statistics
-
-#### Version 2.0 (October 2025)
-- 🎮 **Interactive Menu** - User-friendly service selection
-- 📊 **Selective Testing** - Test only relevant services
-- 🚀 **Speed Optimizations** - Skip optional tests
-- 🔇 **Quiet Mode** - For automation and scripting
-
-#### Version 1.1 (October 2025)
-- 🏓 **Ping Latency Tests** - Network performance measurement
-- 📈 **Download Speed Tests** - Bandwidth analysis
-- 🎨 **Enhanced Output** - Color-coded results
-- 📊 **Statistics** - Performance metrics and ratings
-
-#### Version 1.0 (October 2025)
-- 🔌 **Basic Connectivity** - TCP connection tests to Microsoft Services
-- 🌐 **Service Coverage** - All major Microsoft Cloud Services
-- 🎯 **Impact Analysis** - Effects of connection problems
-- 📋 **Structured Output** - Organized results by services
-
----
-
----
-
-## 🔒 Security & Permissions
-
-### 🛡️ Required Permissions
-| Script Category | Permissions | Reason |
-|------------------|-------------|---------|
-| **Network Tests** | Standard User | Test TCP connections only |
-| **System Repair** | Administrator | Modify Windows components |
-| **Intune/Graph** | Graph API | Manage cloud services |
-| **Registry Operations** | Administrator | Modify system registry |
-
-### 🔐 Best Practices
-- **Least Privilege Principle** - Use minimal permissions only
-- **Test Environment First** - Validate new scripts in test environment
-- **Audit Logs** - Log important operations
-- **Code Review** - Review scripts before production use
-
----
-
-## 📚 Documentation & Help
-
-### 📖 Script-specific Help
-```powershell
-# Show detailed help
-Get-Help .\CheckMicrosoftEndpointsV2.ps1 -Full
-
-
-# Parameter information
-Get-Help .\CheckMicrosoftEndpointsV2.ps1 -Parameter Services
-```
-
-
-## 🤝 Contributing & Community
-
-### 🌟 Contributing
-1. **Fork** the repository
-2. **Create feature branch** (`feature/amazing-feature`)
-3. **Commit changes** (`git commit -m 'Add amazing feature'`)
-4. **Push branch** (`git push origin feature/amazing-feature`)
-5. **Create Pull Request**
-
-### 📋 Contribution Guidelines
-- **Code Style** - Follow PowerShell best practices
-- **Documentation** - Update README and inline comments
-- **Testing** - Validate scripts in test environment
-- **Backwards Compatibility** - Consider compatibility with older versions
-
-### 🐛 Bug Reports
-Please use [GitHub Issues](https://github.com/roalhelm/PowershellScripts/issues) for:
-- 🐛 Bug Reports
-- 💡 Feature Requests  
-- 📖 Documentation Improvements
-- ❓ Questions and Discussions
-
----
-
-## 📄 License & Credits
-
-### 📜 License
-This project is licensed under the [GNU General Public License v3.0](LICENSE) - see LICENSE file for details.
-
-### 👨‍💻 Author
-**Ronny Alhelm**
-- 🌐 GitHub: [@roalhelm](https://github.com/roalhelm)
-- 📧 Contact: Via GitHub Issues
-
-### 🙏 Acknowledgments
-- Microsoft Documentation & Best Practices
-- PowerShell Community
-- Enterprise IT Feedback
-- Open Source Contributors
-
----
-
-## 📊 Repository Stats
-
-![Repository Stats](https://img.shields.io/badge/Scripts-25%2B-blue)
-![PowerShell](https://img.shields.io/badge/Language-PowerShell-blue)
-![Maintained](https://img.shields.io/badge/Maintained-Yes-green)
-![Last Commit](https://img.shields.io/github/last-commit/roalhelm/PowershellScripts)
-
----
-
-
-**💼 Ready for Enterprise Use** | **🚀 Continuously Updated** | **🛡️ Security Focused** | **📱 Modern Design**
+<p align="center">
+  <strong>Enterprise-ready</strong> ·
+  <strong>Microsoft endpoint focused</strong> ·
+  <strong>PowerShell based</strong>
+</p>
 
