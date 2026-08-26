@@ -22,7 +22,7 @@ git clone https://github.com/roalhelm/PowershellScripts.git
 cd PowershellScripts
 
 # Example: Microsoft Endpoint Connectivity Test with HTML Report
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport -OpenReport
+.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "NetworkReport.html" -OpenReport
 
 # Example: Test only Intune and Defender
 .\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport "MyReport.html"
@@ -34,8 +34,8 @@ cd PowershellScripts
 
 | Requirement | Details |
 |-------------|---------|
-| **PowerShell** | 7 or higher |
-| **Permissions** | Administrator rights for most scripts |
+| **PowerShell** | 5.1 or higher |
+| **Permissions** | Standard user for endpoint test scripts |
 | **Operating System** | Windows 10/11, Windows Server 2016+ |
 
 
@@ -57,7 +57,7 @@ cd PowershellScripts
 .\CheckMicrosoftEndpointsV2.ps1
 
 # All services with full report
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport -OpenReport
+.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "NetworkReport.html" -OpenReport
 
 # Quick test for critical services only
 .\CheckMicrosoftEndpointsV2.ps1 -Services WindowsUpdate,Intune,AzureAD -SkipSpeed
@@ -91,11 +91,11 @@ cd PowershellScripts
 - **Service-specific Grouping** - Clear organization by Microsoft Services
 - **Status Badges** - OK/FAILED with color coding
 - **IP Addresses** - For network troubleshooting
-- **Performance Metrics** - Latency and speed data (optional)
+- **Performance Metrics** - Latency and response-time data (optional)
 
 ### 📈 Performance Analysis
 - **Latency Rating** - Automatic classification (Excellent/Good/Needs Improvement)
-- **Speed Statistics** - Min/Max/Average
+- **Response-Time Statistics** - Min/Max/Average
 - **Service Impact Analysis** - What failures mean in practice
 
 ### 🎨 Modern Design
@@ -143,9 +143,30 @@ cd PowershellScripts
 -SkipPing        # Skip ping tests (faster)
 -SkipSpeed       # Skip speed tests (faster)
 -Quiet           # Silent mode (for automation)
--HtmlReport      # Path for HTML report
+-HtmlReport      # Path for HTML report (for example: report.html)
 -OpenReport      # Automatically open report in browser
 ```
+
+#### MaintainEndpointBaseline.ps1
+```powershell
+# Monthly maintenance check (warns for endpoint drift and stale baseline)
+.\MaintainEndpointBaseline.ps1
+
+# Update baseline after intentional endpoint changes
+.\MaintainEndpointBaseline.ps1 -UpdateBaseline
+
+# CI mode: fail build when drift is detected
+.\MaintainEndpointBaseline.ps1 -FailOnDrift
+
+# Customize review interval (default: 31 days)
+.\MaintainEndpointBaseline.ps1 -ReviewIntervalDays 35
+```
+
+### 🗓️ Suggested Monthly Routine
+1. Run `.\MaintainEndpointBaseline.ps1`
+2. Review drift output and validate against current Microsoft Learn docs
+3. If changes are intentional, run `.\MaintainEndpointBaseline.ps1 -UpdateBaseline`
+4. Commit updated scripts and `.endpoint-baseline.json`
 
 ---
 

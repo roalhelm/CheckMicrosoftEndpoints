@@ -190,7 +190,7 @@ param(
 
 .EXAMPLE
     # Create HTML report with timestamp in filename
-    .\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport -Quiet
+    .\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport "Microsoft-Endpoints-Report-$(Get-Date -Format 'yyyyMMdd-HHmmss').html" -Quiet
 
 .EXAMPLE
     # Full test with comprehensive HTML report
@@ -204,7 +204,7 @@ param(
 function Show-ServiceSelectionMenu {
     $selectedServices = @()
     
-    Write-Host "`n🔧 MICROSOFT ENDPOINT CONNECTIVITY TESTER V2.0" -ForegroundColor Cyan
+        Write-Host "`n🔧 MICROSOFT ENDPOINT CONNECTIVITY TESTER V2.1" -ForegroundColor Cyan
     Write-Host "="*60 -ForegroundColor DarkCyan
     Write-Host "Select the Microsoft Services to test:" -ForegroundColor Yellow
     Write-Host ""
@@ -284,7 +284,7 @@ if ($Services -contains 'Interactive') {
     Clear-Host
 }
 
-# List of required Microsoft service endpoints (as of 2025)
+# List of required Microsoft service endpoints (reviewed 2026)
 $backendUrls = @{
     'Windows Update for Business' = @(
         'https://dl.delivery.mp.microsoft.com',
@@ -318,7 +318,7 @@ $backendUrls = @{
         'https://mmdcustomer.microsoft.com',
         'https://mmdls.microsoft.com',
         'https://devicelistenerprod.microsoft.com',
-        'https://login.Windows.net',
+        'https://login.windows.net',
         'https://device.autopatch.microsoft.com',
         'https://services.autopatch.microsoft.com',
         'https://payloadprod*.blob.core.windows.net',
@@ -332,9 +332,12 @@ $backendUrls = @{
         'https://graph.microsoft.com',
         'https://login.microsoftonline.com',
         'https://manage.microsoft.com',
+        'https://*.manage.microsoft.com',
+        'https://*.dm.microsoft.com',
         'https://portal.manage.microsoft.com',
         'https://enrollment.manage.microsoft.com',
         'https://enterpriseregistration.windows.net',
+        'https://certauth.enterpriseregistration.windows.net',
         'https://r.manage.microsoft.com',
         'https://i.manage.microsoft.com',
         'https://p.manage.microsoft.com',
@@ -375,6 +378,9 @@ $backendUrls = @{
         'https://officecdn.microsoft.com',
         'https://protection.office.com',
         'https://portal.office.com',
+        'https://*.cloud.microsoft',
+        'https://*.static.microsoft',
+        'https://*.usercontent.microsoft',
         'https://*.office.com',
         'https://*.office365.com',
         'https://*.sharepoint.com',
@@ -389,7 +395,7 @@ $backendUrls = @{
         'https://store-images.s-microsoft.com',
         'https://displaycatalog.mp.microsoft.com',
         'https://licensing.mp.microsoft.com',
-        'https://purchase.mp.microsoft.com'
+        'https://purchase.md.mp.microsoft.com'
     ) | Sort-Object -Unique
     
     'Windows Activation' = @(
@@ -397,7 +403,7 @@ $backendUrls = @{
         'https://crl.microsoft.com',
         'https://validation.sls.microsoft.com',
         'https://activation-v2.sls.microsoft.com',
-        'https://purchase.mp.microsoft.com',
+        'https://purchase.md.mp.microsoft.com',
         'https://licensing.mp.microsoft.com'
     ) | Sort-Object -Unique
     
@@ -485,7 +491,7 @@ function Test-PingLatency {
     }
 }
 
-# Function to test download speed (simplified test)
+# Function to test HTTPS response time (ms)
 function Test-DownloadSpeed {
     param (
         [string]$Url,
@@ -505,9 +511,7 @@ function Test-DownloadSpeed {
             $stopwatch.Stop()
             
             if ($stopwatch.ElapsedMilliseconds -gt 0 -and $data.Length -gt 0) {
-                $speedBps = ($data.Length * 8) / ($stopwatch.ElapsedMilliseconds / 1000)
-                $speedKbps = [math]::Round($speedBps / 1024, 2)
-                return $speedKbps
+                return [math]::Round($stopwatch.ElapsedMilliseconds, 2)
             }
         }
         catch {
@@ -845,7 +849,7 @@ function New-HtmlReport {
         $htmlContent += @"
             <div class="stat-card">
                 <div class="stat-value">$($speedStats.Average)</div>
-                <div class="stat-label">Avg Speed (Kbps)</div>
+                <div class="stat-label">Avg Response (ms)</div>
             </div>
 "@
     }
@@ -906,7 +910,7 @@ function New-HtmlReport {
         }
         
         if (-not $SkipSpeed) {
-            $htmlContent += "<th>Speed (Kbps)</th>"
+            $htmlContent += "<th>Response (ms)</th>"
         }
 
         $htmlContent += @"
@@ -1014,23 +1018,23 @@ function New-HtmlReport {
         if ($speedStats) {
             $htmlContent += @"
                 <div class="service-group">
-                    <div class="service-header">🚀 Speed/Response Time Statistics</div>
+                    <div class="service-header">🚀 Response Time Statistics</div>
                     <table>
                         <tr>
                             <th>Metric</th>
                             <th>Value</th>
                         </tr>
                         <tr>
-                            <td>Average Speed/Response Time</td>
-                            <td>$($speedStats.Average) Kbps/ms</td>
+                            <td>Average Response Time</td>
+                            <td>$($speedStats.Average) ms</td>
                         </tr>
                         <tr>
                             <td>Best Performance</td>
-                            <td>$($speedStats.Min) Kbps/ms</td>
+                            <td>$($speedStats.Min) ms</td>
                         </tr>
                         <tr>
                             <td>Worst Performance</td>
-                            <td>$($speedStats.Max) Kbps/ms</td>
+                            <td>$($speedStats.Max) ms</td>
                         </tr>
                         <tr>
                             <td>Tested Endpoints</td>
@@ -1050,7 +1054,7 @@ function New-HtmlReport {
     $htmlContent += @"
         </div>
         <div class="footer">
-            <p><strong>Microsoft Endpoint Connectivity Tester V2.0</strong> | Executed on: $computerName by $userName</p>
+            <p><strong>Microsoft Endpoint Connectivity Tester V2.1</strong> | Executed on: $computerName by $userName</p>
             <p>Generated by PowerShell Script: CheckMicrosoftEndpointsV2.ps1 | © 2025 Ronny Alhelm</p>
         </div>
     </div>
@@ -1124,8 +1128,14 @@ $urls = $selectedBackendUrls.Values | ForEach-Object { $_ }
 
 # Remove wildcards for direct test (cannot resolve * in Test-NetConnection)
 $testUrls = $urls | ForEach-Object {
-    if ($_ -like '*.*.*.*') { $_ } else { $_ -replace '\*\.', 'www.' }
+    if ($_ -like '*`**') {
+        ($_ -replace '^https://\*\.', 'https://www.' -replace '\*', 'prod')
+    } else {
+        $_
+    }
 }
+            <p><strong>Microsoft Endpoint Connectivity Tester V2.1</strong> | Executed on: $computerName by $userName</p>
+            <p>Generated by PowerShell Script: CheckMicrosoftEndpointsV2.ps1 | © 2026 Ronny Alhelm</p>
 
 # Store script start time for duration calculation
 $script:startTime = Get-Date
@@ -1205,8 +1215,10 @@ Write-Progress -Activity "Testing Microsoft Endpoints" -Completed
 # Output grouped results by backend with enhanced information
 $failedServices = @()
 foreach ($backend in $selectedBackendUrls.Keys) {
-    Write-Host "`nBackend: $backend" -ForegroundColor Cyan
-    Write-Host "="*60 -ForegroundColor DarkCyan
+    if (-not $Quiet) {
+        Write-Host "`nBackend: $backend" -ForegroundColor Cyan
+        Write-Host "="*60 -ForegroundColor DarkCyan
+    }
     
     $backendResults = $results | Where-Object { $selectedBackendUrls[$backend] -contains $_.URL }
     
@@ -1222,10 +1234,12 @@ foreach ($backend in $selectedBackendUrls.Keys) {
     }
     
     if (-not $SkipSpeed) {
-        $tableColumns += @{Name="Speed (Kbps)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
+        $tableColumns += @{Name="Response (ms)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
     }
     
-    $backendResults | Format-Table $tableColumns -AutoSize
+    if (-not $Quiet) {
+        $backendResults | Format-Table $tableColumns -AutoSize
+    }
     
     # Performance analysis (only if tests were performed)
     $successfulEndpoints = $backendResults | Where-Object { $_.Status -eq 'OK' }
@@ -1243,27 +1257,33 @@ foreach ($backend in $selectedBackendUrls.Keys) {
             $avgSpeed = ($successfulEndpoints | Where-Object { $_.DownloadSpeed_Kbps -ne $null } | Measure-Object DownloadSpeed_Kbps -Average).Average
             if ($avgSpeed) {
                 $speedColor = if ($avgSpeed -gt 1000) { "Green" } elseif ($avgSpeed -gt 100) { "Yellow" } else { "Red" }
-                Write-Host "🚀 Average Response Time/Speed: $([math]::Round($avgSpeed, 2)) ms/Kbps" -ForegroundColor $speedColor
+                Write-Host "🚀 Average Response Time: $([math]::Round($avgSpeed, 2)) ms" -ForegroundColor $speedColor
             }
         }
     }
     
     $failedEndpoints = $backendResults | Where-Object { $_.Status -eq 'FAILED' }
     if ($failedEndpoints.Count -gt 0) {
-        Write-Host "❌ $($failedEndpoints.Count) endpoint(s) for $backend are NOT reachable!" -ForegroundColor Red
+        if (-not $Quiet) {
+            Write-Host "❌ $($failedEndpoints.Count) endpoint(s) for $backend are NOT reachable!" -ForegroundColor Red
+        }
         $failedServices += $backend
-        Show-ServiceImpactWarning -ServiceName $backend -FailedEndpoints $failedEndpoints
+        if (-not $Quiet) {
+            Show-ServiceImpactWarning -ServiceName $backend -FailedEndpoints $failedEndpoints
+        }
     } else {
-        Write-Host "✅ All endpoints for $backend are reachable." -ForegroundColor Green
+        if (-not $Quiet) {
+            Write-Host "✅ All endpoints for $backend are reachable." -ForegroundColor Green
+        }
         
         # Performance rating (only if ping tests were performed)
         if (-not $SkipPing -and $avgPing) {
             if ($avgPing -lt 50) {
-                Write-Host "🌟 Excellent network performance!" -ForegroundColor Green
+                if (-not $Quiet) { Write-Host "🌟 Excellent network performance!" -ForegroundColor Green }
             } elseif ($avgPing -lt 100) {
-                Write-Host "👍 Good network performance" -ForegroundColor Yellow
+                if (-not $Quiet) { Write-Host "👍 Good network performance" -ForegroundColor Yellow }
             } else {
-                Write-Host "⚠️  Slow network performance - check recommended" -ForegroundColor Red
+                if (-not $Quiet) { Write-Host "⚠️  Slow network performance - check recommended" -ForegroundColor Red }
             }
         }
     }
@@ -1288,7 +1308,7 @@ if (-not $Quiet) {
     }
     
     if (-not $SkipSpeed) {
-        $summaryColumns += @{Name="Speed (Kbps)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
+        $summaryColumns += @{Name="Response (ms)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
     }
 
     $results | Format-Table $summaryColumns -AutoSize
@@ -1325,10 +1345,10 @@ if (-not $Quiet -and (-not $SkipPing -or -not $SkipSpeed)) {
             $minSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Minimum).Minimum
             $maxSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Maximum).Maximum
             
-            Write-Host "🚀 Speed/Response Time Statistics:" -ForegroundColor Yellow
-            Write-Host "   • Average: $([math]::Round($overallAvgSpeed, 2)) ms/Kbps" -ForegroundColor White
-            Write-Host "   • Minimum: $([math]::Round($minSpeed, 2)) ms/Kbps" -ForegroundColor Green
-            Write-Host "   • Maximum: $([math]::Round($maxSpeed, 2)) ms/Kbps" -ForegroundColor Red
+            Write-Host "🚀 Response Time Statistics:" -ForegroundColor Yellow
+            Write-Host "   • Average: $([math]::Round($overallAvgSpeed, 2)) ms" -ForegroundColor White
+            Write-Host "   • Minimum: $([math]::Round($minSpeed, 2)) ms" -ForegroundColor Green
+            Write-Host "   • Maximum: $([math]::Round($maxSpeed, 2)) ms" -ForegroundColor Red
             Write-Host "   • Tested Endpoints: $($testsWithSpeed.Count)" -ForegroundColor Cyan
         }
     }
@@ -1338,12 +1358,6 @@ if (-not $Quiet -and (-not $SkipPing -or -not $SkipSpeed)) {
 if ($HtmlReport) {
     if (-not $HtmlReport.EndsWith('.html')) {
         $HtmlReport += '.html'
-    }
-    
-    # Use default filename if no path specified
-    if (-not (Split-Path $HtmlReport -Parent)) {
-        $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-        $HtmlReport = "Microsoft-Endpoints-Report-$timestamp.html"
     }
     
     if (-not $Quiet) {

@@ -13,7 +13,10 @@ param(
     [string]$LogFile = "MEM-Endpoints-Test-$(Get-Date -Format 'yyyyMMdd-HHmmss').log",
     
     [Parameter(HelpMessage="Test timeout in seconds")]
-    [int]$TimeoutSeconds = 10
+    [int]$TimeoutSeconds = 10,
+
+    [Parameter(HelpMessage="Use legacy Office endpoint API (best-effort only for MEM/Intune)")]
+    [switch]$UseLegacyOfficeEndpointApi
 )
 
 <#
@@ -21,12 +24,12 @@ param(
     Microsoft Endpoint Manager (MEM) Connectivity and Performance Tester
 
 .DESCRIPTION
-    This script dynamically retrieves the current Microsoft Endpoint Manager (MEM) IP addresses and URLs 
-    from the official Microsoft API and tests their reachability through your firewall. It provides detailed 
-    connectivity, latency, and speed measurements with comprehensive logging for comparison purposes.
+    This script tests Microsoft Endpoint Manager (MEM/Intune) connectivity against a maintained baseline
+    endpoint list. Optionally, it can merge data from the legacy Office endpoint API in best-effort mode.
+    It provides detailed connectivity, latency, and response-time measurements with comprehensive logging.
     
     The script performs the following operations:
-    1. Retrieves current MEM IPs and URLs from Microsoft's official API
+    1. Loads maintained MEM/Intune baseline URLs and optionally merges legacy API data
     2. Tests TCP connectivity to all endpoints on port 443 (HTTPS)
     3. Measures ping latency for performance analysis (optional)
     4. Tests download speed/response time to evaluate network quality (optional)
@@ -56,10 +59,13 @@ param(
 .PARAMETER TimeoutSeconds
     Timeout in seconds for network tests. Default is 10 seconds.
 
+.PARAMETER UseLegacyOfficeEndpointApi
+    Uses the legacy Office endpoint API as a best-effort supplement for MEM data.
+
 .NOTES
     File Name     : CheckMEMEndpoints.ps1
     Author        : Created based on requirements
-    Version       : 1.0
+    Version       : 1.1
     Creation Date : October 16, 2025
     Requirements  : PowerShell 5.1 or higher, Internet connectivity
     Network       : HTTPS (443) access to Microsoft endpoints, ICMP for ping tests
@@ -76,6 +82,10 @@ param(
 .EXAMPLE
     .\CheckMEMEndpoints.ps1 -LogFile "C:\Logs\MEM-Test.log"
     Runs complete test and saves results to specified log file.
+
+.EXAMPLE
+    .\CheckMEMEndpoints.ps1 -UseLegacyOfficeEndpointApi
+    Runs baseline checks and additionally merges legacy Office endpoint API data.
 #>
 
 # Function to write to log file with timestamp
@@ -121,7 +131,7 @@ function Test-PingLatency {
     }
 }
 
-# Function to test download speed/response time
+# Function to test HTTPS response time
 function Test-DownloadSpeed {
     param (
         [string]$Url,
@@ -142,9 +152,7 @@ function Test-DownloadSpeed {
             $stopwatch.Stop()
             
             if ($stopwatch.ElapsedMilliseconds -gt 0 -and $data.Length -gt 0) {
-                $speedBps = ($data.Length * 8) / ($stopwatch.ElapsedMilliseconds / 1000)
-                $speedKbps = [math]::Round($speedBps / 1024, 2)
-                return $speedKbps
+                return [math]::Round($stopwatch.ElapsedMilliseconds, 2)
             }
         }
         catch {
@@ -186,40 +194,76 @@ function Test-DownloadSpeed {
     return $null
 }
 
-# Function to get MEM IPs from Microsoft API
+# Function to get MEM IPs
 function Get-MEMIPs {
-    Write-Log "Retrieving MEM IP addresses from Microsoft API..." "INFO"
-    
-    try {
-        $uri = "https://endpoints.office.com/endpoints/WorldWide?ServiceAreas=MEM&clientrequestid=" + ([GUID]::NewGuid()).Guid
-        $response = Invoke-RestMethod -Uri $uri -ErrorAction Stop
-        $ips = $response | Where-Object {$_.ServiceArea -eq "MEM" -and $_.ips} | Select-Object -Unique -ExpandProperty ips
-        
-        Write-Log "Retrieved $($ips.Count) unique IP addresses/ranges from Microsoft API" "SUCCESS"
-        return $ips
+    if ($UseLegacyOfficeEndpointApi) {
+        Write-Log "Retrieving MEM IP addresses from legacy Office endpoint API (best-effort)..." "WARN"
+        try {
+            $uri = "https://endpoints.office.com/endpoints/WorldWide?ServiceAreas=MEM&clientrequestid=" + ([GUID]::NewGuid()).Guid
+            $response = Invoke-RestMethod -Uri $uri -ErrorAction Stop
+            $ips = $response | Where-Object {$_.ServiceArea -eq "MEM" -and $_.ips} | Select-Object -Unique -ExpandProperty ips
+            Write-Log "Retrieved $($ips.Count) unique IP addresses/ranges from legacy API" "SUCCESS"
+            return $ips
+        }
+        catch {
+            Write-Log "Error retrieving MEM IPs from legacy API: $($_.Exception.Message)" "ERROR"
+            return @()
+        }
     }
-    catch {
-        Write-Log "Error retrieving MEM IPs: $($_.Exception.Message)" "ERROR"
-        return @()
-    }
+
+    Write-Log "Skipping IP-range API retrieval by default. Use URL baseline checks for MEM/Intune." "WARN"
+    return @()
 }
 
-# Function to get MEM URLs from Microsoft API
+# Function to get MEM URLs from maintained baseline (and optional legacy API merge)
 function Get-MEMURLs {
-    Write-Log "Retrieving MEM URLs from Microsoft API..." "INFO"
-    
-    try {
-        $uri = "https://endpoints.office.com/endpoints/WorldWide?ServiceAreas=MEM&clientrequestid=" + ([GUID]::NewGuid()).Guid
-        $response = Invoke-RestMethod -Uri $uri -ErrorAction Stop
-        $urls = $response | Where-Object {$_.ServiceArea -eq "MEM" -and $_.urls} | Select-Object -Unique -ExpandProperty urls
-        
-        Write-Log "Retrieved $($urls.Count) unique URLs from Microsoft API" "SUCCESS"
-        return $urls
+    $baselineUrls = @(
+        'https://manage.microsoft.com',
+        'https://*.manage.microsoft.com',
+        'https://*.dm.microsoft.com',
+        'https://endpoint.microsoft.com',
+        'https://graph.microsoft.com',
+        'https://login.microsoftonline.com',
+        'https://device.login.microsoftonline.com',
+        'https://enterpriseregistration.windows.net',
+        'https://certauth.enterpriseregistration.windows.net',
+        'https://*.do.dsp.mp.microsoft.com',
+        'https://*.dl.delivery.mp.microsoft.com',
+        'https://*.delivery.mp.microsoft.com',
+        'https://*.events.data.microsoft.com',
+        'https://*.notify.windows.com',
+        'https://*.wns.windows.com',
+        'https://displaycatalog.mp.microsoft.com',
+        'https://licensing.mp.microsoft.com',
+        'https://purchase.md.mp.microsoft.com',
+        'https://mmdcustomer.microsoft.com',
+        'https://mmdls.microsoft.com',
+        'https://devicelistenerprod.microsoft.com',
+        'https://login.windows.net',
+        'https://device.autopatch.microsoft.com',
+        'https://services.autopatch.microsoft.com',
+        'https://payloadprod*.blob.core.windows.net',
+        'https://*.webpubsub.azure.com'
+    )
+
+    Write-Log "Loaded $($baselineUrls.Count) baseline MEM/Intune URLs" "SUCCESS"
+    $urls = $baselineUrls
+
+    if ($UseLegacyOfficeEndpointApi) {
+        Write-Log "Merging legacy Office endpoint API URLs (best-effort)..." "WARN"
+        try {
+            $uri = "https://endpoints.office.com/endpoints/WorldWide?ServiceAreas=MEM&clientrequestid=" + ([GUID]::NewGuid()).Guid
+            $response = Invoke-RestMethod -Uri $uri -ErrorAction Stop
+            $legacyUrls = $response | Where-Object {$_.ServiceArea -eq "MEM" -and $_.urls} | Select-Object -Unique -ExpandProperty urls
+            $urls += $legacyUrls
+            Write-Log "Merged $($legacyUrls.Count) URLs from legacy API" "SUCCESS"
+        }
+        catch {
+            Write-Log "Legacy API URL merge failed: $($_.Exception.Message)" "WARN"
+        }
     }
-    catch {
-        Write-Log "Error retrieving MEM URLs: $($_.Exception.Message)" "ERROR"
-        return @()
-    }
+
+    return $urls | Sort-Object -Unique
 }
 
 # Function to test IP connectivity (convert CIDR to testable IPs)
@@ -268,9 +312,10 @@ function Test-URLConnectivity {
     # Extract hostname from URL
     $hostname = ($Url -replace 'https?://', '').Split('/')[0]
     
-    # Handle wildcard URLs
-    if ($hostname.StartsWith('*.')) {
+    # Handle wildcard URLs with deterministic replacement for connectivity checks
+    if ($hostname -like '*`**') {
         $hostname = $hostname -replace '^\*\.', 'www.'
+        $hostname = $hostname -replace '\*', 'prod'
     }
     
     try {
@@ -289,7 +334,7 @@ $script:LogFile = $LogFile
 
 # Initialize log file
 Write-Log "=== Microsoft Endpoint Manager (MEM) Connectivity Test ===" "INFO"
-Write-Log "Script Version: 1.0" "INFO"
+Write-Log "Script Version: 1.1" "INFO"
 Write-Log "Test Configuration:" "INFO"
 Write-Log "  - Ping Tests: $(if($SkipPing){'Disabled'}else{'Enabled'})" "INFO"
 Write-Log "  - Speed Tests: $(if($SkipSpeed){'Disabled'}else{'Enabled'})" "INFO" 
@@ -300,10 +345,10 @@ Write-Log "" "INFO"
 if (-not $Quiet) {
     Write-Host "`n🌐 MICROSOFT ENDPOINT MANAGER (MEM) CONNECTIVITY TESTER" -ForegroundColor Cyan
     Write-Host "="*70 -ForegroundColor DarkCyan
-    Write-Host "Retrieving current MEM endpoints from Microsoft API..." -ForegroundColor Yellow
+    Write-Host "Loading MEM/Intune endpoint baseline..." -ForegroundColor Yellow
 }
 
-# Get MEM IPs and URLs from Microsoft API
+# Get MEM IPs and URLs from baseline (optional legacy API merge)
 $memIPs = Get-MEMIPs
 $memURLs = Get-MEMURLs
 
@@ -358,7 +403,7 @@ foreach ($ip in $memIPs) {
             Write-Log "Testing response time to https://$ipAddress..." "INFO"
             $downloadSpeed = Test-DownloadSpeed -Url "https://$ipAddress" -TimeoutSeconds $TimeoutSeconds
             if ($downloadSpeed) {
-                Write-Log "Response time to $ipAddress : $downloadSpeed ms/Kbps" "SUCCESS"
+                Write-Log "Response time to $ipAddress : $downloadSpeed ms" "SUCCESS"
             } else {
                 Write-Log "Speed test to $ipAddress failed" "WARN"
             }
@@ -420,7 +465,7 @@ foreach ($url in $memURLs) {
             Write-Log "Testing response time to $displayUrl..." "INFO"
             $downloadSpeed = Test-DownloadSpeed -Url $displayUrl -TimeoutSeconds $TimeoutSeconds
             if ($downloadSpeed) {
-                Write-Log "Response time to $displayUrl : $downloadSpeed ms/Kbps" "SUCCESS"
+                Write-Log "Response time to $displayUrl : $downloadSpeed ms" "SUCCESS"
             } else {
                 Write-Log "Speed test to $displayUrl failed" "WARN"
             }
@@ -469,7 +514,7 @@ if (-not $SkipPing) {
     $tableHeader += "Ping(ms)".PadRight(10)
 }
 if (-not $SkipSpeed) {
-    $tableHeader += "Speed(Kbps/ms)".PadRight(15)
+    $tableHeader += "Response(ms)".PadRight(15)
 }
 
 Write-Log $tableHeader "INFO"
@@ -524,9 +569,9 @@ if (-not $SkipPing -or -not $SkipSpeed) {
             $maxSpeed = [math]::Round(($speedResults | Measure-Object DownloadSpeed_Kbps -Maximum).Maximum, 2)
             
             Write-Log "Speed/Response Time Statistics:" "INFO"
-            Write-Log "  Average: $avgSpeed Kbps/ms" "INFO"
-            Write-Log "  Minimum: $minSpeed Kbps/ms" "INFO"
-            Write-Log "  Maximum: $maxSpeed Kbps/ms" "INFO"
+            Write-Log "  Average: $avgSpeed ms" "INFO"
+            Write-Log "  Minimum: $minSpeed ms" "INFO"
+            Write-Log "  Maximum: $maxSpeed ms" "INFO"
             Write-Log "  Tested Endpoints: $($speedResults.Count)" "INFO"
         }
     }
@@ -590,7 +635,7 @@ if (-not $Quiet) {
     }
     
     if (-not $SkipSpeed) {
-        $tableColumns += @{Name="Speed (Kbps)"; Expression={if($_.DownloadSpeed_Kbps){$_.DownloadSpeed_Kbps}else{"-"}}; Width=12}
+        $tableColumns += @{Name="Response (ms)"; Expression={if($_.DownloadSpeed_Kbps){$_.DownloadSpeed_Kbps}else{"-"}}; Width=12}
     }
     
     $results | Format-Table $tableColumns -AutoSize

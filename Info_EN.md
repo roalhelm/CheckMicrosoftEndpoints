@@ -36,45 +36,45 @@ The endpoint URLs are sourced from the following **official Microsoft sources**:
 #### 🔗 Primary Documentation Sources
 
 1. **Microsoft 365 Network Connectivity**
-   - URL: https://docs.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges
+   - URL: https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges
    - Usage: Microsoft 365, Azure AD, Exchange Online
 
 2. **Windows Update for Business**
-   - URL: https://docs.microsoft.com/en-us/windows/deployment/update/waas-wu-settings
+   - URL: https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings
    - Usage: Windows Update, Delivery Optimization
 
 3. **Microsoft Intune Network Requirements** 
-   - URL: https://docs.microsoft.com/en-us/mem/intune/fundamentals/intune-endpoints
+   - URL: https://learn.microsoft.com/en-us/mem/intune/fundamentals/intune-endpoints
    - Usage: Intune Management, Enrollment, Compliance
 
 4. **Microsoft Defender for Endpoint**
-   - URL: https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/configure-proxy-internet
+   - URL: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/configure-proxy-internet
    - Usage: Defender Cloud Services, Threat Intelligence
 
 5. **Azure Active Directory Connect**
-   - URL: https://docs.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports
+   - URL: https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports
    - Usage: Azure AD, Device Registration, Authentication
 
 6. **Microsoft Store for Business**
-   - URL: https://docs.microsoft.com/en-us/microsoft-store/prerequisites-microsoft-store-for-business
+   - URL: https://learn.microsoft.com/en-us/microsoft-store/prerequisites-microsoft-store-for-business
    - Usage: Store Apps, Deployment, Licensing
 
 7. **Windows Activation Services**
-   - URL: https://docs.microsoft.com/en-us/windows/deployment/volume-activation/activate-using-key-management-service-vamt
+   - URL: https://learn.microsoft.com/en-us/windows/deployment/volume-activation/activate-using-key-management-service-vamt
    - Usage: KMS, MAK, Digital License Activation
 
 #### 🔍 Additional Validation Sources
 
 8. **Microsoft Edge Enterprise**
-   - URL: https://docs.microsoft.com/en-us/deployedge/microsoft-edge-security-endpoints
+   - URL: https://learn.microsoft.com/en-us/deployedge/microsoft-edge-security-endpoints
    - Usage: Edge Updates, SmartScreen, Sync Services
 
 9. **Windows Telemetry and Diagnostics**
-   - URL: https://docs.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization
+   - URL: https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization
    - Usage: Diagnostic Data, Watson Error Reporting
 
 10. **Windows Autopatch Documentation**
-    - URL: https://docs.microsoft.com/en-us/windows/deployment/windows-autopatch/
+    - URL: https://learn.microsoft.com/en-us/windows/deployment/windows-autopatch/
     - Usage: Automated Patch Management, Device Health
 
 ### 🔄 Endpoint Validation and Updates
@@ -250,7 +250,7 @@ Shows interactive menu for service selection
 
 ### 🚀 All Services with Full Report
 ```powershell
-.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport -OpenReport
+.\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "NetworkReport.html" -OpenReport
 ```
 
 ### ⚡ Quick Test of Critical Services
@@ -434,10 +434,10 @@ New-NetFirewallRule -DisplayName "Microsoft Services HTTPS" -Direction Outbound 
 ## 📚 Further Resources
 
 ### 📖 Official Microsoft Documentation
-- [Microsoft 365 Network Connectivity Principles](https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-network-connectivity-principles)
-- [Intune Network Configuration](https://docs.microsoft.com/en-us/mem/intune/fundamentals/intune-endpoints)
-- [Windows Update Delivery Optimization](https://docs.microsoft.com/en-us/windows/deployment/update/waas-delivery-optimization)
-- [Azure AD Network Requirements](https://docs.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports)
+- [Microsoft 365 Network Connectivity Principles](https://learn.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-network-connectivity-principles)
+- [Intune Network Configuration](https://learn.microsoft.com/en-us/mem/intune/fundamentals/intune-endpoints)
+- [Windows Update Delivery Optimization](https://learn.microsoft.com/en-us/windows/deployment/update/waas-delivery-optimization)
+- [Azure AD Network Requirements](https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports)
 
 ### 🔧 Tools and Utilities
 - [Microsoft Remote Connectivity Analyzer](https://testconnectivity.microsoft.com/)
@@ -445,9 +445,9 @@ New-NetFirewallRule -DisplayName "Microsoft Services HTTPS" -Direction Outbound 
 - [Windows Network Troubleshooter](https://support.microsoft.com/en-us/help/10741/windows-fix-network-connection-issues)
 
 ### 🏢 Enterprise Deployment Guides
-- [Microsoft 365 Enterprise Deployment Guide](https://docs.microsoft.com/en-us/microsoft-365/enterprise/)
-- [Intune Deployment Planning Guide](https://docs.microsoft.com/en-us/mem/intune/fundamentals/planning-guide)
-- [Windows 10/11 Enterprise Deployment](https://docs.microsoft.com/en-us/windows/deployment/)
+- [Microsoft 365 Enterprise Deployment Guide](https://learn.microsoft.com/en-us/microsoft-365/enterprise/)
+- [Intune Deployment Planning Guide](https://learn.microsoft.com/en-us/mem/intune/fundamentals/planning-guide)
+- [Windows 10/11 Enterprise Deployment](https://learn.microsoft.com/en-us/windows/deployment/)
 
 ---
 

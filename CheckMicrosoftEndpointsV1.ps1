@@ -83,13 +83,13 @@
     
     Sample Output:
     Backend: Windows Update for Business
-    URL                                    Status  IP-Adresse      Ping (ms)  Speed (Kbps)
-    ---                                    ------  ----------      ---------  ------------
+    URL                                    Status  IP-Adresse      Ping (ms)  Response (ms)
+    ---                                    ------  ----------      ---------  -------------
     https://dl.delivery.mp.microsoft.com  OK      52.97.144.85    23.45      1250.75
     https://download.windowsupdate.com     OK      204.79.197.200  18.92      890.33
     
     📊 Durchschnittliche Latenz: 21.19 ms
-    🚀 Durchschnittliche Antwortzeit/Speed: 1070.54 ms/Kbps
+    🚀 Durchschnittliche Antwortzeit: 542.10 ms
     ✅ Alle Endpunkte für Windows Update for Business sind erreichbar.
     🌟 Exzellente Netzwerk-Performance!
 
@@ -111,7 +111,7 @@
 #>
 
 
-# List of required Microsoft service endpoints (as of 2025)
+# List of required Microsoft service endpoints (reviewed 2026)
 $backendUrls = @{
     'Windows Update for Business' = @(
         'https://dl.delivery.mp.microsoft.com',
@@ -133,13 +133,14 @@ $backendUrls = @{
     ) | Sort-Object -Unique
     
     'Windows Autopatch' = @(
-        'https://api.update.microsoft.com',
-        'https://autopatch.microsoft.com',
-        'https://config.edge.skype.com',
-        'https://graph.microsoft.com',
-        'https://login.microsoftonline.com',
-        'https://manage.microsoft.com',
-        'https://nexusrules.officeapps.live.com'
+        'https://mmdcustomer.microsoft.com',
+        'https://mmdls.microsoft.com',
+        'https://devicelistenerprod.microsoft.com',
+        'https://login.windows.net',
+        'https://device.autopatch.microsoft.com',
+        'https://services.autopatch.microsoft.com',
+        'https://payloadprod*.blob.core.windows.net',
+        'https://*.webpubsub.azure.com'
     ) | Sort-Object -Unique
     
     'Intune' = @(
@@ -148,9 +149,12 @@ $backendUrls = @{
         'https://graph.microsoft.com',
         'https://login.microsoftonline.com',
         'https://manage.microsoft.com',
+        'https://*.manage.microsoft.com',
+        'https://*.dm.microsoft.com',
         'https://portal.manage.microsoft.com',
         'https://enrollment.manage.microsoft.com',
         'https://enterpriseregistration.windows.net',
+        'https://certauth.enterpriseregistration.windows.net',
         'https://r.manage.microsoft.com',
         'https://i.manage.microsoft.com',
         'https://p.manage.microsoft.com',
@@ -191,6 +195,9 @@ $backendUrls = @{
         'https://officecdn.microsoft.com',
         'https://protection.office.com',
         'https://portal.office.com',
+        'https://*.cloud.microsoft',
+        'https://*.static.microsoft',
+        'https://*.usercontent.microsoft',
         'https://*.office.com',
         'https://*.office365.com',
         'https://*.sharepoint.com',
@@ -205,7 +212,7 @@ $backendUrls = @{
         'https://store-images.s-microsoft.com',
         'https://displaycatalog.mp.microsoft.com',
         'https://licensing.mp.microsoft.com',
-        'https://purchase.mp.microsoft.com'
+        'https://purchase.md.mp.microsoft.com'
     ) | Sort-Object -Unique
     
     'Windows Activation' = @(
@@ -213,7 +220,7 @@ $backendUrls = @{
         'https://crl.microsoft.com',
         'https://validation.sls.microsoft.com',
         'https://activation-v2.sls.microsoft.com',
-        'https://purchase.mp.microsoft.com',
+        'https://purchase.md.mp.microsoft.com',
         'https://licensing.mp.microsoft.com'
     ) | Sort-Object -Unique
     
@@ -301,7 +308,7 @@ function Test-PingLatency {
     }
 }
 
-# Function to test download speed (simplified test)
+# Function to test HTTPS response time (ms)
 function Test-DownloadSpeed {
     param (
         [string]$Url,
@@ -321,9 +328,7 @@ function Test-DownloadSpeed {
             $stopwatch.Stop()
             
             if ($stopwatch.ElapsedMilliseconds -gt 0 -and $data.Length -gt 0) {
-                $speedBps = ($data.Length * 8) / ($stopwatch.ElapsedMilliseconds / 1000)
-                $speedKbps = [math]::Round($speedBps / 1024, 2)
-                return $speedKbps
+                return [math]::Round($stopwatch.ElapsedMilliseconds, 2)
             }
         }
         catch {
@@ -372,9 +377,13 @@ function Show-ServiceImpactWarning {
 $urls = $backendUrls.Values | ForEach-Object { $_ } 
 
 
-# Remove wildcards for direct test (cannot resolve * in Test-NetConnection)
+# Replace wildcards with testable hostnames for direct test
 $testUrls = $urls | ForEach-Object {
-    if ($_ -like '*.*.*.*') { $_ } else { $_ -replace '\*\.', 'www.' }
+    if ($_ -like '*`**') {
+        ($_ -replace '^https://\*\.', 'https://www.' -replace '\*', 'prod')
+    } else {
+        $_
+    }
 }
 
 $results = @()
@@ -438,7 +447,7 @@ foreach ($backend in $backendUrls.Keys) {
         @{Name="Status"; Expression={$_.Status}; Width=8},
         @{Name="IP-Adresse"; Expression={$_.IPAddress}; Width=15},
         @{Name="Ping (ms)"; Expression={if($_.PingLatency_ms) {"$($_.PingLatency_ms)"} else {"-"}}; Width=10},
-        @{Name="Speed (Kbps)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
+        @{Name="Response (ms)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
     ) -AutoSize
     
     # Performance analysis
@@ -454,7 +463,7 @@ foreach ($backend in $backendUrls.Keys) {
         
         if ($avgSpeed) {
             $speedColor = if ($avgSpeed -gt 1000) { "Green" } elseif ($avgSpeed -gt 100) { "Yellow" } else { "Red" }
-            Write-Host "🚀 Durchschnittliche Antwortzeit/Speed: $([math]::Round($avgSpeed, 2)) ms/Kbps" -ForegroundColor $speedColor
+            Write-Host "🚀 Durchschnittliche Antwortzeit: $([math]::Round($avgSpeed, 2)) ms" -ForegroundColor $speedColor
         }
     }
     
@@ -491,7 +500,7 @@ $results | Format-Table @(
     @{Name="Status"; Expression={$_.Status}; Width=8},
     @{Name="IP-Adresse"; Expression={$_.IPAddress}; Width=15},
     @{Name="Ping (ms)"; Expression={if($_.PingLatency_ms) {"$($_.PingLatency_ms)"} else {"-"}}; Width=10},
-    @{Name="Speed (Kbps)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
+    @{Name="Response (ms)"; Expression={if($_.DownloadSpeed_Kbps) {"$($_.DownloadSpeed_Kbps)"} else {"-"}}; Width=12}
 ) -AutoSize
 
 # Overall performance statistics
@@ -519,10 +528,10 @@ if ($testsWithSpeed.Count -gt 0) {
     $minSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Minimum).Minimum
     $maxSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Maximum).Maximum
     
-    Write-Host "🚀 Geschwindigkeits-/Antwortzeit-Statistiken:" -ForegroundColor Yellow
-    Write-Host "   • Durchschnitt: $([math]::Round($overallAvgSpeed, 2)) ms/Kbps" -ForegroundColor White
-    Write-Host "   • Minimum: $([math]::Round($minSpeed, 2)) ms/Kbps" -ForegroundColor Green
-    Write-Host "   • Maximum: $([math]::Round($maxSpeed, 2)) ms/Kbps" -ForegroundColor Red
+    Write-Host "🚀 Antwortzeit-Statistiken:" -ForegroundColor Yellow
+    Write-Host "   • Durchschnitt: $([math]::Round($overallAvgSpeed, 2)) ms" -ForegroundColor White
+    Write-Host "   • Minimum: $([math]::Round($minSpeed, 2)) ms" -ForegroundColor Green
+    Write-Host "   • Maximum: $([math]::Round($maxSpeed, 2)) ms" -ForegroundColor Red
     Write-Host "   • Getestete Endpoints: $($testsWithSpeed.Count)" -ForegroundColor Cyan
 }
 
