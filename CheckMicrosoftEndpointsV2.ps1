@@ -1240,11 +1240,16 @@ if (-not $Quiet) {
 $urls = $selectedBackendUrls.Values | ForEach-Object { $_ } 
 
 # Remove wildcards for direct test (cannot resolve * in Test-NetConnection)
-$testUrls = $urls | ForEach-Object {
-    if ($_ -like '*`**') {
-        ($_ -replace '^https://\*\.', 'https://www.' -replace '\*', 'prod')
+$seenTestUrls = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
+$testUrls = foreach ($url in $urls) {
+    if ($url -match '\*') {
+        $normalizedUrl = ($url -replace '^https://\*\.', 'https://www.' -replace '\*', 'prod')
     } else {
-        $_
+        $normalizedUrl = $url
+    }
+
+    if ($seenTestUrls.Add($normalizedUrl)) {
+        $normalizedUrl
     }
 }
 
