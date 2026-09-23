@@ -13,17 +13,17 @@ Dieses Dokument enthält umfassende technische Informationen über die Microsoft
 | Service | Endpoints | Zweck | Kritikalität |
 |---------|-----------|--------|--------------|
 | **Windows Update for Business** | 16 URLs | System-Updates und Patches | 🔴 Kritisch |
-| **Windows Autopatch** | 7 URLs | Automatische Patch-Verwaltung | 🟡 Hoch |
-| **Microsoft Intune** | 13 URLs | Device Management/MDM | 🔴 Kritisch |
+| **Windows Autopatch** | 8 URLs | Automatische Patch-Verwaltung | 🟡 Hoch |
+| **Microsoft Intune** | 16 URLs | Device Management/MDM | 🔴 Kritisch |
 | **Microsoft Defender** | 11 URLs | Antivirus und Security | 🔴 Kritisch |
 | **Azure Active Directory** | 8 URLs | Identity/Authentication | 🔴 Kritisch |
-| **Microsoft 365** | 11 URLs | Produktivitäts-Suite | 🟡 Hoch |
+| **Microsoft 365** | 14 URLs | Produktivitäts-Suite | 🟡 Hoch |
 | **Microsoft Store** | 8 URLs | App-Distribution | 🟢 Mittel |
 | **Windows Activation** | 6 URLs | Lizenzierung | 🟡 Hoch |
 | **Microsoft Edge** | 6 URLs | Browser-Services | 🟢 Mittel |
 | **Windows Telemetry** | 10 URLs | Diagnostik und Monitoring | 🟢 Niedrig |
 
-**Gesamt: 96+ eindeutige Endpoints über 10 Microsoft Service-Kategorien**
+**Gesamt: 103 eindeutige Endpoints über 10 Microsoft Service-Kategorien**
 
 ---
 
@@ -123,9 +123,9 @@ $backendUrls = @{
 
 #### 1️⃣ **Konnektivitätstest (TCP)**
 ```powershell
-Test-NetConnection -ComputerName $hostname -Port 443 -WarningAction SilentlyContinue
+Test-TcpConnectivity -HostName $hostname -Port 443
 ```
-- **Zweck**: Grundlegende TCP-Verbindung auf Port 443 (HTTPS)
+- **Zweck**: Socket-basierter TCP-Verbindungstest auf Port 443 (HTTPS)
 - **Timeout**: 5 Sekunden pro Endpoint
 - **Bewertung**: Erfolg/Fehler binär
 
@@ -139,9 +139,9 @@ Test-Connection -ComputerName $hostname -Count 3 -Quiet
 
 #### 3️⃣ **Performance-Test (Download)**
 ```powershell
-Measure-Command { Invoke-WebRequest -Uri $url -Method HEAD -TimeoutSec 10 }
+Test-DownloadSpeed -Url $url
 ```
-- **Zweck**: Response-Time und Server-Performance
+- **Zweck**: Response-Time und Server-Performance über WebClient und HEAD/GET-Fallback
 - **Metriken**: HTTP Response Time in ms
 - **Bewertung**: Schnell (<500ms), Normal (500-2000ms), Langsam (>2000ms)
 
@@ -158,6 +158,8 @@ Measure-Command { Invoke-WebRequest -Uri $url -Method HEAD -TimeoutSec 10 }
 - **Microsoft Look & Feel**: Offizielle Microsoft-Farben und Fonts
 - **Accessibility**: WCAG 2.1 konforme Farbkontraste
 - **Mobile-Optimized**: Funktioniert auf allen Geräte-Größen
+
+> Hinweis: Die V2-Konnektivitätstests laufen inzwischen auch unter PowerShell 7 auf macOS und Linux. Windows Activation wird dort automatisch übersprungen.
 
 ---
 

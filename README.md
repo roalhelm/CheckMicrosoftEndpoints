@@ -1,14 +1,14 @@
 
 # Microsoft Endpoint Connectivity Tests
 
-[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-0078D4?logo=powershell&logoColor=white)](https://learn.microsoft.com/powershell/)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B_%2F_7%2B-0078D4?logo=powershell&logoColor=white)](https://learn.microsoft.com/powershell/)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11%20%7C%20Server-0078D4)]()
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-0078D4)]()
 [![Docs](https://img.shields.io/badge/Docs-Technical%20Reference-6A5ACD)](Info_EN.md)
 
 PowerShell scripts to validate connectivity to Microsoft service endpoints used by Intune, Windows Update, Defender, Microsoft 365, Azure AD, and other enterprise cloud services.
 
-This repository is designed for real-world IT and endpoint troubleshooting: firewall validation, proxy check, network diagnostics, and endpoint accessibility testing from Windows clients and servers.
+This repository is designed for real-world IT and endpoint troubleshooting: firewall validation, proxy check, network diagnostics, and endpoint accessibility testing from Windows clients, servers, and PowerShell 7 environments on macOS and Linux.
 
 ## Architecture
 
@@ -102,10 +102,13 @@ flowchart TB
 
 ## Requirements
 
-- PowerShell 5.1 or later
-- Windows 10, Windows 11, or Windows Server 2016+
+- PowerShell 5.1 or later on Windows
+- PowerShell 7 or later on macOS and Linux
+- Windows 10, Windows 11, or Windows Server 2016+ for the full Windows endpoint set
 - Internet access for endpoint testing
 - No administrator rights required for most checks
+
+`CheckMicrosoftEndpointsV2.ps1` is cross-platform for the connectivity tests. Windows-only services such as Windows Activation are skipped automatically on non-Windows systems.
 
 ## Quick Start
 
@@ -122,8 +125,17 @@ cd "C:\path\to\CheckMicrosoftEndpoints"
 # Test Intune + Defender and generate HTML report
 .\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport "Microsoft-Endpoints.html" -OpenReport
 
+# Skip ping tests for a faster run
+.\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -SkipPing
+
+# Skip both ping and speed tests
+.\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -SkipPing -SkipSpeed
+
 # MEM / Intune validation
 .\CheckMEMEndpoints.ps1
+
+# macOS / Linux example with PowerShell 7
+pwsh ./CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport "Microsoft-Endpoints.html" -OpenReport
 ```
 
 ## Supported Service Categories
@@ -146,6 +158,7 @@ cd "C:\path\to\CheckMicrosoftEndpoints"
 ```
 
 This creates a readable HTML report summarizing connectivity state, service results, latency, and response times.
+On macOS and Linux, the report is opened with the system browser command used by PowerShell.
 
 ## Baseline Maintenance
 

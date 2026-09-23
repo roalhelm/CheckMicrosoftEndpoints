@@ -13,17 +13,17 @@ This document contains comprehensive technical information about Microsoft Endpo
 | Service | Endpoints | Purpose | Criticality |
 |---------|-----------|---------|-------------|
 | **Windows Update for Business** | 16 URLs | System Updates and Patches | 🔴 Critical |
-| **Windows Autopatch** | 7 URLs | Automatic Patch Management | 🟡 High |
-| **Microsoft Intune** | 13 URLs | Device Management/MDM | 🔴 Critical |
+| **Windows Autopatch** | 8 URLs | Automatic Patch Management | 🟡 High |
+| **Microsoft Intune** | 16 URLs | Device Management/MDM | 🔴 Critical |
 | **Microsoft Defender** | 11 URLs | Antivirus and Security | 🔴 Critical |
 | **Azure Active Directory** | 8 URLs | Identity/Authentication | 🔴 Critical |
-| **Microsoft 365** | 11 URLs | Productivity Suite | 🟡 High |
+| **Microsoft 365** | 14 URLs | Productivity Suite | 🟡 High |
 | **Microsoft Store** | 8 URLs | App Distribution | 🟢 Medium |
 | **Windows Activation** | 6 URLs | Licensing | 🟡 High |
 | **Microsoft Edge** | 6 URLs | Browser Services | 🟢 Medium |
 | **Windows Telemetry** | 10 URLs | Diagnostics and Monitoring | 🟢 Low |
 
-**Total: 96+ unique endpoints across 10 Microsoft service categories**
+**Total: 103 unique endpoints across 10 Microsoft service categories**
 
 ---
 
@@ -123,9 +123,9 @@ $backendUrls = @{
 
 #### 1️⃣ **Connectivity Test (TCP)**
 ```powershell
-Test-NetConnection -ComputerName $hostname -Port 443 -WarningAction SilentlyContinue
+Test-TcpConnectivity -HostName $hostname -Port 443
 ```
-- **Purpose**: Basic TCP connection on port 443 (HTTPS)
+- **Purpose**: Socket-based TCP connection test on port 443 (HTTPS)
 - **Timeout**: 5 seconds per endpoint
 - **Assessment**: Success/Failure binary
 
@@ -139,9 +139,9 @@ Test-Connection -ComputerName $hostname -Count 3 -Quiet
 
 #### 3️⃣ **Performance Test (Download)**
 ```powershell
-Measure-Command { Invoke-WebRequest -Uri $url -Method HEAD -TimeoutSec 10 }
+Test-DownloadSpeed -Url $url
 ```
-- **Purpose**: Response time and server performance
+- **Purpose**: Response time and server performance via WebClient and HEAD/GET fallback
 - **Metrics**: HTTP Response Time in ms
 - **Assessment**: Fast (<500ms), Normal (500-2000ms), Slow (>2000ms)
 
@@ -158,6 +158,8 @@ Measure-Command { Invoke-WebRequest -Uri $url -Method HEAD -TimeoutSec 10 }
 - **Microsoft Look & Feel**: Official Microsoft colors and fonts
 - **Accessibility**: WCAG 2.1 compliant color contrasts
 - **Mobile-Optimized**: Works on all device sizes
+
+> Note: V2 connectivity tests now also run under PowerShell 7 on macOS and Linux. Windows Activation is skipped automatically outside Windows.
 
 ---
 
