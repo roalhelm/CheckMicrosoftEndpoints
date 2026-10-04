@@ -34,8 +34,10 @@ const elements = {
   sortBy: document.getElementById("sortBy"),
   complianceModeToggle: document.getElementById("complianceModeToggle"),
   sourceHealthList: document.getElementById("sourceHealthList"),
+  sourcePanelDetails: document.getElementById("sourcePanelDetails"),
   dataOriginSummary: document.getElementById("dataOriginSummary"),
   endpointTableBody: document.getElementById("endpointTableBody"),
+  endpointServiceGroups: document.getElementById("endpointServiceGroups"),
   overallProgress: document.getElementById("overallProgress"),
   overallProgressLabel: document.getElementById("overallProgressLabel"),
   serviceProgressGrid: document.getElementById("serviceProgressGrid"),
@@ -488,25 +490,74 @@ function renderSummary() {
 }
 
 function renderTable() {
-  const filtered = sortRows(applyFilters(state.endpointRows));
-  const tbody = elements.endpointTableBody;
-  tbody.innerHTML = "";
+  renderGroupedByService();
+  return;
+}
 
+function renderGroupedByService() {
+  const filtered = sortRows(applyFilters(state.endpointRows));
+  const groups = new Map();
   for (const row of filtered) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${row.serviceName}</td>
-      <td>${row.region}</td>
-      <td>${row.host}</td>
-      <td><button class="info-btn" data-row-id="${row.id}" aria-label="Info für ${row.host}">i</button></td>
-      <td><span class="status-badge ${row.status}">${statusLabel(row.status)}</span></td>
-      <td>${row.durationMs ?? "-"}</td>
-      <td>${row.source}</td>
-    `;
-    tbody.appendChild(tr);
+    if (!groups.has(row.serviceId)) {
+      groups.set(row.serviceId, {
+        serviceName: row.serviceName,
+        region: row.region,
+        rows: [],
+      });
+    }
+    groups.get(row.serviceId).rows.push(row);
   }
 
-  tbody.querySelectorAll(".info-btn").forEach((button) => {
+  elements.endpointServiceGroups.innerHTML = "";
+
+  for (const [, group] of groups) {
+    const reachable = group.rows.filter((row) => row.status === "reachable").length;
+    const timeout = group.rows.filter((row) => row.status === "timeout").length;
+    const unreachable = group.rows.filter((row) => row.status === "unreachable").length;
+
+    const details = document.createElement("details");
+    details.className = "endpoint-group";
+    details.open = true;
+    details.innerHTML = `
+      <summary>
+        <strong>${group.serviceName}</strong>
+        <span class="group-meta">Region: ${group.region} • ${group.rows.length} Endpunkte • ✅ ${reachable} • ⏱ ${timeout} • ❌ ${unreachable}</span>
+      </summary>
+      <div class="endpoint-group-content">
+        <div class="table-wrap">
+          <table class="endpoint-service-table">
+            <thead>
+              <tr>
+                <th>Host</th>
+                <th>Info</th>
+                <th>Status</th>
+                <th>Dauer (ms)</th>
+                <th>Quelle</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${group.rows
+                .map(
+                  (row) => `
+                <tr>
+                  <td>${row.host}</td>
+                  <td><button class="info-btn" data-row-id="${row.id}" aria-label="Info für ${row.host}">i</button></td>
+                  <td><span class="status-badge ${row.status}">${statusLabel(row.status)}</span></td>
+                  <td>${row.durationMs ?? "-"}</td>
+                  <td>${row.source}</td>
+                </tr>
+              `,
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    elements.endpointServiceGroups.appendChild(details);
+  }
+
+  elements.endpointServiceGroups.querySelectorAll(".info-btn").forEach((button) => {
     button.addEventListener("click", () => {
       const row = state.endpointRows.find((entry) => entry.id === button.dataset.rowId);
       if (!row) return;
@@ -712,6 +763,9 @@ async function refreshLiveData() {
   mergeLiveHostsIntoServices(liveByService);
   state.sourceHealth = [...sourceHealthMap.values()];
   state.dataOrigin = liveByService.size > 0 ? "live" : "fallback";
+  if (elements.sourcePanelDetails) {
+    elements.sourcePanelDetails.open = false;
+  }
   updateFilterOptions();
   syncFilterControls();
   renderSourceHealth();

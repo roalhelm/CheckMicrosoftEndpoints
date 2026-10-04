@@ -41,6 +41,32 @@ body {
   padding: 1rem;
 }
 
+.collapsible {
+  padding: 0.65rem 1rem;
+}
+
+.collapsible-summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  gap: 0.8rem;
+}
+
+.collapsible-summary::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible-summary::before {
+  content: "▸";
+  margin-right: 0.5rem;
+}
+
+details[open] .collapsible-summary::before {
+  content: "▾";
+}
+
 .controls .control-row {
   display: flex;
   flex-wrap: wrap;
@@ -145,6 +171,48 @@ progress {
 
 .table-wrap {
   overflow: auto;
+}
+
+.endpoint-groups {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.endpoint-group {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.endpoint-group summary {
+  cursor: pointer;
+  padding: 0.7rem 0.9rem;
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.endpoint-group summary .group-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.endpoint-group-content {
+  padding: 0.55rem 0.8rem 0.8rem;
+}
+
+.endpoint-service-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.endpoint-service-table th,
+.endpoint-service-table td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.5rem 0.4rem;
 }
 
 table {

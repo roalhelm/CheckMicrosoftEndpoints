@@ -71,11 +71,16 @@
         </div>
       </section>
 
-      <section class="panel" id="sourcePanel">
-        <h2>Datenquellen-Status</h2>
-        <p id="dataOriginSummary" class="small-text"></p>
-        <div id="sourceHealthList" class="source-list"></div>
-      </section>
+      <details class="panel collapsible" id="sourcePanelDetails">
+        <summary class="collapsible-summary">
+          <span>Datenquellen-Status</span>
+          <span class="small-text">Ausklappen für Details</span>
+        </summary>
+        <div id="sourcePanel">
+          <p id="dataOriginSummary" class="small-text"></p>
+          <div id="sourceHealthList" class="source-list"></div>
+        </div>
+      </details>
 
       <section class="panel" id="progressPanel">
         <h2>Fortschritt</h2>
@@ -117,7 +122,8 @@
 
       <section class="panel">
         <h2>Endpunkte</h2>
-        <div class="table-wrap">
+        <div id="endpointServiceGroups" class="endpoint-groups"></div>
+        <div class="table-wrap legacy-table" hidden>
           <table id="endpointTable">
             <thead>
               <tr>
