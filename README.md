@@ -18,6 +18,17 @@ This repository now also includes a frontend-only web app that checks Microsoft 
 - Main file: [index.html](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/index.html)
 - Reachability definition: endpoint is considered reachable when an HTTP response returns within timeout (status code can be 2xx/3xx/4xx/5xx/opaque).
 
+### Direct access via GitHub Pages
+
+This repository is configured to deploy the web app automatically to GitHub Pages from [web/](/Users/ronny/DEV/CheckMicrosoftEndpoints/web):
+
+- Deployment workflow: [deploy-pages.yml](/Users/ronny/DEV/CheckMicrosoftEndpoints/.github/workflows/deploy-pages.yml)
+- Expected URL: `https://roalhelm.github.io/CheckMicrosoftEndpoints/`
+
+Notes:
+- In repository settings, ensure **Pages → Build and deployment → Source = GitHub Actions**.
+- First deployment can take a few minutes.
+
 ### Automatic Endpoint Updates
 
 To reduce manual endpoint maintenance, the web app uses a hybrid source model:
