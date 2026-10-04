@@ -38,6 +38,8 @@ const elements = {
   dataOriginSummary: document.getElementById("dataOriginSummary"),
   endpointTableBody: document.getElementById("endpointTableBody"),
   endpointServiceGroups: document.getElementById("endpointServiceGroups"),
+  expandAllGroupsBtn: document.getElementById("expandAllGroupsBtn"),
+  collapseAllGroupsBtn: document.getElementById("collapseAllGroupsBtn"),
   overallProgress: document.getElementById("overallProgress"),
   overallProgressLabel: document.getElementById("overallProgressLabel"),
   serviceProgressGrid: document.getElementById("serviceProgressGrid"),
@@ -569,6 +571,12 @@ function renderGroupedByService() {
   });
 }
 
+function setAllServiceGroupsOpen(isOpen) {
+  elements.endpointServiceGroups.querySelectorAll("details.endpoint-group").forEach((group) => {
+    group.open = isOpen;
+  });
+}
+
 function updateFilterOptions() {
   const serviceValues = [...new Map(state.services.map((service) => [service.id, service.name]))];
   const regionValues = [...new Set(state.services.map((service) => service.region ?? "global"))].sort();
@@ -827,6 +835,8 @@ function attachEventHandlers() {
   elements.refreshLiveBtn.addEventListener("click", refreshLiveData);
   elements.exportJsonBtn.addEventListener("click", exportJson);
   elements.exportCsvBtn.addEventListener("click", exportCsv);
+  elements.expandAllGroupsBtn.addEventListener("click", () => setAllServiceGroupsOpen(true));
+  elements.collapseAllGroupsBtn.addEventListener("click", () => setAllServiceGroupsOpen(false));
   elements.shareLinkBtn.addEventListener("click", async () => {
     updateFilterStateFromControls();
     const link = buildShareUrl();
