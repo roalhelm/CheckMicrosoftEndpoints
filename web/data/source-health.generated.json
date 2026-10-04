@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-04T15:24:58.631Z",
+  "whitelistMode": "strict",
+  "sourceHealth": [
+    {
+      "service": "Windows Update for Business",
+      "serviceId": "windows-update",
+      "sourceUrl": "https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings",
+      "sourceStatus": "fallback",
+      "sourceUpdatedAt": null,
+      "baselineCount": 16,
+      "liveCount": 0,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 16,
+      "qualityScore": 15,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Windows Autopatch",
+      "serviceId": "windows-autopatch",
+      "sourceUrl": "https://learn.microsoft.com/en-us/windows/deployment/windows-autopatch/",
+      "sourceStatus": "fallback",
+      "sourceUpdatedAt": null,
+      "baselineCount": 14,
+      "liveCount": 0,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 14,
+      "qualityScore": 15,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Intune",
+      "serviceId": "intune",
+      "sourceUrl": "https://learn.microsoft.com/en-us/intune/fundamentals/endpoints?tabs=north-america#endpoints",
+      "sourceStatus": "live+fallback-merged",
+      "sourceUpdatedAt": null,
+      "baselineCount": 16,
+      "liveCount": 22,
+      "unknownLiveHostsCount": 1,
+      "unknownLiveHostsSample": [
+        "swdc02-mscdn.manage.microsoft"
+      ],
+      "mergedCount": 35,
+      "qualityScore": 87,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Microsoft Defender",
+      "serviceId": "microsoft-defender",
+      "sourceUrl": "https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/configure-proxy-internet",
+      "sourceStatus": "fallback",
+      "sourceUpdatedAt": null,
+      "baselineCount": 11,
+      "liveCount": 0,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 11,
+      "qualityScore": 15,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Azure Active Directory",
+      "serviceId": "azure-ad",
+      "sourceUrl": "https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports",
+      "sourceStatus": "fallback",
+      "sourceUpdatedAt": null,
+      "baselineCount": 8,
+      "liveCount": 0,
+      "unknownLiveHostsCount": 2,
+      "unknownLiveHostsSample": [
+        "feedback.azure.com",
+        "support.office.com"
+      ],
+      "mergedCount": 8,
+      "qualityScore": 9,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Microsoft 365",
+      "serviceId": "microsoft-365",
+      "sourceUrl": "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges",
+      "sourceStatus": "live+fallback-merged",
+      "sourceUpdatedAt": null,
+      "baselineCount": 14,
+      "liveCount": 68,
+      "unknownLiveHostsCount": 48,
+      "unknownLiveHostsSample": [
+        "mlccdnprod.azureedge.net",
+        "*.skype.com",
+        "account.activedirectory.windowsazure.com",
+        "accounts.accesscontrol.windows.net",
+        "adminwebservice.microsoftonline.com",
+        "api.passwordreset.microsoftonline.com",
+        "autologon.microsoftazuread-sso.com",
+        "becws.microsoftonline.com"
+      ],
+      "mergedCount": 72,
+      "qualityScore": 65,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Microsoft Store",
+      "serviceId": "microsoft-store",
+      "sourceUrl": "https://learn.microsoft.com/en-us/intune/fundamentals/endpoints?tabs=north-america#microsoft-store-app",
+      "sourceStatus": "live+fallback-merged",
+      "sourceUpdatedAt": null,
+      "baselineCount": 8,
+      "liveCount": 5,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 9,
+      "qualityScore": 73,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Windows Activation",
+      "serviceId": "windows-activation",
+      "sourceUrl": "https://learn.microsoft.com/en-us/windows/deployment/volume-activation/activate-using-key-management-service-vamt",
+      "sourceStatus": "fallback",
+      "sourceUpdatedAt": null,
+      "baselineCount": 6,
+      "liveCount": 0,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 6,
+      "qualityScore": 15,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Microsoft Edge",
+      "serviceId": "microsoft-edge",
+      "sourceUrl": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-security-endpoints",
+      "sourceStatus": "live+fallback-merged",
+      "sourceUpdatedAt": null,
+      "baselineCount": 6,
+      "liveCount": 23,
+      "unknownLiveHostsCount": 18,
+      "unknownLiveHostsSample": [
+        "*.do.dsp.mp.microsoft.com",
+        "login.live.com",
+        "login.microsoftonline.com",
+        "login.microsoft.com",
+        "login.windows.net",
+        "odc.officeapps.live.com",
+        "graph.microsoft.com",
+        "substrate.office.com"
+      ],
+      "mergedCount": 26,
+      "qualityScore": 65,
+      "error": null,
+      "whitelistApplied": true
+    },
+    {
+      "service": "Windows Telemetry",
+      "serviceId": "windows-telemetry",
+      "sourceUrl": "https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization",
+      "sourceStatus": "live+fallback-merged",
+      "sourceUpdatedAt": null,
+      "baselineCount": 10,
+      "liveCount": 21,
+      "unknownLiveHostsCount": 1,
+      "unknownLiveHostsSample": [
+        "technet.windows"
+      ],
+      "mergedCount": 22,
+      "qualityScore": 87,
+      "error": null,
+      "whitelistApplied": true
+    }
+  ]
+}

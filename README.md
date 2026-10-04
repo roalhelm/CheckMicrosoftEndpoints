@@ -10,6 +10,44 @@ PowerShell scripts to validate connectivity to Microsoft service endpoints used 
 
 This repository is designed for real-world IT and endpoint troubleshooting: firewall validation, proxy check, network diagnostics, and endpoint accessibility testing from Windows clients, servers, and PowerShell 7 environments on macOS and Linux.
 
+## New: Browser Web App (Hybrid Endpoint Source)
+
+This repository now also includes a frontend-only web app that checks Microsoft endpoint reachability directly from the client browser:
+
+- Path: [web/](/Users/ronny/DEV/CheckMicrosoftEndpoints/web)
+- Main file: [index.html](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/index.html)
+- Reachability definition: endpoint is considered reachable when an HTTP response returns within timeout (status code can be 2xx/3xx/4xx/5xx/opaque).
+
+### Automatic Endpoint Updates
+
+To reduce manual endpoint maintenance, the web app uses a hybrid source model:
+
+1. **Live source refresh** from official Microsoft documentation pages (best effort)
+2. **Fallback** to generated local JSON files:
+   - [endpoints.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/endpoints.generated.json)
+   - [source-health.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/source-health.generated.json)
+
+A scheduled GitHub Action refreshes fallback data daily:
+- Workflow: [update-endpoints.yml](/Users/ronny/DEV/CheckMicrosoftEndpoints/.github/workflows/update-endpoints.yml)
+- Generator script: [generate-endpoints-data.mjs](/Users/ronny/DEV/CheckMicrosoftEndpoints/tools/generate-endpoints-data.mjs)
+
+For shared source pages (for example Intune + Microsoft Store sections on the same Learn page), the generator applies section-scoped parsing (anchor/heading based) so each service receives only its relevant endpoint subset.
+In addition, per-service hostname whitelists are applied. Unknown live hosts are flagged in source diagnostics, reducing accidental endpoint drift from documentation layout changes.
+
+Whitelist modes:
+- `strict`: only service-whitelisted live hosts are accepted, unknown hosts are warned.
+- `relaxed`: accepts all service-filtered live hosts (fewer warnings, broader intake).
+- GitHub workflow default: `relaxed`.
+
+Configure generator mode locally:
+```powershell
+$env:ENDPOINT_WHITELIST_MODE="relaxed"
+node .\tools\generate-endpoints-data.mjs
+```
+
+Configure in GitHub Actions manual run:
+- `workflow_dispatch` input `whitelist_mode`: `strict` or `relaxed`.
+
 ## Architecture
 
 ```mermaid
@@ -92,6 +130,17 @@ flowchart TB
 - [Info.md](Info.md) and [Info_EN.md](Info_EN.md)  
   Detailed technical documentation with endpoint sources, methodology, and service references.
 
+## Included Web App Components
+
+- [web/index.html](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/index.html)  
+  User interface with filters, per-endpoint info popup, source diagnostics, export, and compliance view toggle.
+
+- [web/app.js](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/app.js)  
+  Runtime data loading (live + fallback), endpoint tests, progress tracking, summary, CSV/JSON export, and share-link support.
+
+- [web/styles.css](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/styles.css)  
+  Styling for tables, status badges, source panels, progress, and dialogs.
+
 ## Use Cases
 
 - Validate Microsoft cloud connectivity from enterprise networks
@@ -138,6 +187,30 @@ cd "C:\path\to\CheckMicrosoftEndpoints"
 pwsh ./CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender -HtmlReport "Microsoft-Endpoints.html" -OpenReport
 ```
 
+### Web App Quick Start
+
+Use a local static web server (recommended for browser fetch behavior):
+
+```powershell
+# From repository root
+cd "C:\path\to\CheckMicrosoftEndpoints"
+
+# Option 1: Python
+python -m http.server 8080
+
+# Then open:
+# http://localhost:8080/web/
+```
+
+Regenerate fallback endpoint data manually:
+
+```powershell
+node .\tools\generate-endpoints-data.mjs
+```
+
+Optional runtime override in the browser app:
+- append `?whitelistMode=relaxed` to [web/index.html](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/index.html) URL.
+
 ## Supported Service Categories
 
 - Windows Update for Business
@@ -178,6 +251,13 @@ On macOS and Linux, the report is opened with the system browser command used by
 - [Info_EN.md](Info_EN.md) — technical documentation in English
 - [Info.md](Info.md) — technische Doku auf Deutsch
 
+## Web App Notes and Limitations
+
+- Browser checks are **not** a 1:1 replacement for TCP-level tests (`Test-NetConnection`) or ICMP latency tests.
+- Some endpoints may require no-cors fallback behavior in browsers.
+- Live source parsing depends on upstream Microsoft documentation structure and CORS availability.
+- If live parsing fails, the app automatically falls back to generated local data.
+
 ## License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
@@ -193,4 +273,3 @@ Ronny Alhelm
   <strong>Microsoft endpoint focused</strong> ·
   <strong>PowerShell based</strong>
 </p>
-

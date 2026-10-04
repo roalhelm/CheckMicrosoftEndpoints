@@ -1,0 +1,43 @@
+name: Update endpoint data
+
+on:
+  workflow_dispatch:
+    inputs:
+      whitelist_mode:
+        description: "Whitelist mode for endpoint generator (strict|relaxed)"
+        required: false
+        default: "relaxed"
+  schedule:
+    - cron: "0 4 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-endpoints:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate endpoint data
+        env:
+          ENDPOINT_WHITELIST_MODE: ${{ github.event.inputs.whitelist_mode || 'relaxed' }}
+        run: node tools/generate-endpoints-data.mjs
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet -- web/data/endpoints.generated.json web/data/source-health.generated.json; then
+            echo "No endpoint data changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/data/endpoints.generated.json web/data/source-health.generated.json
+          git commit -m "chore: refresh generated endpoint data"
+          git push
