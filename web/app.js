@@ -57,17 +57,30 @@ const elements = {
 };
 
 const purposeRules = [
-  { pattern: /manage\.microsoft\.com|dm\.microsoft\.com/i, purpose: "Intune Geräteverwaltung und MDM-Kommunikation" },
-  { pattern: /graph\.microsoft\.com|graph\.windows\.net/i, purpose: "Microsoft Graph API für Richtlinien, Geräte- und Benutzerdaten" },
-  { pattern: /login\.microsoftonline\.com|enterpriseregistration\.windows\.net|aadcdn\./i, purpose: "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung" },
-  { pattern: /delivery\.mp\.microsoft\.com|windowsupdate\.|update\.microsoft\.com/i, purpose: "Windows Update- und Content-Delivery-Endpunkte" },
-  { pattern: /defender|wdcp|security\.microsoft\.com|definitionupdates/i, purpose: "Defender Security- und Signatur-Updates" },
-  { pattern: /office|office365|sharepoint|onedrive|admin\.microsoft\.com/i, purpose: "Microsoft 365 Portale, Services und Inhalte" },
-  { pattern: /store|displaycatalog|licensing\.mp\.microsoft\.com|purchase\.md/i, purpose: "Microsoft Store Katalog, Lizenzierung und Kaufdienste" },
-  { pattern: /activation\.sls\.microsoft\.com|validation\.sls\.microsoft\.com|crl\.microsoft\.com/i, purpose: "Windows Aktivierung und Zertifikats-/Validierungsdienste" },
-  { pattern: /edge\.microsoft\.com|smartscreen|msedge\./i, purpose: "Microsoft Edge Konfiguration, Updates und SmartScreen-Schutz" },
-  { pattern: /events\.data\.microsoft\.com|watson|watcab/i, purpose: "Windows Telemetrie- und Diagnosedatenübertragung" },
+  { pattern: /manage\.microsoft\.com|dm\.microsoft\.com/i, purpose: "Intune device management and MDM communication" },
+  { pattern: /graph\.microsoft\.com|graph\.windows\.net/i, purpose: "Microsoft Graph API for policies, devices, and user data" },
+  { pattern: /login\.microsoftonline\.com|enterpriseregistration\.windows\.net|aadcdn\./i, purpose: "Sign-in, Entra ID authentication, and device registration" },
+  { pattern: /delivery\.mp\.microsoft\.com|windowsupdate\.|update\.microsoft\.com/i, purpose: "Windows Update and content delivery endpoints" },
+  { pattern: /defender|wdcp|security\.microsoft\.com|definitionupdates/i, purpose: "Defender security and signature updates" },
+  { pattern: /office|office365|sharepoint|onedrive|admin\.microsoft\.com/i, purpose: "Microsoft 365 portals, services, and content" },
+  { pattern: /store|displaycatalog|licensing\.mp\.microsoft\.com|purchase\.md/i, purpose: "Microsoft Store catalog, licensing, and purchase services" },
+  { pattern: /activation\.sls\.microsoft\.com|validation\.sls\.microsoft\.com|crl\.microsoft\.com/i, purpose: "Windows activation and certificate/validation services" },
+  { pattern: /edge\.microsoft\.com|smartscreen|msedge\./i, purpose: "Microsoft Edge configuration, updates, and SmartScreen protection" },
+  { pattern: /events\.data\.microsoft\.com|watson|watcab/i, purpose: "Windows telemetry and diagnostics data transfer" },
 ];
+
+const purposeFallbackTranslations = {
+  "Intune Geräteverwaltung und MDM-Kommunikation": "Intune device management and MDM communication",
+  "Microsoft Graph API für Richtlinien, Geräte- und Benutzerdaten": "Microsoft Graph API for policies, devices, and user data",
+  "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung": "Sign-in, Entra ID authentication, and device registration",
+  "Windows Update- und Content-Delivery-Endpunkte": "Windows Update and content delivery endpoints",
+  "Defender Security- und Signatur-Updates": "Defender security and signature updates",
+  "Microsoft 365 Portale, Services und Inhalte": "Microsoft 365 portals, services, and content",
+  "Microsoft Store Katalog, Lizenzierung und Kaufdienste": "Microsoft Store catalog, licensing, and purchase services",
+  "Windows Aktivierung und Zertifikats-/Validierungsdienste": "Windows activation and certificate/validation services",
+  "Microsoft Edge Konfiguration, Updates und SmartScreen-Schutz": "Microsoft Edge configuration, updates, and SmartScreen protection",
+  "Windows Telemetrie- und Diagnosedatenübertragung": "Windows telemetry and diagnostics data transfer",
+};
 
 const serviceHostWhitelists = {
   "windows-update": [/windowsupdate/i, /update\.microsoft\.com/i, /delivery\.mp\.microsoft\.com/i, /dl\.delivery\.mp\.microsoft\.com/i],
@@ -134,7 +147,19 @@ function inferPurpose(host, serviceName) {
       return rule.purpose;
     }
   }
-  return `${serviceName}: Endpoint für Dienstkommunikation`;
+  return `${serviceName}: Endpoint for service communication`;
+}
+
+function localizePurposeShort(text) {
+  if (!text) return text;
+  const translated = purposeFallbackTranslations[text];
+  if (translated) return translated;
+
+  if (text.endsWith(": Endpoint für Dienstkommunikation")) {
+    return text.replace(": Endpoint für Dienstkommunikation", ": Endpoint for service communication");
+  }
+
+  return text;
 }
 
 function normalizeHost(input) {
@@ -340,11 +365,11 @@ function buildEndpointRowsFromServices(services) {
       region: service.region ?? "global",
       host: endpoint.host,
       url: endpoint.url ?? `https://${endpoint.host.replace(/^\*\./, "www.")}`,
-      purposeShort: endpoint.purposeShort ?? inferPurpose(endpoint.host, service.name),
+      purposeShort: localizePurposeShort(endpoint.purposeShort ?? inferPurpose(endpoint.host, service.name)),
       source: endpoint.source ?? service.sourceUrl ?? "generated",
       status: "untested",
       durationMs: null,
-      details: "Noch nicht getestet",
+      details: "Not tested yet",
     })),
   );
 }
@@ -406,10 +431,10 @@ function sortRows(rows) {
 }
 
 function statusLabel(status) {
-  if (status === "reachable") return "Erreichbar";
+  if (status === "reachable") return "Reachable";
   if (status === "timeout") return "Timeout";
-  if (status === "unreachable") return "Nicht erreichbar";
-  return "Ungetestet";
+  if (status === "unreachable") return "Unreachable";
+  return "Untested";
 }
 
 function setLiveStatus(message, type = "info") {
@@ -428,8 +453,8 @@ function renderSourceHealth() {
   const modeLabel = state.whitelistMode === "relaxed" ? "relaxed" : "strict";
   elements.dataOriginSummary.textContent =
     state.dataOrigin === "live"
-      ? `Quelle: Live-Abruf von Microsoft-Seiten (mit Fallback pro Service). Whitelist: ${modeLabel}.`
-      : `Quelle: Generierte Fallback-Daten aus dem Repository. Whitelist: ${modeLabel}.`;
+      ? `Source: Live fetch from Microsoft pages (with per-service fallback). Whitelist: ${modeLabel}.`
+      : `Source: Generated fallback data from the repository. Whitelist: ${modeLabel}.`;
 
   elements.sourceHealthList.innerHTML = "";
   for (const entry of state.sourceHealth) {
@@ -439,16 +464,16 @@ function renderSourceHealth() {
     div.innerHTML = `
       <h3>${entry.service}</h3>
       <p class="small-text">Status: <strong>${entry.sourceStatus}</strong></p>
-      <p class="small-text">Live: ${entry.liveCount} | Fallback: ${entry.baselineCount} | Effektiv: ${entry.mergedCount}</p>
-      <p class="quality status-text ${qualityClass}">Qualität: ${entry.qualityScore}/100</p>
+      <p class="small-text">Live: ${entry.liveCount} | Fallback: ${entry.baselineCount} | Effective: ${entry.mergedCount}</p>
+      <p class="quality status-text ${qualityClass}">Quality: ${entry.qualityScore}/100</p>
       ${
         entry.unknownLiveHostsCount
-          ? `<p class="small-text">Whitelist-Warnung: ${entry.unknownLiveHostsCount} unbekannte Live-Hosts${
-              entry.unknownLiveHostsSample?.length ? ` (z. B. ${entry.unknownLiveHostsSample.join(", ")})` : ""
+          ? `<p class="small-text">Whitelist warning: ${entry.unknownLiveHostsCount} unknown live hosts${
+              entry.unknownLiveHostsSample?.length ? ` (e.g. ${entry.unknownLiveHostsSample.join(", ")})` : ""
             }</p>`
           : ""
       }
-      ${entry.error ? `<p class="small-text">Fehler: ${entry.error}</p>` : ""}
+      ${entry.error ? `<p class="small-text">Error: ${entry.error}</p>` : ""}
     `;
     elements.sourceHealthList.appendChild(div);
   }
@@ -476,7 +501,7 @@ function renderServiceProgress() {
     card.className = "service-progress";
     card.innerHTML = `
       <strong>${item.serviceName}</strong>
-      <p class="small-text">${item.done}/${item.total} geprüft (${percent}%)</p>
+      <p class="small-text">${item.done}/${item.total} checked (${percent}%)</p>
       <progress max="100" value="${percent}"></progress>
     `;
     elements.serviceProgressGrid.appendChild(card);
@@ -492,10 +517,10 @@ function renderSummary() {
   const tested = rows.filter((row) => row.status !== "untested").length;
   const percent = total ? Math.round((tested / total) * 100) : 0;
 
-  elements.summaryTotal.textContent = `${total} Endpunkte`;
-  elements.summaryReachable.textContent = `Erreichbar: ${reachable}`;
+  elements.summaryTotal.textContent = `${total} endpoints`;
+  elements.summaryReachable.textContent = `Reachable: ${reachable}`;
   elements.summaryTimeout.textContent = `Timeout: ${timeout}`;
-  elements.summaryUnreachable.textContent = `Nicht erreichbar: ${unreachable}`;
+  elements.summaryUnreachable.textContent = `Unreachable: ${unreachable}`;
 
   elements.overallProgress.value = percent;
   elements.overallProgressLabel.textContent = `${percent}%`;
@@ -536,7 +561,7 @@ function renderGroupedByService() {
     details.innerHTML = `
       <summary>
         <strong>${group.serviceName}</strong>
-        <span class="group-meta">Region: ${group.region} • ${group.rows.length} Endpunkte • ✅ ${reachable} • ⏱ ${timeout} • ❌ ${unreachable}</span>
+        <span class="group-meta">Region: ${group.region} • ${group.rows.length} endpoints • ✅ ${reachable} • ⏱ ${timeout} • ❌ ${unreachable}</span>
       </summary>
       <div class="endpoint-group-content">
         <div class="table-wrap">
@@ -546,8 +571,8 @@ function renderGroupedByService() {
                 <th>Host</th>
                 <th>Info</th>
                 <th>Status</th>
-                <th>Dauer (ms)</th>
-                <th>Quelle</th>
+                <th>Duration (ms)</th>
+                <th>Source</th>
               </tr>
             </thead>
             <tbody>
@@ -556,7 +581,7 @@ function renderGroupedByService() {
                   (row) => `
                 <tr>
                   <td>${row.host}</td>
-                  <td><button class="info-btn" data-row-id="${row.id}" aria-label="Info für ${row.host}">i</button></td>
+                  <td><button class="info-btn" data-row-id="${row.id}" aria-label="Info for ${row.host}">i</button></td>
                   <td><span class="status-badge ${row.status}">${statusLabel(row.status)}</span></td>
                   <td>${row.durationMs ?? "-"}</td>
                   <td>${row.source}</td>
@@ -578,7 +603,7 @@ function renderGroupedByService() {
       if (!row) return;
       elements.infoDialogTitle.textContent = `${row.host}`;
       elements.infoDialogPurpose.textContent = row.purposeShort;
-      elements.infoDialogSource.textContent = `Service: ${row.serviceName} • Quelle: ${row.source}`;
+      elements.infoDialogSource.textContent = `Service: ${row.serviceName} • Source: ${row.source}`;
       elements.infoDialog.showModal();
     });
   });
@@ -594,11 +619,11 @@ function updateFilterOptions() {
   const serviceValues = [...new Map(state.services.map((service) => [service.id, service.name]))];
   const regionValues = [...new Set(state.services.map((service) => service.region ?? "global"))].sort();
 
-  elements.serviceFilter.innerHTML = `<option value="all">Alle Services</option>${serviceValues
+  elements.serviceFilter.innerHTML = `<option value="all">All services</option>${serviceValues
     .map(([id, name]) => `<option value="${id}">${name}</option>`)
     .join("")}`;
 
-  elements.regionFilter.innerHTML = `<option value="all">Alle Regionen</option>${regionValues
+  elements.regionFilter.innerHTML = `<option value="all">All regions</option>${regionValues
     .map((region) => `<option value="${region}">${region}</option>`)
     .join("")}`;
 }
@@ -629,13 +654,13 @@ async function runEndpointCheck(endpoint) {
       return {
         status: "reachable",
         durationMs,
-        details: "Antwort erhalten (cors)",
+        details: "Response received (cors)",
       };
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (message.toLowerCase().includes("abort")) {
-      return { status: "timeout", durationMs: Math.round(performance.now() - start), details: "Timeout bei cors-Request" };
+      return { status: "timeout", durationMs: Math.round(performance.now() - start), details: "Timeout during cors request" };
     }
 
     try {
@@ -652,17 +677,17 @@ async function runEndpointCheck(endpoint) {
       return {
         status: "reachable",
         durationMs: Math.round(performance.now() - start),
-        details: "Antwort erhalten (no-cors, opaque)",
+        details: "Response received (no-cors, opaque)",
       };
     } catch (fallbackError) {
       const fallbackMessage = fallbackError instanceof Error ? fallbackError.message : String(fallbackError);
       if (fallbackMessage.toLowerCase().includes("abort")) {
-        return { status: "timeout", durationMs: Math.round(performance.now() - start), details: "Timeout bei no-cors-Fallback" };
+        return { status: "timeout", durationMs: Math.round(performance.now() - start), details: "Timeout during no-cors fallback" };
       }
       return {
         status: "unreachable",
         durationMs: Math.round(performance.now() - start),
-        details: `Keine Antwort: ${fallbackMessage}`,
+        details: `No response: ${fallbackMessage}`,
       };
     }
   }
@@ -670,7 +695,7 @@ async function runEndpointCheck(endpoint) {
   return {
     status: "unreachable",
     durationMs: Math.round(performance.now() - start),
-    details: "Keine verwertbare Antwort",
+    details: "No usable response",
   };
 }
 
@@ -728,7 +753,7 @@ function mergeLiveHostsIntoServices(liveByService) {
 
 async function refreshLiveData() {
   elements.refreshLiveBtn.disabled = true;
-  setLiveStatus("Live-Daten werden aktualisiert…", "loading");
+  setLiveStatus("Updating live data...", "loading");
 
   const liveByService = new Map();
   const sourceHealthMap = new Map(state.sourceHealth.map((entry) => [entry.serviceId, { ...entry }]));
@@ -769,7 +794,7 @@ async function refreshLiveData() {
             );
           } else {
             health.sourceStatus = "fallback";
-            health.error = unknownHosts.length > 0 ? "Live-Quelle lieferte nur nicht-whitelistete Hosts" : "Live-Quelle ohne auswertbare Hosts";
+            health.error = unknownHosts.length > 0 ? "Live source returned only non-whitelisted hosts" : "Live source returned no usable hosts";
             health.liveCount = 0;
             health.qualityScore = 20;
           }
@@ -796,13 +821,13 @@ async function refreshLiveData() {
     rerender();
     setLiveStatus(
       liveByService.size > 0
-        ? `Live-Daten aktualisiert: ${liveByService.size} Service(s) aktualisiert.`
-        : "Live-Daten neu geladen: Fallback-Daten werden weiter verwendet.",
+        ? `Live data updated: ${liveByService.size} service(s) updated.`
+        : "Live data reloaded: fallback data is still in use.",
       liveByService.size > 0 ? "success" : "error",
     );
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    setLiveStatus(`Fehler beim Laden der Live-Daten: ${message}`, "error");
+    setLiveStatus(`Error loading live data: ${message}`, "error");
     console.error("refreshLiveData failed:", error);
   } finally {
     elements.refreshLiveBtn.disabled = false;
@@ -869,9 +894,9 @@ function attachEventHandlers() {
     updateFilterStateFromControls();
     const link = buildShareUrl();
     await navigator.clipboard.writeText(link);
-    elements.shareLinkBtn.textContent = "Link kopiert";
+    elements.shareLinkBtn.textContent = "Link copied";
     setTimeout(() => {
-      elements.shareLinkBtn.textContent = "Share-Link kopieren";
+      elements.shareLinkBtn.textContent = "Copy share link";
     }, 1400);
   });
   elements.closeInfoDialogBtn.addEventListener("click", () => elements.infoDialog.close());
@@ -896,8 +921,8 @@ async function init() {
 }
 
 init().catch((error) => {
-  console.error("Fehler beim Initialisieren der Web-App:", error);
-  elements.dataOriginSummary.textContent = `Initialisierung fehlgeschlagen: ${
+  console.error("Error initializing web app:", error);
+  elements.dataOriginSummary.textContent = `Initialization failed: ${
     error instanceof Error ? error.message : String(error)
   }`;
 });

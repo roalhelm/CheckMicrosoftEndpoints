@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,58 +11,58 @@
       <header>
         <h1>Microsoft Endpoint Reachability Check</h1>
         <p class="subtitle">
-          Prüft aus deinem Browser, welche Microsoft-Endpunkte erreichbar sind. Live-Quellen werden bevorzugt,
-          mit automatischem Fallback auf generierte Daten.
+          Checks from your browser which Microsoft endpoints are reachable. Live sources are preferred,
+          with automatic fallback to generated data.
         </p>
       </header>
 
       <section class="panel controls">
         <div class="control-row">
-          <button id="runCheckBtn" class="btn primary">Erreichbarkeit prüfen</button>
-          <button id="refreshLiveBtn" class="btn">Live-Daten neu laden</button>
+          <button id="runCheckBtn" class="btn primary">Run reachability check</button>
+          <button id="refreshLiveBtn" class="btn">Reload live data</button>
           <button id="exportJsonBtn" class="btn">Export JSON</button>
           <button id="exportCsvBtn" class="btn">Export CSV</button>
-          <button id="shareLinkBtn" class="btn">Share-Link kopieren</button>
+          <button id="shareLinkBtn" class="btn">Copy share link</button>
         </div>
 
         <div id="liveStatus" class="live-status" role="status" aria-live="polite">
-          Bereit.
+          Ready.
         </div>
 
         <div class="control-row">
           <label>
-            Suche:
-            <input id="searchInput" type="search" placeholder="z. B. manage.microsoft.com" />
+            Search:
+            <input id="searchInput" type="search" placeholder="e.g. manage.microsoft.com" />
           </label>
           <label>
             Service:
             <select id="serviceFilter">
-              <option value="all">Alle Services</option>
+              <option value="all">All services</option>
             </select>
           </label>
           <label>
             Region:
             <select id="regionFilter">
-              <option value="all">Alle Regionen</option>
+              <option value="all">All regions</option>
             </select>
           </label>
           <label>
             Status:
             <select id="statusFilter">
-              <option value="all">Alle</option>
-              <option value="reachable">Erreichbar</option>
+              <option value="all">All</option>
+              <option value="reachable">Reachable</option>
               <option value="timeout">Timeout</option>
-              <option value="unreachable">Nicht erreichbar</option>
-              <option value="untested">Ungetestet</option>
+              <option value="unreachable">Unreachable</option>
+              <option value="untested">Untested</option>
             </select>
           </label>
           <label>
-            Sortierung:
+            Sort by:
             <select id="sortBy">
               <option value="service">Service</option>
               <option value="host">Host</option>
               <option value="status">Status</option>
-              <option value="duration">Dauer</option>
+              <option value="duration">Duration</option>
             </select>
           </label>
         </div>
@@ -70,15 +70,15 @@
         <div class="control-row">
           <label class="checkbox">
             <input id="complianceModeToggle" type="checkbox" />
-            Compliance-Check-Modus (nur problematische Endpunkte anzeigen)
+            Compliance check mode (show only problematic endpoints)
           </label>
         </div>
       </section>
 
       <details class="panel collapsible" id="sourcePanelDetails">
         <summary class="collapsible-summary">
-          <span>Datenquellen-Status</span>
-          <span class="small-text">Ausklappen für Details</span>
+          <span>Data source status</span>
+          <span class="small-text">Expand for details</span>
         </summary>
         <div id="sourcePanel">
           <p id="dataOriginSummary" class="small-text"></p>
@@ -87,7 +87,7 @@
       </details>
 
       <section class="panel" id="progressPanel">
-        <h2>Fortschritt</h2>
+        <h2>Progress</h2>
         <div class="progress-wrapper">
           <progress id="overallProgress" max="100" value="0"></progress>
           <span id="overallProgressLabel">0%</span>
@@ -96,39 +96,39 @@
       </section>
 
       <section class="panel" id="summaryPanel">
-        <h2>Zusammenfassung</h2>
+        <h2>Summary</h2>
         <div class="summary-grid">
           <article>
-            <h3>Gesamt</h3>
-            <p id="summaryTotal">0 Endpunkte</p>
-            <p id="summaryReachable" class="status-text reachable">Erreichbar: 0</p>
+            <h3>Total</h3>
+            <p id="summaryTotal">0 endpoints</p>
+            <p id="summaryReachable" class="status-text reachable">Reachable: 0</p>
             <p id="summaryTimeout" class="status-text timeout">Timeout: 0</p>
-            <p id="summaryUnreachable" class="status-text unreachable">Nicht erreichbar: 0</p>
+            <p id="summaryUnreachable" class="status-text unreachable">Unreachable: 0</p>
           </article>
           <article>
-            <h3>Hinweise</h3>
+            <h3>Notes</h3>
             <ul>
-              <li>Browser-Checks ersetzen keine TCP/ICMP-Tests.</li>
-              <li>HTTP-Status ist egal, Antwort innerhalb Timeout zählt als erreichbar.</li>
-              <li>Bei CORS-Problemen wird ein no-cors-Fallback versucht.</li>
+              <li>Browser checks do not replace TCP/ICMP tests.</li>
+              <li>HTTP status does not matter; any response within timeout counts as reachable.</li>
+              <li>If CORS issues occur, a no-cors fallback is attempted.</li>
             </ul>
           </article>
         </div>
       </section>
 
       <section class="panel" id="proxyHintsPanel" hidden>
-        <h2>Proxy-/Firewall-Hinweise</h2>
+        <h2>Proxy/firewall guidance</h2>
         <p>
-          Mehrere Endpunkte sind nicht erreichbar. Prüfe Proxy-Ausnahmen und Firewall-Regeln für die betroffenen
-          Services (insb. 443/TCP).
+          Multiple endpoints are unreachable. Check proxy exceptions and firewall rules for the affected
+          services (especially 443/TCP).
         </p>
       </section>
 
       <section class="panel">
-        <h2>Endpunkte</h2>
+        <h2>Endpoints</h2>
         <div class="group-actions">
-          <button id="expandAllGroupsBtn" class="btn" type="button">Alle Services aufklappen</button>
-          <button id="collapseAllGroupsBtn" class="btn" type="button">Alle Services zuklappen</button>
+          <button id="expandAllGroupsBtn" class="btn" type="button">Expand all services</button>
+          <button id="collapseAllGroupsBtn" class="btn" type="button">Collapse all services</button>
         </div>
         <div id="endpointServiceGroups" class="endpoint-groups"></div>
         <div class="table-wrap legacy-table" hidden>
@@ -140,8 +140,8 @@
                 <th>Host</th>
                 <th>Info</th>
                 <th>Status</th>
-                <th>Dauer (ms)</th>
-                <th>Quelle</th>
+                <th>Duration (ms)</th>
+                <th>Source</th>
               </tr>
             </thead>
             <tbody id="endpointTableBody"></tbody>
@@ -153,12 +153,12 @@
     <dialog id="infoDialog">
       <article>
         <header>
-          <h3 id="infoDialogTitle">Endpoint-Info</h3>
+          <h3 id="infoDialogTitle">Endpoint info</h3>
         </header>
         <p id="infoDialogPurpose"></p>
         <p id="infoDialogSource" class="small-text"></p>
         <footer>
-          <button id="closeInfoDialogBtn" class="btn primary">Schließen</button>
+          <button id="closeInfoDialogBtn" class="btn primary">Close</button>
         </footer>
       </article>
     </dialog>
