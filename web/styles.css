@@ -434,6 +434,11 @@ tr:hover td {
   color: #dbe3f4;
 }
 
+.status-badge.skipped {
+  background: rgba(75, 135, 255, 0.22);
+  color: #b9d4ff;
+}
+
 .info-btn {
   min-width: 3.2rem;
   height: 1.9rem;

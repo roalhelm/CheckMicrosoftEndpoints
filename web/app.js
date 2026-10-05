@@ -494,6 +494,19 @@ function statusLabel(status) {
   return "Untested";
 }
 
+function isClientCertificateSkipped(row) {
+  return row.status === "untested" && String(row.details ?? "").toLowerCase().startsWith("skipped:");
+}
+
+function statusLabelForRow(row) {
+  if (isClientCertificateSkipped(row)) return "Skipped (cert required)";
+  return statusLabel(row.status);
+}
+
+function statusBadgeClassForRow(row) {
+  return isClientCertificateSkipped(row) ? "skipped" : row.status;
+}
+
 function setLiveStatus(message, type = "info") {
   const liveStatus = elements.liveStatus;
   if (!liveStatus) return;
@@ -638,7 +651,7 @@ function renderGroupedByService() {
             <article class="endpoint-card ${row.status}">
               <header class="endpoint-card-header">
                 <code class="endpoint-host">${row.host}</code>
-                <span class="status-badge ${row.status}">${statusLabel(row.status)}</span>
+                <span class="status-badge ${statusBadgeClassForRow(row)}">${statusLabelForRow(row)}</span>
               </header>
               <div class="endpoint-card-meta">
                 <p class="endpoint-meta-row endpoint-meta-duration"><span>Duration</span><strong>${row.durationMs ?? "-"} ms</strong></p>
@@ -704,7 +717,19 @@ function updateFilterStateFromControls() {
   state.filters.complianceMode = elements.complianceModeToggle.checked;
 }
 
+function requiresClientCertificate(host) {
+  return /(?:^|\.)certauth\./i.test(host);
+}
+
 async function runEndpointCheck(endpoint) {
+  if (requiresClientCertificate(endpoint.host)) {
+    return {
+      status: "untested",
+      durationMs: null,
+      details: "Skipped: endpoint requires a client certificate (browser check).",
+    };
+  }
+
   const start = performance.now();
   try {
     const corsResult = await withTimeout(
