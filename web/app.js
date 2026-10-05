@@ -53,6 +53,7 @@ const elements = {
   infoDialogPurpose: document.getElementById("infoDialogPurpose"),
   infoDialogSource: document.getElementById("infoDialogSource"),
   closeInfoDialogBtn: document.getElementById("closeInfoDialogBtn"),
+  liveStatus: document.getElementById("liveStatus"),
 };
 
 const purposeRules = [
@@ -411,6 +412,18 @@ function statusLabel(status) {
   return "Ungetestet";
 }
 
+function setLiveStatus(message, type = "info") {
+  const liveStatus = elements.liveStatus;
+  if (!liveStatus) return;
+
+  liveStatus.textContent = message;
+  liveStatus.classList.remove("loading", "success", "error");
+
+  if (type === "loading") liveStatus.classList.add("loading");
+  else if (type === "success") liveStatus.classList.add("success");
+  else if (type === "error") liveStatus.classList.add("error");
+}
+
 function renderSourceHealth() {
   const modeLabel = state.whitelistMode === "relaxed" ? "relaxed" : "strict";
   elements.dataOriginSummary.textContent =
@@ -715,70 +728,85 @@ function mergeLiveHostsIntoServices(liveByService) {
 
 async function refreshLiveData() {
   elements.refreshLiveBtn.disabled = true;
+  setLiveStatus("Live-Daten werden aktualisiert…", "loading");
+
   const liveByService = new Map();
   const sourceHealthMap = new Map(state.sourceHealth.map((entry) => [entry.serviceId, { ...entry }]));
 
-  await Promise.all(
-    state.services.map(async (service) => {
-      const health = sourceHealthMap.get(service.id) ?? {
-        service: service.name,
-        serviceId: service.id,
-        baselineCount: service.endpoints.length,
-        sourceUrl: service.sourceUrl,
-      };
+  try {
+    await Promise.all(
+      state.services.map(async (service) => {
+        const health = sourceHealthMap.get(service.id) ?? {
+          service: service.name,
+          serviceId: service.id,
+          baselineCount: service.endpoints.length,
+          sourceUrl: service.sourceUrl,
+        };
 
-      if (!service.sourceUrl) {
-        health.sourceStatus = "fallback";
-        sourceHealthMap.set(service.id, health);
-        return;
-      }
-
-      try {
-        const text = await fetchTextWithTimeout(service.sourceUrl);
-        const scopedText = extractScopedText(text, service.sourceScope ?? null);
-        const hosts = filterHostsForService(extractHostnamesFromText(scopedText), service.id);
-        const { knownHosts, unknownHosts } = splitKnownAndUnknownHosts(hosts, service.id);
-        health.unknownLiveHostsCount = unknownHosts.length;
-        health.unknownLiveHostsSample = unknownHosts.slice(0, 8);
-        health.whitelistApplied = Boolean(serviceHostWhitelists[service.id]?.length);
-        if (knownHosts.length > 0) {
-          liveByService.set(service.id, knownHosts);
-          health.sourceStatus = "live+fallback-merged";
-          health.liveCount = knownHosts.length;
-          health.error = null;
-          const whitelistPenalty = Math.min(25, unknownHosts.length * 3);
-          health.qualityScore = Math.max(
-            0,
-            Math.min(100, 50 + Math.round((knownHosts.length / Math.max(1, health.baselineCount)) * 50) - whitelistPenalty),
-          );
-        } else {
+        if (!service.sourceUrl) {
           health.sourceStatus = "fallback";
-          health.error = unknownHosts.length > 0 ? "Live-Quelle lieferte nur nicht-whitelistete Hosts" : "Live-Quelle ohne auswertbare Hosts";
-          health.liveCount = 0;
-          health.qualityScore = 20;
+          sourceHealthMap.set(service.id, health);
+          return;
         }
-      } catch (error) {
-        health.sourceStatus = "fallback";
-        health.error = error instanceof Error ? error.message : String(error);
-        health.liveCount = 0;
-        health.qualityScore = 15;
-      }
 
-      sourceHealthMap.set(service.id, health);
-    }),
-  );
+        try {
+          const text = await fetchTextWithTimeout(service.sourceUrl);
+          const scopedText = extractScopedText(text, service.sourceScope ?? null);
+          const hosts = filterHostsForService(extractHostnamesFromText(scopedText), service.id);
+          const { knownHosts, unknownHosts } = splitKnownAndUnknownHosts(hosts, service.id);
+          health.unknownLiveHostsCount = unknownHosts.length;
+          health.unknownLiveHostsSample = unknownHosts.slice(0, 8);
+          health.whitelistApplied = Boolean(serviceHostWhitelists[service.id]?.length);
+          if (knownHosts.length > 0) {
+            liveByService.set(service.id, knownHosts);
+            health.sourceStatus = "live+fallback-merged";
+            health.liveCount = knownHosts.length;
+            health.error = null;
+            const whitelistPenalty = Math.min(25, unknownHosts.length * 3);
+            health.qualityScore = Math.max(
+              0,
+              Math.min(100, 50 + Math.round((knownHosts.length / Math.max(1, health.baselineCount)) * 50) - whitelistPenalty),
+            );
+          } else {
+            health.sourceStatus = "fallback";
+            health.error = unknownHosts.length > 0 ? "Live-Quelle lieferte nur nicht-whitelistete Hosts" : "Live-Quelle ohne auswertbare Hosts";
+            health.liveCount = 0;
+            health.qualityScore = 20;
+          }
+        } catch (error) {
+          health.sourceStatus = "fallback";
+          health.error = error instanceof Error ? error.message : String(error);
+          health.liveCount = 0;
+          health.qualityScore = 15;
+        }
 
-  mergeLiveHostsIntoServices(liveByService);
-  state.sourceHealth = [...sourceHealthMap.values()];
-  state.dataOrigin = liveByService.size > 0 ? "live" : "fallback";
-  if (elements.sourcePanelDetails) {
-    elements.sourcePanelDetails.open = false;
+        sourceHealthMap.set(service.id, health);
+      }),
+    );
+
+    mergeLiveHostsIntoServices(liveByService);
+    state.sourceHealth = [...sourceHealthMap.values()];
+    state.dataOrigin = liveByService.size > 0 ? "live" : "fallback";
+    if (elements.sourcePanelDetails) {
+      elements.sourcePanelDetails.open = false;
+    }
+    updateFilterOptions();
+    syncFilterControls();
+    renderSourceHealth();
+    rerender();
+    setLiveStatus(
+      liveByService.size > 0
+        ? `Live-Daten aktualisiert: ${liveByService.size} Service(s) aktualisiert.`
+        : "Live-Daten neu geladen: Fallback-Daten werden weiter verwendet.",
+      liveByService.size > 0 ? "success" : "error",
+    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    setLiveStatus(`Fehler beim Laden der Live-Daten: ${message}`, "error");
+    console.error("refreshLiveData failed:", error);
+  } finally {
+    elements.refreshLiveBtn.disabled = false;
   }
-  updateFilterOptions();
-  syncFilterControls();
-  renderSourceHealth();
-  rerender();
-  elements.refreshLiveBtn.disabled = false;
 }
 
 function download(filename, content, mimeType) {

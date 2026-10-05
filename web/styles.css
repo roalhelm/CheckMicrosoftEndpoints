@@ -74,6 +74,30 @@ details[open] .collapsible-summary::before {
   margin-bottom: 0.75rem;
 }
 
+.live-status {
+  min-height: 1.5rem;
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  border-left: 3px solid var(--accent);
+  padding-left: 0.65rem;
+}
+
+.live-status.loading {
+  color: var(--warn);
+  border-left-color: var(--warn);
+}
+
+.live-status.success {
+  color: var(--ok);
+  border-left-color: var(--ok);
+}
+
+.live-status.error {
+  color: var(--bad);
+  border-left-color: var(--bad);
+}
+
 .controls label {
   display: inline-flex;
   align-items: center;
