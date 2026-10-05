@@ -8,7 +8,7 @@ on:
         required: false
         default: "relaxed"
   schedule:
-    - cron: "0 4 * * *"
+    - cron: "0 4 * * 0"
 
 permissions:
   contents: write

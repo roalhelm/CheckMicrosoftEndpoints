@@ -38,7 +38,7 @@ To reduce manual endpoint maintenance, the web app uses a hybrid source model:
    - [endpoints.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/endpoints.generated.json)
    - [source-health.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/source-health.generated.json)
 
-A scheduled GitHub Action refreshes fallback data daily:
+A scheduled GitHub Action refreshes fallback data weekly:
 - Workflow: [update-endpoints.yml](/Users/ronny/DEV/CheckMicrosoftEndpoints/.github/workflows/update-endpoints.yml)
 - Generator script: [generate-endpoints-data.mjs](/Users/ronny/DEV/CheckMicrosoftEndpoints/tools/generate-endpoints-data.mjs)
 

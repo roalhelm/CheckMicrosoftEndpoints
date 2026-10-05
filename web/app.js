@@ -4,10 +4,11 @@ const REQUEST_TIMEOUT_MS = 8000;
 const CHECK_CONCURRENCY = 6;
 const LIVE_REFRESH_TIMEOUT_MS = 10000;
 const DEFAULT_WHITELIST_MODE = "strict";
+const DEFAULT_LAYOUT_MODE = "detailed";
 
 const state = {
   dataOrigin: "fallback",
-  whitelistMode: DEFAULT_WHITELIST_MODE,
+  whitelistMode: null,
   services: [],
   endpointRows: [],
   sourceHealth: [],
@@ -17,6 +18,7 @@ const state = {
     region: "all",
     status: "all",
     sortBy: "service",
+    layoutMode: DEFAULT_LAYOUT_MODE,
     complianceMode: false,
   },
 };
@@ -32,6 +34,7 @@ const elements = {
   regionFilter: document.getElementById("regionFilter"),
   statusFilter: document.getElementById("statusFilter"),
   sortBy: document.getElementById("sortBy"),
+  layoutMode: document.getElementById("layoutMode"),
   complianceModeToggle: document.getElementById("complianceModeToggle"),
   sourceHealthList: document.getElementById("sourceHealthList"),
   sourcePanelDetails: document.getElementById("sourcePanelDetails"),
@@ -220,6 +223,13 @@ function resolveWhitelistMode(value) {
   return "strict";
 }
 
+function resolveLayoutMode(value) {
+  const mode = String(value ?? DEFAULT_LAYOUT_MODE).trim().toLowerCase();
+  if (mode === "compact") return "compact";
+  if (mode === "dense") return "dense";
+  return "detailed";
+}
+
 function extractHostnamesFromText(text) {
   const hosts = new Set();
   let hadCodeSpanHosts = false;
@@ -380,8 +390,12 @@ function updateFiltersFromQuery() {
   for (const key of keys) {
     if (params.has(key)) state.filters[key] = params.get(key);
   }
+  if (params.has("layoutMode")) {
+    state.filters.layoutMode = resolveLayoutMode(params.get("layoutMode"));
+  }
   state.filters.complianceMode = params.get("complianceMode") === "1";
-  state.whitelistMode = resolveWhitelistMode(params.get("whitelistMode"));
+  const whitelistModeFromQuery = params.get("whitelistMode");
+  state.whitelistMode = whitelistModeFromQuery ? resolveWhitelistMode(whitelistModeFromQuery) : null;
 }
 
 function syncFilterControls() {
@@ -390,6 +404,7 @@ function syncFilterControls() {
   elements.regionFilter.value = state.filters.region;
   elements.statusFilter.value = state.filters.status;
   elements.sortBy.value = state.filters.sortBy;
+  elements.layoutMode.value = resolveLayoutMode(state.filters.layoutMode);
   elements.complianceModeToggle.checked = state.filters.complianceMode;
 }
 
@@ -397,12 +412,54 @@ function buildShareUrl() {
   const params = new URLSearchParams();
   Object.entries(state.filters).forEach(([key, value]) => {
     if (!value || value === "all" || value === false) return;
+    if (key === "layoutMode" && value === DEFAULT_LAYOUT_MODE) return;
     params.set(key, value === true ? "1" : String(value));
   });
-  if (state.whitelistMode !== DEFAULT_WHITELIST_MODE) {
+  if (state.whitelistMode && state.whitelistMode !== DEFAULT_WHITELIST_MODE) {
     params.set("whitelistMode", state.whitelistMode);
   }
   return `${window.location.origin}${window.location.pathname}${params.toString() ? `?${params}` : ""}`;
+}
+
+function isLikelyCorsOrBrowserFetchRestriction(message) {
+  const normalized = String(message ?? "").toLowerCase();
+  if (!normalized) return false;
+  return (
+    normalized.includes("failed to fetch") ||
+    normalized.includes("networkerror") ||
+    normalized.includes("cors") ||
+    normalized.includes("blocked by") ||
+    normalized.includes("cross-origin")
+  );
+}
+
+function buildLiveRefreshStatus(liveByServiceCount, sourceHealthEntries) {
+  if (liveByServiceCount > 0) {
+    return {
+      message: `Live data updated: ${liveByServiceCount} service(s) updated.`,
+      type: "success",
+    };
+  }
+
+  const browserFetchRestricted = sourceHealthEntries.filter(
+    (entry) =>
+      entry.sourceUrl &&
+      entry.sourceStatus === "fallback" &&
+      isLikelyCorsOrBrowserFetchRestriction(entry.error),
+  ).length;
+
+  if (browserFetchRestricted > 0) {
+    return {
+      message:
+        "Live browser fetch is restricted by CORS/network policies for some source pages. Generated fallback data remains in use.",
+      type: "info",
+    };
+  }
+
+  return {
+    message: "Live data reloaded: fallback data is still in use.",
+    type: "info",
+  };
 }
 
 function applyFilters(rows) {
@@ -536,6 +593,7 @@ function renderTable() {
 
 function renderGroupedByService() {
   const filtered = sortRows(applyFilters(state.endpointRows));
+  elements.endpointServiceGroups.dataset.layout = resolveLayoutMode(state.filters.layoutMode);
   const groups = new Map();
   for (const row of filtered) {
     if (!groups.has(row.serviceId)) {
@@ -549,6 +607,15 @@ function renderGroupedByService() {
   }
 
   elements.endpointServiceGroups.innerHTML = "";
+
+  if (groups.size === 0) {
+    elements.endpointServiceGroups.innerHTML = `
+      <article class="empty-state">
+        <p>No endpoints match the current filters.</p>
+      </article>
+    `;
+    return;
+  }
 
   for (const [, group] of groups) {
     const reachable = group.rows.filter((row) => row.status === "reachable").length;
@@ -564,33 +631,27 @@ function renderGroupedByService() {
         <span class="group-meta">Region: ${group.region} • ${group.rows.length} endpoints • ✅ ${reachable} • ⏱ ${timeout} • ❌ ${unreachable}</span>
       </summary>
       <div class="endpoint-group-content">
-        <div class="table-wrap">
-          <table class="endpoint-service-table">
-            <thead>
-              <tr>
-                <th>Host</th>
-                <th>Info</th>
-                <th>Status</th>
-                <th>Duration (ms)</th>
-                <th>Source</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${group.rows
-                .map(
-                  (row) => `
-                <tr>
-                  <td>${row.host}</td>
-                  <td><button class="info-btn" data-row-id="${row.id}" aria-label="Info for ${row.host}">i</button></td>
-                  <td><span class="status-badge ${row.status}">${statusLabel(row.status)}</span></td>
-                  <td>${row.durationMs ?? "-"}</td>
-                  <td>${row.source}</td>
-                </tr>
-              `,
-                )
-                .join("")}
-            </tbody>
-          </table>
+        <div class="endpoint-card-grid">
+          ${group.rows
+            .map(
+              (row) => `
+            <article class="endpoint-card ${row.status}">
+              <header class="endpoint-card-header">
+                <code class="endpoint-host">${row.host}</code>
+                <span class="status-badge ${row.status}">${statusLabel(row.status)}</span>
+              </header>
+              <div class="endpoint-card-meta">
+                <p class="endpoint-meta-row endpoint-meta-duration"><span>Duration</span><strong>${row.durationMs ?? "-"} ms</strong></p>
+                <p class="endpoint-meta-row endpoint-meta-source"><span>Source</span><strong>${row.source}</strong></p>
+                <p class="endpoint-meta-row endpoint-meta-result"><span>Result</span><strong>${row.details ?? "-"}</strong></p>
+              </div>
+              <footer class="endpoint-card-actions">
+                <button class="info-btn" data-row-id="${row.id}" aria-label="Info for ${row.host}">Info</button>
+              </footer>
+            </article>
+          `,
+            )
+            .join("")}
         </div>
       </div>
     `;
@@ -639,6 +700,7 @@ function updateFilterStateFromControls() {
   state.filters.region = elements.regionFilter.value;
   state.filters.status = elements.statusFilter.value;
   state.filters.sortBy = elements.sortBy.value;
+  state.filters.layoutMode = resolveLayoutMode(elements.layoutMode.value);
   state.filters.complianceMode = elements.complianceModeToggle.checked;
 }
 
@@ -819,12 +881,8 @@ async function refreshLiveData() {
     syncFilterControls();
     renderSourceHealth();
     rerender();
-    setLiveStatus(
-      liveByService.size > 0
-        ? `Live data updated: ${liveByService.size} service(s) updated.`
-        : "Live data reloaded: fallback data is still in use.",
-      liveByService.size > 0 ? "success" : "error",
-    );
+    const liveRefreshStatus = buildLiveRefreshStatus(liveByService.size, state.sourceHealth);
+    setLiveStatus(liveRefreshStatus.message, liveRefreshStatus.type);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     setLiveStatus(`Error loading live data: ${message}`, "error");
@@ -882,6 +940,7 @@ function attachEventHandlers() {
   elements.regionFilter.addEventListener("change", rerenderFromControls);
   elements.statusFilter.addEventListener("change", rerenderFromControls);
   elements.sortBy.addEventListener("change", rerenderFromControls);
+  elements.layoutMode.addEventListener("change", rerenderFromControls);
   elements.complianceModeToggle.addEventListener("change", rerenderFromControls);
 
   elements.runCheckBtn.addEventListener("click", runChecks);
