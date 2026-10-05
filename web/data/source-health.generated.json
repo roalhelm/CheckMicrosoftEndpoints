@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T15:24:58.631Z",
-  "whitelistMode": "strict",
+  "generatedAt": "2026-10-05T04:09:46.452Z",
+  "whitelistMode": "relaxed",
   "sourceHealth": [
     {
       "service": "Windows Update for Business",
@@ -40,13 +40,11 @@
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "baselineCount": 16,
-      "liveCount": 22,
-      "unknownLiveHostsCount": 1,
-      "unknownLiveHostsSample": [
-        "swdc02-mscdn.manage.microsoft"
-      ],
-      "mergedCount": 35,
-      "qualityScore": 87,
+      "liveCount": 23,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 36,
+      "qualityScore": 90,
       "error": null,
       "whitelistApplied": true
     },
@@ -69,17 +67,14 @@
       "service": "Azure Active Directory",
       "serviceId": "azure-ad",
       "sourceUrl": "https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports",
-      "sourceStatus": "fallback",
+      "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "baselineCount": 8,
-      "liveCount": 0,
-      "unknownLiveHostsCount": 2,
-      "unknownLiveHostsSample": [
-        "feedback.azure.com",
-        "support.office.com"
-      ],
-      "mergedCount": 8,
-      "qualityScore": 9,
+      "liveCount": 2,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 10,
+      "qualityScore": 56,
       "error": null,
       "whitelistApplied": true
     },
@@ -90,20 +85,11 @@
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "baselineCount": 14,
-      "liveCount": 68,
-      "unknownLiveHostsCount": 48,
-      "unknownLiveHostsSample": [
-        "mlccdnprod.azureedge.net",
-        "*.skype.com",
-        "account.activedirectory.windowsazure.com",
-        "accounts.accesscontrol.windows.net",
-        "adminwebservice.microsoftonline.com",
-        "api.passwordreset.microsoftonline.com",
-        "autologon.microsoftazuread-sso.com",
-        "becws.microsoftonline.com"
-      ],
-      "mergedCount": 72,
-      "qualityScore": 65,
+      "liveCount": 116,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 119,
+      "qualityScore": 90,
       "error": null,
       "whitelistApplied": true
     },
@@ -144,20 +130,11 @@
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "baselineCount": 6,
-      "liveCount": 23,
-      "unknownLiveHostsCount": 18,
-      "unknownLiveHostsSample": [
-        "*.do.dsp.mp.microsoft.com",
-        "login.live.com",
-        "login.microsoftonline.com",
-        "login.microsoft.com",
-        "login.windows.net",
-        "odc.officeapps.live.com",
-        "graph.microsoft.com",
-        "substrate.office.com"
-      ],
-      "mergedCount": 26,
-      "qualityScore": 65,
+      "liveCount": 41,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 44,
+      "qualityScore": 90,
       "error": null,
       "whitelistApplied": true
     },
@@ -168,13 +145,11 @@
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "baselineCount": 10,
-      "liveCount": 21,
-      "unknownLiveHostsCount": 1,
-      "unknownLiveHostsSample": [
-        "technet.windows"
-      ],
-      "mergedCount": 22,
-      "qualityScore": 87,
+      "liveCount": 22,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 23,
+      "qualityScore": 90,
       "error": null,
       "whitelistApplied": true
     }

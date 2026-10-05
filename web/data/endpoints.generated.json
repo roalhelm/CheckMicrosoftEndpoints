@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T15:24:58.631Z",
-  "whitelistMode": "strict",
+  "generatedAt": "2026-10-05T04:09:46.452Z",
+  "whitelistMode": "relaxed",
   "totalServices": 10,
-  "totalEndpoints": 219,
+  "totalEndpoints": 288,
   "services": [
     {
       "id": "windows-update",
@@ -589,6 +589,15 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "swdc02-mscdn.manage.microsoft",
+          "url": "https://swdc02-mscdn.manage.microsoft",
+          "purposeShort": "Intune: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "swdd01-mscdn.manage.microsoft.com",
           "url": "https://swdd01-mscdn.manage.microsoft.com",
           "purposeShort": "Intune Geräteverwaltung und MDM-Kommunikation",
@@ -742,7 +751,7 @@
       "region": "global",
       "sourceUrl": "https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports",
       "sourceScope": null,
-      "sourceStatus": "fallback",
+      "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "endpoints": [
         {
@@ -776,6 +785,15 @@
           "host": "enterpriseregistration.windows.net",
           "url": "https://enterpriseregistration.windows.net",
           "purposeShort": "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "feedback.azure.com",
+          "url": "https://feedback.azure.com",
+          "purposeShort": "Azure Active Directory: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -816,6 +834,15 @@
             443
           ],
           "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "support.office.com",
+          "url": "https://support.office.com",
+          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
         }
       ]
     },
@@ -829,6 +856,15 @@
       "sourceUpdatedAt": null,
       "endpoints": [
         {
+          "host": "*.activity.windows.com",
+          "url": "https://www.activity.windows.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "*.aria.microsoft.com",
           "url": "https://www.aria.microsoft.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
@@ -840,6 +876,33 @@
         {
           "host": "*.auth.microsoft.com",
           "url": "https://www.auth.microsoft.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.azure-apim.net",
+          "url": "https://www.azure-apim.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.azurerms.com",
+          "url": "https://www.azurerms.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.blob.core.windows.net",
+          "url": "https://www.blob.core.windows.net",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -874,6 +937,24 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "*.hip.live.com",
+          "url": "https://www.hip.live.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.informationprotection.azure.com",
+          "url": "https://www.informationprotection.azure.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "*.keydelivery.mediaservices.windows.net",
           "url": "https://www.keydelivery.mediaservices.windows.net",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
@@ -885,6 +966,60 @@
         {
           "host": "*.microsoft.com",
           "url": "https://www.microsoft.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.microsoftonline-p.com",
+          "url": "https://www.microsoftonline-p.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.microsoftonline.com",
+          "url": "https://www.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.microsoftusercontent.com",
+          "url": "https://www.microsoftusercontent.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msauth.net",
+          "url": "https://www.msauth.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msauthimages.net",
+          "url": "https://www.msauthimages.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msocdn.com",
+          "url": "https://www.msocdn.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -1000,6 +1135,15 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "*.skype.com",
+          "url": "https://www.skype.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "*.static.microsoft",
           "url": "https://www.static.microsoft",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
@@ -1054,9 +1198,45 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "account.activedirectory.windowsazure.com",
+          "url": "https://account.activedirectory.windowsazure.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "account.live.com",
+          "url": "https://account.live.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "accounts.accesscontrol.windows.net",
+          "url": "https://accounts.accesscontrol.windows.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "activation.sls.microsoft.com",
           "url": "https://activation.sls.microsoft.com",
           "purposeShort": "Windows Aktivierung und Zertifikats-/Validierungsdienste",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "activity.windows.com",
+          "url": "https://activity.windows.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -1090,6 +1270,33 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "adminwebservice.microsoftonline.com",
+          "url": "https://adminwebservice.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "amp.azure.net",
+          "url": "https://amp.azure.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "api.passwordreset.microsoftonline.com",
+          "url": "https://api.passwordreset.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "appsforoffice.microsoft.com",
           "url": "https://appsforoffice.microsoft.com",
           "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
@@ -1099,9 +1306,45 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "autologon.microsoftazuread-sso.com",
+          "url": "https://autologon.microsoftazuread-sso.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "becws.microsoftonline.com",
+          "url": "https://becws.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "c.live.com",
+          "url": "https://c.live.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "c1.microsoft.com",
           "url": "https://c1.microsoft.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "ccs.login.microsoftonline.com",
+          "url": "https://ccs.login.microsoftonline.com",
+          "purposeShort": "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung",
           "ports": [
             443
           ],
@@ -1120,6 +1363,24 @@
           "host": "cdn.uci.officeapps.live.com",
           "url": "https://cdn.uci.officeapps.live.com",
           "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "clientconfig.microsoftonline-p.net",
+          "url": "https://clientconfig.microsoftonline-p.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "companymanager.microsoftonline.com",
+          "url": "https://companymanager.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -1162,6 +1423,15 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "device.login.microsoftonline.com",
+          "url": "https://device.login.microsoftonline.com",
+          "purposeShort": "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "docs.microsoft.com",
           "url": "https://docs.microsoft.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
@@ -1174,6 +1444,15 @@
           "host": "endpoints.office.com",
           "url": "https://endpoints.office.com",
           "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "enterpriseregistration.windows.net",
+          "url": "https://enterpriseregistration.windows.net",
+          "purposeShort": "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung",
           "ports": [
             443
           ],
@@ -1198,8 +1477,53 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "graph.windows.net",
+          "url": "https://graph.windows.net",
+          "purposeShort": "Microsoft Graph API für Richtlinien, Geräte- und Benutzerdaten",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "informationprotection.hosting.portal.azure.net",
+          "url": "https://informationprotection.hosting.portal.azure.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login-us.microsoftonline.com",
+          "url": "https://login-us.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.live.com",
+          "url": "https://login.live.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "login.microsoft.com",
           "url": "https://login.microsoft.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.microsoftonline-p.com",
+          "url": "https://login.microsoftonline-p.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -1210,6 +1534,51 @@
           "host": "login.microsoftonline.com",
           "url": "https://login.microsoftonline.com",
           "purposeShort": "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.windows-ppe.net",
+          "url": "https://login.windows-ppe.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.windows.net",
+          "url": "https://login.windows.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "logincert.microsoftonline.com",
+          "url": "https://logincert.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "loginex.microsoftonline.com",
+          "url": "https://loginex.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "mlccdnprod.azureedge.net",
+          "url": "https://mlccdnprod.azureedge.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -1227,6 +1596,15 @@
         {
           "host": "msdn.microsoft.com",
           "url": "https://msdn.microsoft.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "nexus.microsoftonline-p.com",
+          "url": "https://nexus.microsoftonline-p.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -1351,6 +1729,15 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "otelrules.azureedge.net",
+          "url": "https://otelrules.azureedge.net",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "outlook.cloud.microsoft",
           "url": "https://outlook.cloud.microsoft",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
@@ -1378,6 +1765,24 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "partnerservices.getmicrosoftkey.com",
+          "url": "https://partnerservices.getmicrosoftkey.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "passwordreset.microsoftonline.com",
+          "url": "https://passwordreset.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "portal.office.com",
           "url": "https://portal.office.com",
           "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
@@ -1387,9 +1792,27 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "prod.msocdn.com",
+          "url": "https://prod.msocdn.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "protection.office.com",
           "url": "https://protection.office.com",
           "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "provisioningapi.microsoftonline.com",
+          "url": "https://provisioningapi.microsoftonline.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -1417,6 +1840,24 @@
           "host": "security.microsoft.com",
           "url": "https://security.microsoft.com",
           "purposeShort": "Defender Security- und Signatur-Updates",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "shellprod.msocdn.com",
+          "url": "https://shellprod.msocdn.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "signup.live.com",
+          "url": "https://signup.live.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -1461,6 +1902,15 @@
         {
           "host": "technet.microsoft.com",
           "url": "https://technet.microsoft.com",
+          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "www.microsoft365.com",
+          "url": "https://www.microsoft365.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -1666,6 +2116,15 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "*.do.dsp.mp.microsoft.com",
+          "url": "https://www.do.dsp.mp.microsoft.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "*.smartscreen-prod.microsoft.com",
           "url": "https://www.smartscreen-prod.microsoft.com",
           "purposeShort": "Microsoft Edge Konfiguration, Updates und SmartScreen-Schutz",
@@ -1684,8 +2143,62 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "*.urs.microsoft.com",
+          "url": "https://www.urs.microsoft.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "api.diagnostics.office.com",
+          "url": "https://api.diagnostics.office.com",
+          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "api.msa.diagnostics.office.com",
+          "url": "https://api.msa.diagnostics.office.com",
+          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "cdn.odc.officeapps.live.com",
+          "url": "https://cdn.odc.officeapps.live.com",
+          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "clients.config.office.net",
+          "url": "https://clients.config.office.net",
+          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "config.edge.skype.com",
           "url": "https://config.edge.skype.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "cr.m365copilotapp.svc.cloud.microsoft",
+          "url": "https://cr.m365copilotapp.svc.cloud.microsoft",
           "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -1705,6 +2218,69 @@
           "host": "edge.microsoft.com",
           "url": "https://edge.microsoft.com",
           "purposeShort": "Microsoft Edge Konfiguration, Updates und SmartScreen-Schutz",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "edgepasskeysenclave.microsoft.com",
+          "url": "https://edgepasskeysenclave.microsoft.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "graph.microsoft.com",
+          "url": "https://graph.microsoft.com",
+          "purposeShort": "Microsoft Graph API für Richtlinien, Geräte- und Benutzerdaten",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.live.com",
+          "url": "https://login.live.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.microsoft.com",
+          "url": "https://login.microsoft.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.microsoftonline.com",
+          "url": "https://login.microsoftonline.com",
+          "purposeShort": "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.windows.net",
+          "url": "https://login.windows.net",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "logincdn.msauth.net",
+          "url": "https://logincdn.msauth.net",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -1873,6 +2449,42 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "odc.officeapps.live.com",
+          "url": "https://odc.officeapps.live.com",
+          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "privacy.microsoft.com",
+          "url": "https://privacy.microsoft.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "prod.rewardsplatform.microsoft.com",
+          "url": "https://prod.rewardsplatform.microsoft.com",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "substrate.office.com",
+          "url": "https://substrate.office.com",
+          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "unitedstates.smartscreen-prod.microsoft.com",
           "url": "https://unitedstates.smartscreen-prod.microsoft.com",
           "purposeShort": "Microsoft Edge Konfiguration, Updates und SmartScreen-Schutz",
@@ -1994,6 +2606,15 @@
         {
           "host": "settings-win.data.microsoft.com",
           "url": "https://settings-win.data.microsoft.com",
+          "purposeShort": "Windows Telemetry: Endpoint für Dienstkommunikation",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "technet.windows",
+          "url": "https://technet.windows",
           "purposeShort": "Windows Telemetry: Endpoint für Dienstkommunikation",
           "ports": [
             443
