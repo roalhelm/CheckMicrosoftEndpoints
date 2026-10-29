@@ -69,7 +69,6 @@
     "Intune": [
       "https://*.dm.microsoft.com",
       "https://*.manage.microsoft.com",
-      "https://c.manage.microsoft.com",
       "https://certauth.enterpriseregistration.windows.net",
       "https://device.login.microsoftonline.com",
       "https://endpoint.microsoft.com",
@@ -119,8 +118,7 @@
       "https://sws.update.microsoft.com",
       "https://update.microsoft.com",
       "https://windowsupdate.microsoft.com",
-      "https://www.update.microsoft.com",
-      "https://www.windowsupdate.com"
+      "https://www.update.microsoft.com"
     ]
   }
 }

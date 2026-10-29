@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T09:47:24.681Z",
+  "generatedAt": "2026-10-29T09:50:55.510Z",
   "whitelistMode": "strict",
   "sourceHealth": [
     {
@@ -9,11 +9,11 @@
       "sourceUrl": "https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings",
       "sourceStatus": "fallback",
       "sourceUpdatedAt": null,
-      "baselineCount": 13,
+      "baselineCount": 12,
       "liveCount": 0,
       "unknownLiveHostsCount": 0,
       "unknownLiveHostsSample": [],
-      "mergedCount": 13,
+      "mergedCount": 12,
       "qualityScore": 15,
       "error": null,
       "whitelistApplied": true
@@ -39,13 +39,13 @@
       "sourceUrl": "https://learn.microsoft.com/en-us/intune/fundamentals/endpoints?tabs=north-america#endpoints",
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
-      "baselineCount": 16,
+      "baselineCount": 15,
       "liveCount": 22,
       "unknownLiveHostsCount": 1,
       "unknownLiveHostsSample": [
         "swdc02-mscdn.manage.microsoft"
       ],
-      "mergedCount": 35,
+      "mergedCount": 34,
       "qualityScore": 87,
       "error": null,
       "whitelistApplied": true

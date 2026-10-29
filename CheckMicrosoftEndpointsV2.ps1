@@ -294,7 +294,6 @@ $backendUrls = @{
         'https://update.microsoft.com',
         'https://windowsupdate.microsoft.com',
         'https://www.update.microsoft.com',
-        'https://www.windowsupdate.com',
         'https://*.delivery.mp.microsoft.com',
         'https://*.dl.delivery.mp.microsoft.com',
         'https://*.update.microsoft.com',
@@ -338,7 +337,6 @@ $backendUrls = @{
         'https://r.manage.microsoft.com',
         'https://i.manage.microsoft.com',
         'https://p.manage.microsoft.com',
-        'https://c.manage.microsoft.com',
         'https://m.manage.microsoft.com'
     ) | Sort-Object -Unique
     

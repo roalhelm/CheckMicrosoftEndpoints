@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T09:47:24.681Z",
+  "generatedAt": "2026-10-29T09:50:55.510Z",
   "whitelistMode": "strict",
   "totalServices": 10,
-  "totalEndpoints": 299,
+  "totalEndpoints": 297,
   "untestableEndpoints": 47,
   "services": [
     {
@@ -129,16 +129,6 @@
           "host": "www.update.microsoft.com",
           "testHost": "www.update.microsoft.com",
           "url": "https://www.update.microsoft.com",
-          "purposeShort": "Windows Update- und Content-Delivery-Endpunkte",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
-          "host": "www.windowsupdate.com",
-          "testHost": "www.windowsupdate.com",
-          "url": "https://www.windowsupdate.com",
           "purposeShort": "Windows Update- und Content-Delivery-Endpunkte",
           "ports": [
             443
@@ -365,16 +355,6 @@
           "testHost": "account.live.com",
           "url": "https://account.live.com",
           "purposeShort": "Intune: Endpoint für Dienstkommunikation",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
-          "host": "c.manage.microsoft.com",
-          "testHost": "c.manage.microsoft.com",
-          "url": "https://c.manage.microsoft.com",
-          "purposeShort": "Intune Geräteverwaltung und MDM-Kommunikation",
           "ports": [
             443
           ],
