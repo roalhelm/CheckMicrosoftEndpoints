@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T09:50:55.510Z",
+  "generatedAt": "2026-10-29T09:51:24.625Z",
   "whitelistMode": "strict",
   "totalServices": 10,
   "totalEndpoints": 297,
-  "untestableEndpoints": 47,
+  "untestableEndpoints": 26,
   "services": [
     {
       "id": "windows-update",
@@ -312,8 +312,8 @@
         },
         {
           "host": "*.dm.microsoft.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "api.dm.microsoft.com",
+          "url": "https://api.dm.microsoft.com",
           "purposeShort": "Intune Geräteverwaltung und MDM-Kommunikation",
           "ports": [
             443
@@ -865,8 +865,8 @@
       "endpoints": [
         {
           "host": "*.aadrm.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "api.aadrm.com",
+          "url": "https://api.aadrm.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -916,8 +916,8 @@
         },
         {
           "host": "*.azurerms.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "portal.azurerms.com",
+          "url": "https://portal.azurerms.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -936,8 +936,8 @@
         },
         {
           "host": "*.cortana.ai",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.cortana.ai",
+          "url": "https://www.cortana.ai",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -946,8 +946,8 @@
         },
         {
           "host": "*.entrust.net",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.entrust.net",
+          "url": "https://www.entrust.net",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             80,
@@ -967,8 +967,8 @@
         },
         {
           "host": "*.flow.microsoft.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "api.flow.microsoft.com",
+          "url": "https://api.flow.microsoft.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -977,8 +977,8 @@
         },
         {
           "host": "*.geotrust.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.geotrust.com",
+          "url": "https://www.geotrust.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             80,
@@ -988,8 +988,8 @@
         },
         {
           "host": "*.hip.live.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.hip.live.com",
+          "url": "https://www.hip.live.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             80,
@@ -999,8 +999,8 @@
         },
         {
           "host": "*.informationprotection.azure.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "api.informationprotection.azure.com",
+          "url": "https://api.informationprotection.azure.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -1030,8 +1030,8 @@
         },
         {
           "host": "*.microsoftonline-p.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "login.microsoftonline-p.com",
+          "url": "https://login.microsoftonline-p.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             80,
@@ -1118,8 +1118,8 @@
         },
         {
           "host": "*.msidentity.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "login.msidentity.com",
+          "url": "https://login.msidentity.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
             80,
@@ -1204,8 +1204,8 @@
         },
         {
           "host": "*.onenote.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.onenote.com",
+          "url": "https://www.onenote.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -1236,8 +1236,8 @@
         },
         {
           "host": "*.phonefactor.net",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.phonefactor.net",
+          "url": "https://www.phonefactor.net",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             80,
@@ -1247,8 +1247,8 @@
         },
         {
           "host": "*.portal.cloudappsecurity.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.portal.cloudappsecurity.com",
+          "url": "https://www.portal.cloudappsecurity.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -1257,8 +1257,8 @@
         },
         {
           "host": "*.powerapps.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.powerapps.com",
+          "url": "https://www.powerapps.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -1267,8 +1267,8 @@
         },
         {
           "host": "*.powerautomate.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.powerautomate.com",
+          "url": "https://www.powerautomate.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
@@ -1329,8 +1329,8 @@
         },
         {
           "host": "*.sharepointonline.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "cdn.sharepointonline.com",
+          "url": "https://cdn.sharepointonline.com",
           "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
           "ports": [
             80,
@@ -1371,8 +1371,8 @@
         },
         {
           "host": "*.svc.ms",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.svc.ms",
+          "url": "https://www.svc.ms",
           "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
           "ports": [
             80,
@@ -1404,8 +1404,8 @@
         },
         {
           "host": "*.teams.cloud.microsoft",
-          "testHost": null,
-          "url": null,
+          "testHost": "admin.teams.cloud.microsoft",
+          "url": "https://admin.teams.cloud.microsoft",
           "purposeShort": "Microsoft Teams (Kategorie: Allow)",
           "ports": [
             80,
@@ -1436,8 +1436,8 @@
         },
         {
           "host": "*.verisign.com",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.verisign.com",
+          "url": "https://www.verisign.com",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             80,
@@ -1447,8 +1447,8 @@
         },
         {
           "host": "*.verisign.net",
-          "testHost": null,
-          "url": null,
+          "testHost": "www.verisign.net",
+          "url": "https://www.verisign.net",
           "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             80,
