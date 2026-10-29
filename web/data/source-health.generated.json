@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T15:24:58.631Z",
+  "generatedAt": "2026-10-29T09:45:57.587Z",
   "whitelistMode": "strict",
   "sourceHealth": [
     {
@@ -9,11 +9,11 @@
       "sourceUrl": "https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings",
       "sourceStatus": "fallback",
       "sourceUpdatedAt": null,
-      "baselineCount": 16,
+      "baselineCount": 13,
       "liveCount": 0,
       "unknownLiveHostsCount": 0,
       "unknownLiveHostsSample": [],
-      "mergedCount": 16,
+      "mergedCount": 13,
       "qualityScore": 15,
       "error": null,
       "whitelistApplied": true

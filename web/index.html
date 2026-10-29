@@ -49,6 +49,7 @@
               <option value="timeout">Timeout</option>
               <option value="unreachable">Nicht erreichbar</option>
               <option value="untested">Ungetestet</option>
+              <option value="untestable">Nicht direkt testbar</option>
             </select>
           </label>
           <label>
@@ -106,6 +107,7 @@
               <li>Browser-Checks ersetzen keine TCP/ICMP-Tests.</li>
               <li>HTTP-Status ist egal, Antwort innerhalb Timeout zählt als erreichbar.</li>
               <li>Bei CORS-Problemen wird ein no-cors-Fallback versucht.</li>
+              <li>Wildcards (*.domain) werden über einen bekannten Subdomain-Host getestet, sonst als „nicht direkt testbar“ markiert.</li>
             </ul>
           </article>
         </div>

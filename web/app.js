@@ -66,19 +66,23 @@ async function fetchJson(url) {
 
 function buildEndpointRowsFromServices(services) {
   return services.flatMap((service) =>
-    service.endpoints.map((endpoint) => ({
-      id: `${service.id}::${endpoint.host}`,
-      serviceId: service.id,
-      serviceName: service.name,
-      region: service.region ?? "global",
-      host: endpoint.host,
-      url: endpoint.url ?? `https://${endpoint.host.replace(/^\*\./, "www.")}`,
-      purposeShort: endpoint.purposeShort ?? "",
-      source: endpoint.source ?? service.sourceUrl ?? "generated",
-      status: "untested",
-      durationMs: null,
-      details: "Noch nicht getestet",
-    })),
+    service.endpoints.map((endpoint) => {
+      const testable = Boolean(endpoint.url);
+      return {
+        id: `${service.id}::${endpoint.host}`,
+        serviceId: service.id,
+        serviceName: service.name,
+        region: service.region ?? "global",
+        host: endpoint.host,
+        testHost: endpoint.testHost ?? null,
+        url: endpoint.url ?? null,
+        purposeShort: endpoint.purposeShort ?? "",
+        source: endpoint.source ?? service.sourceUrl ?? "generated",
+        status: testable ? "untested" : "untestable",
+        durationMs: null,
+        details: testable ? "Noch nicht getestet" : "Wildcard ohne bekannten Testhost",
+      };
+    }),
   );
 }
 
@@ -115,7 +119,7 @@ function applyFilters(rows) {
     if (state.filters.service !== "all" && row.serviceId !== state.filters.service) return false;
     if (state.filters.region !== "all" && row.region !== state.filters.region) return false;
     if (state.filters.status !== "all" && row.status !== state.filters.status) return false;
-    if (state.filters.complianceMode && (row.status === "reachable" || row.status === "untested")) return false;
+    if (state.filters.complianceMode && ["reachable", "untested", "untestable"].includes(row.status)) return false;
     if (search && !`${row.host} ${row.serviceName} ${row.purposeShort}`.toLowerCase().includes(search)) return false;
     return true;
   });
@@ -124,7 +128,7 @@ function applyFilters(rows) {
 function sortRows(rows) {
   const clone = [...rows];
   const sortBy = state.filters.sortBy;
-  const statusRank = { unreachable: 0, timeout: 1, untested: 2, reachable: 3 };
+  const statusRank = { unreachable: 0, timeout: 1, untested: 2, untestable: 3, reachable: 4 };
   clone.sort((a, b) => {
     if (sortBy === "host") return a.host.localeCompare(b.host);
     if (sortBy === "status") return (statusRank[a.status] ?? 9) - (statusRank[b.status] ?? 9) || a.host.localeCompare(b.host);
@@ -138,6 +142,7 @@ function statusLabel(status) {
   if (status === "reachable") return "Erreichbar";
   if (status === "timeout") return "Timeout";
   if (status === "unreachable") return "Nicht erreichbar";
+  if (status === "untestable") return "Nicht direkt testbar";
   return "Ungetestet";
 }
 
@@ -271,7 +276,9 @@ function renderGroupedByService() {
                 .map(
                   (row) => `
                 <tr>
-                  <td>${row.host}</td>
+                  <td>${row.host}${
+                    row.testHost && row.testHost !== row.host ? `<br /><span class="small-text">getestet via ${row.testHost}</span>` : ""
+                  }</td>
                   <td><button class="info-btn" data-row-id="${row.id}" aria-label="Info für ${row.host}">i</button></td>
                   <td><span class="status-badge ${row.status}">${statusLabel(row.status)}</span></td>
                   <td>${row.durationMs ?? "-"}</td>
@@ -294,7 +301,8 @@ function renderGroupedByService() {
       if (!row) return;
       elements.infoDialogTitle.textContent = `${row.host}`;
       elements.infoDialogPurpose.textContent = row.purposeShort;
-      elements.infoDialogSource.textContent = `Service: ${row.serviceName} • Quelle: ${row.source}`;
+      const testInfo = row.url ? `Test-URL: ${row.url}` : "Nicht direkt testbar (Wildcard ohne bekannten Testhost)";
+      elements.infoDialogSource.textContent = `Service: ${row.serviceName} • Quelle: ${row.source} • ${testInfo}`;
       elements.infoDialog.showModal();
     });
   });
@@ -392,7 +400,8 @@ async function runEndpointCheck(endpoint) {
 
 async function runChecks() {
   elements.runCheckBtn.disabled = true;
-  const queue = [...state.endpointRows];
+  const queue = state.endpointRows.filter((row) => row.url);
+  const totalTestable = queue.length;
   let done = 0;
   const workers = Array.from({ length: CHECK_CONCURRENCY }, async () => {
     while (queue.length > 0) {
@@ -403,7 +412,7 @@ async function runChecks() {
       next.durationMs = result.durationMs;
       next.details = result.details;
       done += 1;
-      const percent = Math.round((done / state.endpointRows.length) * 100);
+      const percent = Math.round((done / totalTestable) * 100);
       elements.overallProgress.value = percent;
       elements.overallProgressLabel.textContent = `${percent}%`;
       renderServiceProgress();
@@ -437,7 +446,7 @@ function exportJson() {
 
 function exportCsv() {
   const rows = sortRows(applyFilters(state.endpointRows));
-  const headers = ["service", "region", "host", "url", "status", "durationMs", "purposeShort", "source", "details"];
+  const headers = ["service", "region", "host", "testHost", "url", "status", "durationMs", "purposeShort", "source", "details"];
   const lines = [
     headers.join(","),
     ...rows.map((row) =>

@@ -267,6 +267,12 @@ tr:hover td {
   color: #dbe3f4;
 }
 
+.status-badge.untestable {
+  background: transparent;
+  border: 1px dashed rgba(174, 184, 204, 0.5);
+  color: #aeb8cc;
+}
+
 .info-btn {
   width: 1.7rem;
   height: 1.7rem;

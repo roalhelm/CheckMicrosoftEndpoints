@@ -119,11 +119,8 @@
       "https://sws.update.microsoft.com",
       "https://update.microsoft.com",
       "https://windowsupdate.microsoft.com",
-      "https://www.delivery.mp.microsoft.com",
-      "https://www.dl.delivery.mp.microsoft.com",
       "https://www.update.microsoft.com",
-      "https://www.windowsupdate.com",
-      "https://www.windowsupdate.microsoft.com"
+      "https://www.windowsupdate.com"
     ]
   }
 }

@@ -425,6 +425,23 @@ function parseBackendUrlsFromPs(psContent) {
   return services;
 }
 
+function parseWildcardTestHostsFromPs(psContent) {
+  const blockStart = psContent.indexOf("$wildcardTestHosts = @{");
+  if (blockStart === -1) return {};
+  const block = psContent.slice(blockStart, psContent.indexOf("\n}", blockStart));
+  const testHosts = {};
+  for (const [, wildcard, testHost] of block.matchAll(/'([^']+)'\s*=\s*'([^']+)'/g)) {
+    testHosts[normalizeHost(wildcard)] = normalizeHost(testHost);
+  }
+  return testHosts;
+}
+
+// Wildcards cannot be requested directly; they are tested via a known subdomain or marked untestable.
+function resolveTestHost(host, wildcardTestHosts) {
+  if (!host.includes("*")) return host;
+  return wildcardTestHosts[host] ?? null;
+}
+
 async function fetchSourceText(url, timeoutMs = 12000) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -462,6 +479,7 @@ async function ensureDir(dirPath) {
 async function main() {
   const psContent = await fs.readFile(psScriptPath, "utf-8");
   const baselineByService = parseBackendUrlsFromPs(psContent);
+  const wildcardTestHosts = parseWildcardTestHostsFromPs(psContent);
 
   const services = [];
   const sourceHealth = [];
@@ -497,13 +515,17 @@ async function main() {
     }
 
     const mergedHosts = mergeBaselineAndLiveHosts(baselineHosts, liveHosts);
-    const endpoints = mergedHosts.map((host) => ({
-      host,
-      url: `https://${host.replace(/^\*\./, "www.")}`,
-      purposeShort: inferPurpose(host, serviceName),
-      ports: [443],
-      source: config.sourceUrl ? "microsoft-official+baseline" : "baseline",
-    }));
+    const endpoints = mergedHosts.map((host) => {
+      const testHost = resolveTestHost(host, wildcardTestHosts);
+      return {
+        host,
+        testHost,
+        url: testHost ? `https://${testHost}` : null,
+        purposeShort: inferPurpose(host, serviceName),
+        ports: [443],
+        source: config.sourceUrl ? "microsoft-official+baseline" : "baseline",
+      };
+    });
 
     const baselineCount = baselineHosts.length;
     const liveCount = liveHosts.length;
@@ -555,6 +577,10 @@ async function main() {
     whitelistMode,
     totalServices: services.length,
     totalEndpoints: services.reduce((sum, service) => sum + service.endpoints.length, 0),
+    untestableEndpoints: services.reduce(
+      (sum, service) => sum + service.endpoints.filter((endpoint) => !endpoint.url).length,
+      0,
+    ),
     services,
   };
 
@@ -569,6 +595,7 @@ async function main() {
   const withLiveSources = sourceHealth.filter((entry) => entry.sourceStatus.startsWith("live")).length;
   console.log(`Whitelist mode: ${whitelistMode}`);
   console.log(`Generated ${payload.totalEndpoints} endpoints across ${payload.totalServices} services.`);
+  console.log(`${payload.untestableEndpoints} wildcard endpoints have no known test host.`);
   console.log(`Live source merge successful for ${withLiveSources}/${sourceHealth.length} services.`);
 }
 

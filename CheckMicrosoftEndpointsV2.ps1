@@ -293,11 +293,8 @@ $backendUrls = @{
         'https://sws.update.microsoft.com',
         'https://update.microsoft.com',
         'https://windowsupdate.microsoft.com',
-        'https://www.delivery.mp.microsoft.com',
-        'https://www.dl.delivery.mp.microsoft.com',
         'https://www.update.microsoft.com',
         'https://www.windowsupdate.com',
-        'https://www.windowsupdate.microsoft.com',
         'https://*.delivery.mp.microsoft.com',
         'https://*.dl.delivery.mp.microsoft.com',
         'https://*.update.microsoft.com',
@@ -428,6 +425,39 @@ $backendUrls = @{
         'https://weus2watcab01.blob.core.windows.net',
         'https://weus2watcab02.blob.core.windows.net'
     ) | Sort-Object -Unique
+}
+
+# Wildcard entries cannot be resolved directly. Each wildcard is tested via a known, resolvable
+# subdomain. Wildcards without an entry here are reported as SKIPPED instead of FAILED.
+# Also used by tools/generate-endpoints-data.mjs for the web app.
+$wildcardTestHosts = @{
+    '*.delivery.mp.microsoft.com'     = 'fe3cr.delivery.mp.microsoft.com'
+    '*.dl.delivery.mp.microsoft.com'  = 'tlu.dl.delivery.mp.microsoft.com'
+    '*.update.microsoft.com'          = 'sls.update.microsoft.com'
+    '*.windowsupdate.com'             = 'ctldl.windowsupdate.com'
+    '*.webpubsub.azure.com'           = 'www.webpubsub.azure.com'
+    '*.manage.microsoft.com'          = 'enrollment.manage.microsoft.com'
+    '*.do.dsp.mp.microsoft.com'       = 'geo.prod.do.dsp.mp.microsoft.com'
+    '*.protection.outlook.com'        = 'nam12.safelinks.protection.outlook.com'
+    '*.security.microsoft.com'        = 'mdav.us.endpoint.security.microsoft.com'
+    '*.cloud.microsoft'               = 'm365.cloud.microsoft'
+    '*.office.com'                    = 'www.office.com'
+    '*.office.net'                    = 'res.cdn.office.net'
+    '*.office365.com'                 = 'outlook.office365.com'
+    '*.outlook.com'                   = 'www.outlook.com'
+    '*.sharepoint.com'                = 'www.sharepoint.com'
+    '*.onedrive.com'                  = 'www.onedrive.com'
+    '*.officeapps.live.com'           = 'nexusrules.officeapps.live.com'
+    '*.teams.microsoft.com'           = 'statics.teams.microsoft.com'
+    '*.skype.com'                     = 'config.edge.skype.com'
+    '*.microsoftonline.com'           = 'login.microsoftonline.com'
+    '*.msauth.net'                    = 'aadcdn.msauth.net'
+    '*.msftauth.net'                  = 'aadcdn.msftauth.net'
+    '*.wns.windows.com'               = 'client.wns.windows.com'
+    '*.aria.microsoft.com'            = 'browser.pipe.aria.microsoft.com'
+    '*.events.data.microsoft.com'     = 'v10.events.data.microsoft.com'
+    '*.smartscreen.microsoft.com'     = 'nav.smartscreen.microsoft.com'
+    '*.smartscreen-prod.microsoft.com' = 'unitedstates.smartscreen-prod.microsoft.com'
 }
 
 # Service impact descriptions for failed connectivity
@@ -673,7 +703,7 @@ function New-HtmlReport {
     $testDuration = (Get-Date) - $script:startTime
     
     # Calculate statistics
-    $totalEndpoints = $Results.Count
+    $totalEndpoints = ($Results | Where-Object { $_.Status -ne 'SKIPPED' }).Count
     $successfulEndpoints = ($Results | Where-Object { $_.Status -eq 'OK' }).Count
     $failedEndpoints = $totalEndpoints - $successfulEndpoints
     $successRate = if ($totalEndpoints -gt 0) { [math]::Round(($successfulEndpoints / $totalEndpoints) * 100, 1) } else { 0 }
@@ -841,7 +871,15 @@ function New-HtmlReport {
             font-size: 0.8em; 
             font-weight: bold;
         }
-        
+        .status-skipped {
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
         .ping-excellent { color: #28a745; font-weight: bold; }
         .ping-good { color: #ffc107; font-weight: bold; }
         .ping-poor { color: #dc3545; font-weight: bold; }
@@ -1021,7 +1059,7 @@ function New-HtmlReport {
 "@
 
         foreach ($result in $serviceResults) {
-            $statusClass = if ($result.Status -eq 'OK') { 'status-ok' } else { 'status-failed' }
+            $statusClass = switch ($result.Status) { 'OK' { 'status-ok' } 'SKIPPED' { 'status-skipped' } default { 'status-failed' } }
             
             $pingClass = ""
             $pingValue = "-"
@@ -1239,17 +1277,19 @@ if (-not $Quiet) {
 # Flatten selected URLs for testing
 $urls = $selectedBackendUrls.Values | ForEach-Object { $_ } 
 
-# Remove wildcards for direct test (cannot resolve * in Test-NetConnection)
+# Keep the listed URL for service grouping and resolve wildcards to a concrete test host
 $seenTestUrls = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
 $testUrls = foreach ($url in $urls) {
-    if ($url -match '\*') {
-        $normalizedUrl = ($url -replace '^https://\*\.', 'https://www.' -replace '\*', 'prod')
-    } else {
-        $normalizedUrl = $url
+    if (-not $seenTestUrls.Add($url)) {
+        continue
     }
 
-    if ($seenTestUrls.Add($normalizedUrl)) {
-        $normalizedUrl
+    $listedHost = ($url -replace 'https://', '').Split('/')[0]
+    $testHost = if ($listedHost -notmatch '\*') { $listedHost } else { $wildcardTestHosts[$listedHost] }
+
+    [PSCustomObject]@{
+        URL = $url
+        TestHost = $testHost
     }
 }
 
@@ -1274,10 +1314,26 @@ if (-not $Quiet) {
 $totalUrls = $testUrls.Count
 $currentUrl = 0
 
-foreach ($url in $testUrls) {
+foreach ($testUrl in $testUrls) {
     $currentUrl++
-    $testHost = ($url -replace 'https://', '').Split('/')[0]
-    
+    $url = $testUrl.URL
+    $testHost = $testUrl.TestHost
+
+    if (-not $testHost) {
+        if (-not $Quiet) {
+            Write-Host "  ⏭️  $url - Wildcard without known test host, skipped" -ForegroundColor DarkYellow
+        }
+        $results += [PSCustomObject]@{
+            URL = $url
+            Host = $null
+            Status = 'SKIPPED'
+            IPAddress = $null
+            PingLatency_ms = $null
+            DownloadSpeed_Kbps = $null
+        }
+        continue
+    }
+
     # Progress indicator
     Write-Progress -Activity "Testing Microsoft Endpoints" -Status "Testing $testHost ($currentUrl of $totalUrls)" -PercentComplete (($currentUrl / $totalUrls) * 100)
     
@@ -1308,7 +1364,7 @@ foreach ($url in $testUrls) {
             if (-not $Quiet) {
                 Write-Host "  📊 $testHost - Testing Speed..." -ForegroundColor Magenta
             }
-            $downloadSpeed = Test-DownloadSpeed -Url $url
+            $downloadSpeed = Test-DownloadSpeed -Url "https://$testHost"
         }
     } else {
         if (-not $Quiet) {
@@ -1526,8 +1582,8 @@ if ($HtmlReport) {
 # Final summary with service impact overview
 if ($results.Status -contains 'FAILED') {
     $totalFailed = ($results | Where-Object { $_.Status -eq 'FAILED' }).Count
-    $totalTested = $results.Count
-    
+    $totalTested = ($results | Where-Object { $_.Status -ne 'SKIPPED' }).Count
+
     if (-not $Quiet) {
         Write-Host "`n🚨 WARNING: $totalFailed of $totalTested Microsoft endpoints are NOT reachable!" -ForegroundColor Red
         Write-Host "="*80 -ForegroundColor Red
@@ -1547,7 +1603,11 @@ if ($results.Status -contains 'FAILED') {
     exit 1
 } else {
     if (-not $Quiet) {
-        Write-Host "`n✅ SUCCESS: All $($results.Count) Microsoft endpoints are reachable!" -ForegroundColor Green
+        $totalSkipped = ($results | Where-Object { $_.Status -eq 'SKIPPED' }).Count
+        Write-Host "`n✅ SUCCESS: All $($results.Count - $totalSkipped) tested Microsoft endpoints are reachable!" -ForegroundColor Green
+        if ($totalSkipped -gt 0) {
+            Write-Host "⏭️  $totalSkipped wildcard endpoint(s) skipped (no known test host)." -ForegroundColor DarkYellow
+        }
         Write-Host "🎉 All Microsoft Cloud Services should function properly." -ForegroundColor Green
     }
     exit 0

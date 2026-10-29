@@ -170,6 +170,8 @@ flowchart TB
 
 `CheckMicrosoftEndpointsV2.ps1` is cross-platform for the connectivity tests. Windows-only services such as Windows Activation are skipped automatically on non-Windows systems.
 
+Wildcard endpoints (for example `*.manage.microsoft.com`) cannot be resolved directly. They are tested through a known subdomain defined in `$wildcardTestHosts` in `CheckMicrosoftEndpointsV2.ps1`. Wildcards without a known test host are reported as `SKIPPED` (web app: "Nicht direkt testbar") instead of failing.
+
 ## Quick Start
 
 ```powershell
