@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T09:51:24.625Z",
+  "generatedAt": "2026-10-29T09:52:44.786Z",
   "whitelistMode": "strict",
   "totalServices": 10,
-  "totalEndpoints": 297,
+  "totalEndpoints": 295,
   "untestableEndpoints": 26,
   "services": [
     {
@@ -836,16 +836,6 @@
           "host": "pas.windows.net",
           "testHost": "pas.windows.net",
           "url": "https://pas.windows.net",
-          "purposeShort": "Azure Active Directory: Endpoint für Dienstkommunikation",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
-          "host": "policykeyservice.dc.ad.msft.net",
-          "testHost": "policykeyservice.dc.ad.msft.net",
-          "url": "https://policykeyservice.dc.ad.msft.net",
           "purposeShort": "Azure Active Directory: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -2743,16 +2733,6 @@
           "host": "config.edge.skype.com",
           "testHost": "config.edge.skype.com",
           "url": "https://config.edge.skype.com",
-          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
-          "host": "dual-s-01.dual.dualstack.edge-enterprise.activity.windows.com",
-          "testHost": "dual-s-01.dual.dualstack.edge-enterprise.activity.windows.com",
-          "url": "https://dual-s-01.dual.dualstack.edge-enterprise.activity.windows.com",
           "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
           "ports": [
             443

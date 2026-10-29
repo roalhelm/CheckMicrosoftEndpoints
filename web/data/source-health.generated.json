@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T09:51:24.625Z",
+  "generatedAt": "2026-10-29T09:52:44.786Z",
   "whitelistMode": "strict",
   "sourceHealth": [
     {
@@ -71,14 +71,14 @@
       "sourceUrl": "https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports",
       "sourceStatus": "fallback",
       "sourceUpdatedAt": null,
-      "baselineCount": 8,
+      "baselineCount": 7,
       "liveCount": 0,
       "unknownLiveHostsCount": 2,
       "unknownLiveHostsSample": [
         "feedback.azure.com",
         "support.office.com"
       ],
-      "mergedCount": 8,
+      "mergedCount": 7,
       "qualityScore": 9,
       "error": null,
       "whitelistApplied": true
@@ -134,7 +134,7 @@
       "sourceUrl": "https://learn.microsoft.com/en-us/deployedge/microsoft-edge-security-endpoints",
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
-      "baselineCount": 6,
+      "baselineCount": 5,
       "liveCount": 23,
       "unknownLiveHostsCount": 18,
       "unknownLiveHostsSample": [
@@ -147,7 +147,7 @@
         "graph.microsoft.com",
         "substrate.office.com"
       ],
-      "mergedCount": 26,
+      "mergedCount": 25,
       "qualityScore": 65,
       "error": null,
       "whitelistApplied": true

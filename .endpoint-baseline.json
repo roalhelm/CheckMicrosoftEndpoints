@@ -60,7 +60,6 @@
     ],
     "Microsoft Edge": [
       "https://config.edge.skype.com",
-      "https://dual-s-01.dual.dualstack.edge-enterprise.activity.windows.com",
       "https://edge.microsoft.com",
       "https://msedge.api.cdp.microsoft.com",
       "https://nav.smartscreen.microsoft.com",
@@ -90,8 +89,7 @@
       "https://enterpriseregistration.windows.net",
       "https://login.microsoftonline.com",
       "https://management.azure.com",
-      "https://pas.windows.net",
-      "https://policykeyservice.dc.ad.msft.net"
+      "https://pas.windows.net"
     ],
     "Microsoft Defender": [
       "https://*.defender.microsoft.com",

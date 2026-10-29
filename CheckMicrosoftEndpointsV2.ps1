@@ -360,7 +360,6 @@ $backendUrls = @{
         'https://enterpriseregistration.windows.net',
         'https://pas.windows.net',
         'https://management.azure.com',
-        'https://policykeyservice.dc.ad.msft.net',
         'https://aadcdn.msauth.net',
         'https://aadcdn.msftauth.net'
     ) | Sort-Object -Unique
@@ -406,7 +405,6 @@ $backendUrls = @{
         'https://config.edge.skype.com',
         'https://edge.microsoft.com',
         'https://msedge.api.cdp.microsoft.com',
-        'https://dual-s-01.dual.dualstack.edge-enterprise.activity.windows.com',
         'https://nav.smartscreen.microsoft.com',
         'https://unitedstates.smartscreen-prod.microsoft.com'
     ) | Sort-Object -Unique
