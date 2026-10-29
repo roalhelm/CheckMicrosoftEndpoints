@@ -10,7 +10,7 @@ PowerShell scripts to validate connectivity to Microsoft service endpoints used 
 
 This repository is designed for real-world IT and endpoint troubleshooting: firewall validation, proxy check, network diagnostics, and endpoint accessibility testing from Windows clients, servers, and PowerShell 7 environments on macOS and Linux.
 
-## New: Browser Web App (Hybrid Endpoint Source)
+## New: Browser Web App
 
 This repository now also includes a frontend-only web app that checks Microsoft endpoint reachability directly from the client browser:
 
@@ -31,14 +31,14 @@ Notes:
 
 ### Automatic Endpoint Updates
 
-To reduce manual endpoint maintenance, the web app uses a hybrid source model:
+To reduce manual endpoint maintenance, the web app loads generated JSON files that combine the baseline from `CheckMicrosoftEndpointsV2.ps1` with endpoints parsed from official Microsoft sources:
 
-1. **Live source refresh** from official Microsoft documentation pages (best effort)
-2. **Fallback** to generated local JSON files:
-   - [endpoints.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/endpoints.generated.json)
-   - [source-health.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/source-health.generated.json)
+- [endpoints.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/endpoints.generated.json)
+- [source-health.generated.json](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/data/source-health.generated.json)
 
-A scheduled GitHub Action refreshes fallback data daily:
+The browser does not fetch Microsoft documentation pages itself, because learn.microsoft.com does not allow cross-origin requests (no CORS headers).
+
+A scheduled GitHub Action refreshes the data daily:
 - Workflow: [update-endpoints.yml](/Users/ronny/DEV/CheckMicrosoftEndpoints/.github/workflows/update-endpoints.yml)
 - Generator script: [generate-endpoints-data.mjs](/Users/ronny/DEV/CheckMicrosoftEndpoints/tools/generate-endpoints-data.mjs)
 
@@ -147,7 +147,7 @@ flowchart TB
   User interface with filters, per-endpoint info popup, source diagnostics, export, and compliance view toggle.
 
 - [web/app.js](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/app.js)  
-  Runtime data loading (live + fallback), endpoint tests, progress tracking, summary, CSV/JSON export, and share-link support.
+  Loading of generated endpoint data, endpoint tests, progress tracking, summary, CSV/JSON export, and share-link support.
 
 - [web/styles.css](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/styles.css)  
   Styling for tables, status badges, source panels, progress, and dialogs.
@@ -219,9 +219,6 @@ Regenerate fallback endpoint data manually:
 node .\tools\generate-endpoints-data.mjs
 ```
 
-Optional runtime override in the browser app:
-- append `?whitelistMode=relaxed` to [web/index.html](/Users/ronny/DEV/CheckMicrosoftEndpoints/web/index.html) URL.
-
 ## Supported Service Categories
 
 - Windows Update for Business
@@ -266,8 +263,7 @@ On macOS and Linux, the report is opened with the system browser command used by
 
 - Browser checks are **not** a 1:1 replacement for TCP-level tests (`Test-NetConnection`) or ICMP latency tests.
 - Some endpoints may require no-cors fallback behavior in browsers.
-- Live source parsing depends on upstream Microsoft documentation structure and CORS availability.
-- If live parsing fails, the app automatically falls back to generated local data.
+- Source parsing in the generator depends on the upstream Microsoft documentation structure. If parsing fails for a service, the baseline endpoints from `CheckMicrosoftEndpointsV2.ps1` are used.
 
 ## License
 
