@@ -43,12 +43,13 @@ A scheduled GitHub Action refreshes the data daily:
 - Generator script: [generate-endpoints-data.mjs](/Users/ronny/DEV/CheckMicrosoftEndpoints/tools/generate-endpoints-data.mjs)
 
 For shared source pages (for example Intune + Microsoft Store sections on the same Learn page), the generator applies section-scoped parsing (anchor/heading based) so each service receives only its relevant endpoint subset.
-In addition, per-service hostname whitelists are applied. Unknown live hosts are flagged in source diagnostics, reducing accidental endpoint drift from documentation layout changes.
+Microsoft 365 endpoints come from the official [Microsoft 365 endpoint web service](https://learn.microsoft.com/microsoft-365/enterprise/microsoft-365-ip-web-service) (`endpoints.office.com`) instead of HTML parsing. Only required entries reachable via TCP 443 are included.
+In addition, per-service hostname whitelists are applied to the parsed documentation pages. Unknown live hosts are flagged in source diagnostics, reducing accidental endpoint drift from documentation layout changes.
 
 Whitelist modes:
 - `strict`: only service-whitelisted live hosts are accepted, unknown hosts are warned.
 - `relaxed`: accepts all service-filtered live hosts (fewer warnings, broader intake).
-- GitHub workflow default: `relaxed`.
+- GitHub workflow default: `strict`.
 
 Configure generator mode locally:
 ```powershell

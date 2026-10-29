@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T09:45:57.587Z",
+  "generatedAt": "2026-10-29T09:47:24.681Z",
   "whitelistMode": "strict",
   "totalServices": 10,
-  "totalEndpoints": 216,
-  "untestableEndpoints": 19,
+  "totalEndpoints": 299,
+  "untestableEndpoints": 47,
   "services": [
     {
       "id": "windows-update",
@@ -878,16 +878,36 @@
       "id": "microsoft-365",
       "name": "Microsoft 365",
       "region": "global",
-      "sourceUrl": "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges",
+      "sourceUrl": "https://endpoints.office.com/endpoints/worldwide?clientrequestid=b10c5ed1-bad1-445f-b386-b919946339a7",
       "sourceScope": null,
       "sourceStatus": "live+fallback-merged",
-      "sourceUpdatedAt": null,
+      "sourceUpdatedAt": "2026081400",
       "endpoints": [
+        {
+          "host": "*.aadrm.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.activity.windows.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
         {
           "host": "*.aria.microsoft.com",
           "testHost": "browser.pipe.aria.microsoft.com",
           "url": "https://browser.pipe.aria.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -897,7 +917,28 @@
           "host": "*.auth.microsoft.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.azure-apim.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.azurerms.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -907,8 +948,29 @@
           "host": "*.cloud.microsoft",
           "testHost": "m365.cloud.microsoft",
           "url": "https://m365.cloud.microsoft",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.cortana.ai",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.entrust.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -917,7 +979,7 @@
           "host": "*.events.data.microsoft.com",
           "testHost": "v10.events.data.microsoft.com",
           "url": "https://v10.events.data.microsoft.com",
-          "purposeShort": "Windows Telemetrie- und Diagnosedatenübertragung",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -927,7 +989,39 @@
           "host": "*.flow.microsoft.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.geotrust.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.hip.live.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.informationprotection.azure.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -937,27 +1031,127 @@
           "host": "*.keydelivery.mediaservices.windows.net",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft Teams (Kategorie: Default)",
           "ports": [
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "*.microsoft.com",
+          "host": "*.lync.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft Teams (Kategorie: Allow)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "*.mx.microsoft",
+          "host": "*.microsoftonline-p.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.microsoftonline.com",
+          "testHost": "login.microsoftonline.com",
+          "url": "https://login.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msauth.net",
+          "testHost": "aadcdn.msauth.net",
+          "url": "https://aadcdn.msauth.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msauthimages.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msecnd.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msftauth.net",
+          "testHost": "aadcdn.msftauth.net",
+          "url": "https://aadcdn.msftauth.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msftauthimages.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msftidentity.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.msidentity.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.o365weve.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -967,8 +1161,9 @@
           "host": "*.office.com",
           "testHost": "www.office.com",
           "url": "https://www.office.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -977,8 +1172,9 @@
           "host": "*.office.net",
           "testHost": "res.cdn.office.net",
           "url": "https://res.cdn.office.net",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -987,8 +1183,9 @@
           "host": "*.office365.com",
           "testHost": "outlook.office365.com",
           "url": "https://outlook.office365.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -997,8 +1194,20 @@
           "host": "*.officeapps.live.com",
           "testHost": "nexusrules.officeapps.live.com",
           "url": "https://nexusrules.officeapps.live.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.omniroot.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1014,20 +1223,73 @@
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "*.online.office.com",
+          "host": "*.onenote.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "*.onmicrosoft.com",
+          "host": "*.online.office.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.outlook.com",
+          "testHost": "www.outlook.com",
+          "url": "https://www.outlook.com",
+          "purposeShort": "Exchange Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.phonefactor.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.portal.cloudappsecurity.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.powerapps.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.powerautomate.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1037,8 +1299,29 @@
           "host": "*.protection.office.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.protection.outlook.com",
+          "testHost": "nam12.safelinks.protection.outlook.com",
+          "url": "https://nam12.safelinks.protection.outlook.com",
+          "purposeShort": "Exchange Online (Kategorie: Allow)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.public-trust.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1047,7 +1330,7 @@
           "host": "*.security.microsoft.com",
           "testHost": "mdav.us.endpoint.security.microsoft.com",
           "url": "https://mdav.us.endpoint.security.microsoft.com",
-          "purposeShort": "Defender Security- und Signatur-Updates",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
             443
           ],
@@ -1057,8 +1340,9 @@
           "host": "*.sharepoint.com",
           "testHost": "www.sharepoint.com",
           "url": "https://www.sharepoint.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Optimize)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1067,8 +1351,20 @@
           "host": "*.sharepointonline.com",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.skype.com",
+          "testHost": "config.edge.skype.com",
+          "url": "https://config.edge.skype.com",
+          "purposeShort": "Microsoft Teams (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1077,7 +1373,7 @@
           "host": "*.static.microsoft",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1087,8 +1383,41 @@
           "host": "*.streaming.mediaservices.windows.net",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft Teams (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.svc.ms",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.symcb.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.symcd.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1097,8 +1426,9 @@
           "host": "*.teams.cloud.microsoft",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft Teams (Kategorie: Allow)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1107,8 +1437,9 @@
           "host": "*.teams.microsoft.com",
           "testHost": "statics.teams.microsoft.com",
           "url": "https://statics.teams.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft Teams (Kategorie: Allow)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1117,8 +1448,30 @@
           "host": "*.usercontent.microsoft",
           "testHost": null,
           "url": null,
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.verisign.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*.verisign.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1127,8 +1480,41 @@
           "host": "*.wns.windows.com",
           "testHost": "client.wns.windows.com",
           "url": "https://client.wns.windows.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "*cdn.onenote.net",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "account.activedirectory.windowsazure.com",
+          "testHost": "account.activedirectory.windowsazure.com",
+          "url": "https://account.activedirectory.windowsazure.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "accounts.accesscontrol.windows.net",
+          "testHost": "accounts.accesscontrol.windows.net",
+          "url": "https://accounts.accesscontrol.windows.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1137,17 +1523,17 @@
           "host": "activation.sls.microsoft.com",
           "testHost": "activation.sls.microsoft.com",
           "url": "https://activation.sls.microsoft.com",
-          "purposeShort": "Windows Aktivierung und Zertifikats-/Validierungsdienste",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "adl.windows.com",
-          "testHost": "adl.windows.com",
-          "url": "https://adl.windows.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "host": "activity.windows.com",
+          "testHost": "activity.windows.com",
+          "url": "https://activity.windows.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1157,8 +1543,9 @@
           "host": "admin.microsoft.com",
           "testHost": "admin.microsoft.com",
           "url": "https://admin.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1167,7 +1554,71 @@
           "host": "admin.onedrive.com",
           "testHost": "admin.onedrive.com",
           "url": "https://admin.onedrive.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "adminwebservice.microsoftonline.com",
+          "testHost": "adminwebservice.microsoftonline.com",
+          "url": "https://adminwebservice.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "ajax.aspnetcdn.com",
+          "testHost": "ajax.aspnetcdn.com",
+          "url": "https://ajax.aspnetcdn.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "aka.ms",
+          "testHost": "aka.ms",
+          "url": "https://aka.ms",
+          "purposeShort": "Microsoft Teams (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "amp.azure.net",
+          "testHost": "amp.azure.net",
+          "url": "https://amp.azure.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "api.passwordreset.microsoftonline.com",
+          "testHost": "api.passwordreset.microsoftonline.com",
+          "url": "https://api.passwordreset.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "apis.live.net",
+          "testHost": "apis.live.net",
+          "url": "https://apis.live.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1177,8 +1628,61 @@
           "host": "appsforoffice.microsoft.com",
           "testHost": "appsforoffice.microsoft.com",
           "url": "https://appsforoffice.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "assets.onestore.ms",
+          "testHost": "assets.onestore.ms",
+          "url": "https://assets.onestore.ms",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "auth.gfx.ms",
+          "testHost": "auth.gfx.ms",
+          "url": "https://auth.gfx.ms",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "autodiscover.*.onmicrosoft.com",
+          "testHost": null,
+          "url": null,
+          "purposeShort": "Exchange Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "autologon.microsoftazuread-sso.com",
+          "testHost": "autologon.microsoftazuread-sso.com",
+          "url": "https://autologon.microsoftazuread-sso.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "becws.microsoftonline.com",
+          "testHost": "becws.microsoftonline.com",
+          "url": "https://becws.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1187,8 +1691,30 @@
           "host": "c1.microsoft.com",
           "testHost": "c1.microsoft.com",
           "url": "https://c1.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "cacerts.digicert.com",
+          "testHost": "cacerts.digicert.com",
+          "url": "https://cacerts.digicert.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "ccs.login.microsoftonline.com",
+          "testHost": "ccs.login.microsoftonline.com",
+          "url": "https://ccs.login.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1197,8 +1723,9 @@
           "host": "cdn.odc.officeapps.live.com",
           "testHost": "cdn.odc.officeapps.live.com",
           "url": "https://cdn.odc.officeapps.live.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1207,8 +1734,42 @@
           "host": "cdn.uci.officeapps.live.com",
           "testHost": "cdn.uci.officeapps.live.com",
           "url": "https://cdn.uci.officeapps.live.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "cert.int-x3.letsencrypt.org",
+          "testHost": "cert.int-x3.letsencrypt.org",
+          "url": "https://cert.int-x3.letsencrypt.org",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "clientconfig.microsoftonline-p.net",
+          "testHost": "clientconfig.microsoftonline-p.net",
+          "url": "https://clientconfig.microsoftonline-p.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "companymanager.microsoftonline.com",
+          "testHost": "companymanager.microsoftonline.com",
+          "url": "https://companymanager.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1217,7 +1778,7 @@
           "host": "compliance.microsoft.com",
           "testHost": "compliance.microsoft.com",
           "url": "https://compliance.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
             443
           ],
@@ -1234,11 +1795,67 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "crl.globalsign.com",
+          "testHost": "crl.globalsign.com",
+          "url": "https://crl.globalsign.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "crl.globalsign.net",
+          "testHost": "crl.globalsign.net",
+          "url": "https://crl.globalsign.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "crl.identrust.com",
+          "testHost": "crl.identrust.com",
+          "url": "https://crl.identrust.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "crl.microsoft.com",
           "testHost": "crl.microsoft.com",
           "url": "https://crl.microsoft.com",
-          "purposeShort": "Windows Aktivierung und Zertifikats-/Validierungsdienste",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "crl3.digicert.com",
+          "testHost": "crl3.digicert.com",
+          "url": "https://crl3.digicert.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "crl4.digicert.com",
+          "testHost": "crl4.digicert.com",
+          "url": "https://crl4.digicert.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1247,7 +1864,28 @@
           "host": "defender.microsoft.com",
           "testHost": "defender.microsoft.com",
           "url": "https://defender.microsoft.com",
-          "purposeShort": "Defender Security- und Signatur-Updates",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "device.login.microsoftonline.com",
+          "testHost": "device.login.microsoftonline.com",
+          "url": "https://device.login.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "dgps.support.microsoft.com",
+          "testHost": "dgps.support.microsoft.com",
+          "url": "https://dgps.support.microsoft.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1257,18 +1895,29 @@
           "host": "docs.microsoft.com",
           "testHost": "docs.microsoft.com",
           "url": "https://docs.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "endpoints.office.com",
-          "testHost": "endpoints.office.com",
-          "url": "https://endpoints.office.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "host": "ecn.dev.virtualearth.net",
+          "testHost": "ecn.dev.virtualearth.net",
+          "url": "https://ecn.dev.virtualearth.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "enterpriseregistration.windows.net",
+          "testHost": "enterpriseregistration.windows.net",
+          "url": "https://enterpriseregistration.windows.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1277,8 +1926,20 @@
           "host": "g.live.com",
           "testHost": "g.live.com",
           "url": "https://g.live.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "go.microsoft.com",
+          "testHost": "go.microsoft.com",
+          "url": "https://go.microsoft.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1287,8 +1948,62 @@
           "host": "graph.microsoft.com",
           "testHost": "graph.microsoft.com",
           "url": "https://graph.microsoft.com",
-          "purposeShort": "Microsoft Graph API für Richtlinien, Geräte- und Benutzerdaten",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "graph.windows.net",
+          "testHost": "graph.windows.net",
+          "url": "https://graph.windows.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "informationprotection.hosting.portal.azure.net",
+          "testHost": "informationprotection.hosting.portal.azure.net",
+          "url": "https://informationprotection.hosting.portal.azure.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "isrg.trustid.ocsp.identrust.com",
+          "testHost": "isrg.trustid.ocsp.identrust.com",
+          "url": "https://isrg.trustid.ocsp.identrust.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "join.secure.skypeassets.com",
+          "testHost": "join.secure.skypeassets.com",
+          "url": "https://join.secure.skypeassets.com",
+          "purposeShort": "Microsoft Teams (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login-us.microsoftonline.com",
+          "testHost": "login-us.microsoftonline.com",
+          "url": "https://login-us.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1297,8 +2012,20 @@
           "host": "login.microsoft.com",
           "testHost": "login.microsoft.com",
           "url": "https://login.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.microsoftonline-p.com",
+          "testHost": "login.microsoftonline-p.com",
+          "url": "https://login.microsoftonline-p.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1307,7 +2034,51 @@
           "host": "login.microsoftonline.com",
           "testHost": "login.microsoftonline.com",
           "url": "https://login.microsoftonline.com",
-          "purposeShort": "Anmeldung, Entra ID Authentifizierung und Geräte-Registrierung",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "login.windows.net",
+          "testHost": "login.windows.net",
+          "url": "https://login.windows.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "logincert.microsoftonline.com",
+          "testHost": "logincert.microsoftonline.com",
+          "url": "https://logincert.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "loginex.microsoftonline.com",
+          "testHost": "loginex.microsoftonline.com",
+          "url": "https://loginex.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "mlccdnprod.azureedge.net",
+          "testHost": "mlccdnprod.azureedge.net",
+          "url": "https://mlccdnprod.azureedge.net",
+          "purposeShort": "Microsoft Teams (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1317,8 +2088,9 @@
           "host": "mscrl.microsoft.com",
           "testHost": "mscrl.microsoft.com",
           "url": "https://mscrl.microsoft.com",
-          "purposeShort": "Windows Aktivierung und Zertifikats-/Validierungsdienste",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1327,8 +2099,19 @@
           "host": "msdn.microsoft.com",
           "testHost": "msdn.microsoft.com",
           "url": "https://msdn.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "nexus.microsoftonline-p.com",
+          "testHost": "nexus.microsoftonline-p.com",
+          "url": "https://nexus.microsoftonline-p.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1337,18 +2120,64 @@
           "host": "o15.officeredir.microsoft.com",
           "testHost": "o15.officeredir.microsoft.com",
           "url": "https://o15.officeredir.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "ocos-office365-s2s.msedge.net",
-          "testHost": "ocos-office365-s2s.msedge.net",
-          "url": "https://ocos-office365-s2s.msedge.net",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "host": "ocsp.digicert.com",
+          "testHost": "ocsp.digicert.com",
+          "url": "https://ocsp.digicert.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "ocsp.globalsign.com",
+          "testHost": "ocsp.globalsign.com",
+          "url": "https://ocsp.globalsign.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "ocsp.msocsp.com",
+          "testHost": "ocsp.msocsp.com",
+          "url": "https://ocsp.msocsp.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "ocsp2.globalsign.com",
+          "testHost": "ocsp2.globalsign.com",
+          "url": "https://ocsp2.globalsign.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "ocspx.digicert.com",
+          "testHost": "ocspx.digicert.com",
+          "url": "https://ocspx.digicert.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1357,18 +2186,9 @@
           "host": "office.live.com",
           "testHost": "office.live.com",
           "url": "https://office.live.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
-          "host": "office.microsoft",
-          "testHost": "office.microsoft",
-          "url": "https://office.microsoft",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
-          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1377,7 +2197,7 @@
           "host": "office15client.microsoft.com",
           "testHost": "office15client.microsoft.com",
           "url": "https://office15client.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1387,7 +2207,7 @@
           "host": "officeapps.live.com",
           "testHost": "officeapps.live.com",
           "url": "https://officeapps.live.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1397,8 +2217,9 @@
           "host": "officecdn.microsoft.com",
           "testHost": "officecdn.microsoft.com",
           "url": "https://officecdn.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1407,8 +2228,9 @@
           "host": "officeclient.microsoft.com",
           "testHost": "officeclient.microsoft.com",
           "url": "https://officeclient.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1417,8 +2239,9 @@
           "host": "officepreviewredir.microsoft.com",
           "testHost": "officepreviewredir.microsoft.com",
           "url": "https://officepreviewredir.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1427,18 +2250,20 @@
           "host": "officeredir.microsoft.com",
           "testHost": "officeredir.microsoft.com",
           "url": "https://officeredir.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "officespeech.platform.bing.com",
-          "testHost": "officespeech.platform.bing.com",
-          "url": "https://officespeech.platform.bing.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "host": "oneclient.sfx.ms",
+          "testHost": "oneclient.sfx.ms",
+          "url": "https://oneclient.sfx.ms",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1447,18 +2272,20 @@
           "host": "oneocsp.microsoft.com",
           "testHost": "oneocsp.microsoft.com",
           "url": "https://oneocsp.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "onmicrosoft.com",
-          "testHost": "onmicrosoft.com",
-          "url": "https://onmicrosoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "host": "otelrules.azureedge.net",
+          "testHost": "otelrules.azureedge.net",
+          "url": "https://otelrules.azureedge.net",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1467,8 +2294,9 @@
           "host": "outlook.cloud.microsoft",
           "testHost": "outlook.cloud.microsoft",
           "url": "https://outlook.cloud.microsoft",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Exchange Online (Kategorie: Optimize)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1477,8 +2305,9 @@
           "host": "outlook.office.com",
           "testHost": "outlook.office.com",
           "url": "https://outlook.office.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Exchange Online (Kategorie: Optimize)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1487,7 +2316,29 @@
           "host": "outlook.office365.com",
           "testHost": "outlook.office365.com",
           "url": "https://outlook.office365.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Exchange Online (Kategorie: Optimize)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "passwordreset.microsoftonline.com",
+          "testHost": "passwordreset.microsoftonline.com",
+          "url": "https://passwordreset.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "platform.linkedin.com",
+          "testHost": "platform.linkedin.com",
+          "url": "https://platform.linkedin.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1504,11 +2355,32 @@
           "source": "microsoft-official+baseline"
         },
         {
+          "host": "prod.msocdn.com",
+          "testHost": "prod.msocdn.com",
+          "url": "https://prod.msocdn.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
           "host": "protection.office.com",
           "testHost": "protection.office.com",
           "url": "https://protection.office.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "provisioningapi.microsoftonline.com",
+          "testHost": "provisioningapi.microsoftonline.com",
+          "url": "https://provisioningapi.microsoftonline.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1517,7 +2389,7 @@
           "host": "purview.microsoft.com",
           "testHost": "purview.microsoft.com",
           "url": "https://purview.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
             443
           ],
@@ -1527,8 +2399,20 @@
           "host": "r.office.microsoft.com",
           "testHost": "r.office.microsoft.com",
           "url": "https://r.office.microsoft.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "secure.globalsign.com",
+          "testHost": "secure.globalsign.com",
+          "url": "https://secure.globalsign.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1537,27 +2421,38 @@
           "host": "security.microsoft.com",
           "testHost": "security.microsoft.com",
           "url": "https://security.microsoft.com",
-          "purposeShort": "Defender Security- und Signatur-Updates",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Allow)",
           "ports": [
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "smtp.office365.com",
-          "testHost": "smtp.office365.com",
-          "url": "https://smtp.office365.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "host": "shellprod.msocdn.com",
+          "testHost": "shellprod.msocdn.com",
+          "url": "https://shellprod.msocdn.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "storage.live.com",
-          "testHost": "storage.live.com",
-          "url": "https://storage.live.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "host": "spoprod-a.akamaihd.net",
+          "testHost": "spoprod-a.akamaihd.net",
+          "url": "https://spoprod-a.akamaihd.net",
+          "purposeShort": "SharePoint Online and OneDrive for Business (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "support.microsoft.com",
+          "testHost": "support.microsoft.com",
+          "url": "https://support.microsoft.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],
@@ -1567,8 +2462,9 @@
           "host": "teams.cloud.microsoft",
           "testHost": "teams.cloud.microsoft",
           "url": "https://teams.cloud.microsoft",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft Teams (Kategorie: Allow)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1577,8 +2473,9 @@
           "host": "teams.microsoft.com",
           "testHost": "teams.microsoft.com",
           "url": "https://teams.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft Teams (Kategorie: Allow)",
           "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1587,8 +2484,41 @@
           "host": "technet.microsoft.com",
           "testHost": "technet.microsoft.com",
           "url": "https://technet.microsoft.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "www.digicert.com",
+          "testHost": "www.digicert.com",
+          "url": "https://www.digicert.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "www.microsoft.com",
+          "testHost": "www.microsoft.com",
+          "url": "https://www.microsoft.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "www.microsoft365.com",
+          "testHost": "www.microsoft365.com",
+          "url": "https://www.microsoft365.com",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
+          "ports": [
+            80,
             443
           ],
           "source": "microsoft-official+baseline"
@@ -1597,7 +2527,7 @@
           "host": "www.onedrive.com",
           "testHost": "www.onedrive.com",
           "url": "https://www.onedrive.com",
-          "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "purposeShort": "Microsoft 365 Common and Office Online (Kategorie: Default)",
           "ports": [
             443
           ],

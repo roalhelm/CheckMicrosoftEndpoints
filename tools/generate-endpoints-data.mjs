@@ -11,6 +11,10 @@ const psScriptPath = path.join(repoRoot, "CheckMicrosoftEndpointsV2.ps1");
 const outputDataPath = path.join(repoRoot, "web", "data", "endpoints.generated.json");
 const outputHealthPath = path.join(repoRoot, "web", "data", "source-health.generated.json");
 const DEFAULT_WHITELIST_MODE = "strict";
+// Fixed client request id, as recommended by the Microsoft 365 endpoint web service documentation.
+const M365_CLIENT_REQUEST_ID = "b10c5ed1-bad1-445f-b386-b919946339a7";
+const M365_ENDPOINTS_URL = `https://endpoints.office.com/endpoints/worldwide?clientrequestid=${M365_CLIENT_REQUEST_ID}`;
+const M365_VERSION_URL = `https://endpoints.office.com/version/worldwide?clientrequestid=${M365_CLIENT_REQUEST_ID}`;
 
 const serviceSourceConfig = {
   "Windows Update for Business": {
@@ -49,8 +53,8 @@ const serviceSourceConfig = {
   "Microsoft 365": {
     id: "microsoft-365",
     region: "global",
-    sourceUrl:
-      "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges",
+    sourceUrl: M365_ENDPOINTS_URL,
+    sourceType: "m365-endpoints-api",
   },
   "Microsoft Store": {
     id: "microsoft-store",
@@ -108,8 +112,8 @@ const serviceHostWhitelists = {
     /manage\.microsoft\.com/i,
     /blob\.core\.windows\.net/i,
     /webpubsub\.azure\.com/i,
-    /microsoft\.com/i,
-    /windows\.net/i,
+    /login\.windows\.net/i,
+    /devicelistenerprod\.microsoft\.com/i,
   ],
   intune: [
     /manage\.microsoft\.com/i,
@@ -141,22 +145,6 @@ const serviceHostWhitelists = {
     /pas\.windows\.net/i,
     /management\.azure\.com/i,
     /ad\.msft\.net/i,
-  ],
-  "microsoft-365": [
-    /office/i,
-    /office365/i,
-    /sharepoint/i,
-    /onedrive/i,
-    /microsoft\.com/i,
-    /cloud\.microsoft/i,
-    /usercontent\.microsoft/i,
-    /\.mx\.microsoft$/i,
-    /\.static\.microsoft$/i,
-    /\.wns\.windows\.com$/i,
-    /storage\.live\.com$/i,
-    /g\.live\.com$/i,
-    /mediaservices\.windows\.net$/i,
-    /adl\.windows\.com$/i,
   ],
   "microsoft-store": [
     /store/i,
@@ -459,6 +447,35 @@ async function fetchSourceText(url, timeoutMs = 12000) {
   }
 }
 
+// Microsoft 365 publishes its endpoints as structured JSON, so no HTML parsing or whitelist is needed.
+// Only entries reachable via TCP 443 are kept, because both test tools check HTTPS on port 443.
+async function fetchM365Endpoints() {
+  const [items, version] = await Promise.all([
+    fetchSourceText(M365_ENDPOINTS_URL).then(JSON.parse),
+    fetchSourceText(M365_VERSION_URL).then(JSON.parse),
+  ]);
+  const details = new Map();
+  for (const item of items) {
+    if (!item.required || !item.urls?.length) continue;
+    const tcpPorts = String(item.tcpPorts ?? "")
+      .split(",")
+      .map((port) => Number(port.trim()))
+      .filter(Boolean);
+    if (!tcpPorts.includes(443)) continue;
+    for (const url of item.urls) {
+      const host = normalizeHost(url);
+      const existing = details.get(host);
+      const ports = [...new Set([...(existing?.ports ?? []), ...tcpPorts])].sort((a, b) => a - b);
+      details.set(host, {
+        ports,
+        purposeShort:
+          existing?.purposeShort ?? `${item.serviceAreaDisplayName} (Kategorie: ${item.category})`,
+      });
+    }
+  }
+  return { hosts: [...details.keys()], details, updatedAt: version.latest ?? null };
+}
+
 function extractUpdatedAt(text) {
   const match = text.match(/^updated_at:\s*(.+)$/m) || text.match(/^ms\.date:\s*(.+)$/m);
   return match ? String(match[1]).trim() : null;
@@ -498,8 +515,19 @@ async function main() {
     let sourceStatus = "fallback";
     let error = null;
     let unknownLiveHosts = [];
+    let liveDetails = new Map();
 
-    if (config.sourceUrl) {
+    if (config.sourceType === "m365-endpoints-api") {
+      try {
+        const m365 = await fetchM365Endpoints();
+        liveHosts = m365.hosts;
+        liveDetails = m365.details;
+        updatedAt = m365.updatedAt;
+        sourceStatus = liveHosts.length > 0 ? "live+fallback-merged" : "fallback";
+      } catch (fetchError) {
+        error = fetchError instanceof Error ? fetchError.message : String(fetchError);
+      }
+    } else if (config.sourceUrl) {
       try {
         sourceText = await fetchSourceText(config.sourceUrl);
         const scopedText = extractScopedText(sourceText, config.sourceScope);
@@ -521,8 +549,8 @@ async function main() {
         host,
         testHost,
         url: testHost ? `https://${testHost}` : null,
-        purposeShort: inferPurpose(host, serviceName),
-        ports: [443],
+        purposeShort: liveDetails.get(host)?.purposeShort ?? inferPurpose(host, serviceName),
+        ports: liveDetails.get(host)?.ports ?? [443],
         source: config.sourceUrl ? "microsoft-official+baseline" : "baseline",
       };
     });

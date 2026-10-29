@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T09:45:57.587Z",
+  "generatedAt": "2026-10-29T09:47:24.681Z",
   "whitelistMode": "strict",
   "sourceHealth": [
     {
@@ -86,26 +86,17 @@
     {
       "service": "Microsoft 365",
       "serviceId": "microsoft-365",
-      "sourceUrl": "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges",
+      "sourceUrl": "https://endpoints.office.com/endpoints/worldwide?clientrequestid=b10c5ed1-bad1-445f-b386-b919946339a7",
       "sourceStatus": "live+fallback-merged",
-      "sourceUpdatedAt": null,
+      "sourceUpdatedAt": "2026081400",
       "baselineCount": 14,
-      "liveCount": 68,
-      "unknownLiveHostsCount": 48,
-      "unknownLiveHostsSample": [
-        "mlccdnprod.azureedge.net",
-        "*.skype.com",
-        "account.activedirectory.windowsazure.com",
-        "accounts.accesscontrol.windows.net",
-        "adminwebservice.microsoftonline.com",
-        "api.passwordreset.microsoftonline.com",
-        "autologon.microsoftazuread-sso.com",
-        "becws.microsoftonline.com"
-      ],
-      "mergedCount": 72,
-      "qualityScore": 65,
+      "liveCount": 152,
+      "unknownLiveHostsCount": 0,
+      "unknownLiveHostsSample": [],
+      "mergedCount": 155,
+      "qualityScore": 100,
       "error": null,
-      "whitelistApplied": true
+      "whitelistApplied": false
     },
     {
       "service": "Microsoft Store",

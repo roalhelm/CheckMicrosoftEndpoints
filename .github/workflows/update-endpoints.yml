@@ -6,7 +6,7 @@ on:
       whitelist_mode:
         description: "Whitelist mode for endpoint generator (strict|relaxed)"
         required: false
-        default: "relaxed"
+        default: "strict"
   schedule:
     - cron: "0 4 * * *"
 
@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate endpoint data
         env:
-          ENDPOINT_WHITELIST_MODE: ${{ github.event.inputs.whitelist_mode || 'relaxed' }}
+          ENDPOINT_WHITELIST_MODE: ${{ github.event.inputs.whitelist_mode || 'strict' }}
         run: node tools/generate-endpoints-data.mjs
 
       - name: Commit changes
