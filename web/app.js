@@ -447,11 +447,12 @@ function exportJson() {
 function exportCsv() {
   const rows = sortRows(applyFilters(state.endpointRows));
   const headers = ["service", "region", "host", "testHost", "url", "status", "durationMs", "purposeShort", "source", "details"];
+  const fieldByHeader = { service: "serviceName" };
   const lines = [
     headers.join(","),
     ...rows.map((row) =>
       headers
-        .map((header) => `"${String(row[header] ?? "").replaceAll('"', '""')}"`)
+        .map((header) => `"${String(row[fieldByHeader[header] ?? header] ?? "").replaceAll('"', '""')}"`)
         .join(","),
     ),
   ];
