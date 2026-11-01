@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T04:12:40.141Z",
+  "generatedAt": "2026-11-01T11:02:47.352Z",
   "whitelistMode": "relaxed",
   "sourceHealth": [
     {
@@ -85,10 +85,10 @@
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "baselineCount": 14,
-      "liveCount": 116,
+      "liveCount": 112,
       "unknownLiveHostsCount": 0,
       "unknownLiveHostsSample": [],
-      "mergedCount": 119,
+      "mergedCount": 115,
       "qualityScore": 90,
       "error": null,
       "whitelistApplied": true
@@ -130,10 +130,10 @@
       "sourceStatus": "live+fallback-merged",
       "sourceUpdatedAt": null,
       "baselineCount": 6,
-      "liveCount": 41,
+      "liveCount": 42,
       "unknownLiveHostsCount": 0,
       "unknownLiveHostsSample": [],
-      "mergedCount": 44,
+      "mergedCount": 45,
       "qualityScore": 90,
       "error": null,
       "whitelistApplied": true

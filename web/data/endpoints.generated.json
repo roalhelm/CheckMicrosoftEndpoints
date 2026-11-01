@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T04:12:40.141Z",
+  "generatedAt": "2026-11-01T11:02:47.352Z",
   "whitelistMode": "relaxed",
   "totalServices": 10,
-  "totalEndpoints": 288,
+  "totalEndpoints": 285,
   "services": [
     {
       "id": "windows-update",
@@ -1315,15 +1315,6 @@
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "becws.microsoftonline.com",
-          "url": "https://becws.microsoftonline.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
           "host": "c.live.com",
           "url": "https://c.live.com",
           "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
@@ -1576,15 +1567,6 @@
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "mlccdnprod.azureedge.net",
-          "url": "https://mlccdnprod.azureedge.net",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
           "host": "mscrl.microsoft.com",
           "url": "https://mscrl.microsoft.com",
           "purposeShort": "Windows Aktivierung und Zertifikats-/Validierungsdienste",
@@ -1792,27 +1774,9 @@
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "prod.msocdn.com",
-          "url": "https://prod.msocdn.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
           "host": "protection.office.com",
           "url": "https://protection.office.com",
           "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
-          "ports": [
-            443
-          ],
-          "source": "microsoft-official+baseline"
-        },
-        {
-          "host": "provisioningapi.microsoftonline.com",
-          "url": "https://provisioningapi.microsoftonline.com",
-          "purposeShort": "Microsoft 365: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
@@ -2479,6 +2443,15 @@
           "host": "substrate.office.com",
           "url": "https://substrate.office.com",
           "purposeShort": "Microsoft 365 Portale, Services und Inhalte",
+          "ports": [
+            443
+          ],
+          "source": "microsoft-official+baseline"
+        },
+        {
+          "host": "substrate.svc.cloud.microsoft",
+          "url": "https://substrate.svc.cloud.microsoft",
+          "purposeShort": "Microsoft Edge: Endpoint für Dienstkommunikation",
           "ports": [
             443
           ],
