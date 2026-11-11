@@ -343,7 +343,7 @@ Write-Log "  - Quiet Mode: $(if($Quiet){'Enabled'}else{'Disabled'})" "INFO"
 Write-Log "" "INFO"
 
 if (-not $Quiet) {
-    Write-Host "`n🌐 MICROSOFT ENDPOINT MANAGER (MEM) CONNECTIVITY TESTER" -ForegroundColor Cyan
+    Write-Host "`nMICROSOFT ENDPOINT MANAGER (MEM) CONNECTIVITY TESTER" -ForegroundColor Cyan
     Write-Host "="*70 -ForegroundColor DarkCyan
     Write-Host "Loading MEM/Intune endpoint baseline..." -ForegroundColor Yellow
 }
@@ -366,7 +366,7 @@ $totalEndpoints = $memIPs.Count + $memURLs.Count
 $currentEndpoint = 0
 
 if (-not $Quiet) {
-    Write-Host "`n🔍 Testing $totalEndpoints MEM endpoints (IPs: $($memIPs.Count), URLs: $($memURLs.Count))" -ForegroundColor Cyan
+    Write-Host "`nTesting $totalEndpoints MEM endpoints (IPs: $($memIPs.Count), URLs: $($memURLs.Count))" -ForegroundColor Cyan
     Write-Host "This may take several minutes..." -ForegroundColor Yellow
     Write-Host ""
 }
@@ -640,14 +640,14 @@ if (-not $Quiet) {
     
     $results | Format-Table $tableColumns -AutoSize
     
-    Write-Host "`n📄 Detailed log file created: $script:LogFile" -ForegroundColor Green
+    Write-Host "`nDetailed log file created: $script:LogFile" -ForegroundColor Green
     
     if ($failedTests -eq 0) {
-        Write-Host "✅ SUCCESS: All MEM endpoints are reachable!" -ForegroundColor Green
-        Write-Host "🎉 Microsoft Endpoint Manager should function properly." -ForegroundColor Green
+        Write-Host "SUCCESS: All MEM endpoints are reachable!" -ForegroundColor Green
+        Write-Host "Microsoft Endpoint Manager should function properly." -ForegroundColor Green
     } else {
-        Write-Host "⚠️ WARNING: $failedTests MEM endpoints are not reachable!" -ForegroundColor Red
-        Write-Host "💡 Check your firewall configuration for the failed endpoints." -ForegroundColor Yellow
+        Write-Host "WARNING: $failedTests MEM endpoints are not reachable!" -ForegroundColor Red
+        Write-Host "Check your firewall configuration for the failed endpoints." -ForegroundColor Yellow
     }
 }
 

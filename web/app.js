@@ -641,7 +641,7 @@ function renderGroupedByService() {
     details.innerHTML = `
       <summary>
         <strong>${group.serviceName}</strong>
-        <span class="group-meta">Region: ${group.region} • ${group.rows.length} endpoints • ✅ ${reachable} • ⏱ ${timeout} • ❌ ${unreachable}</span>
+        <span class="group-meta">Region: ${group.region} • ${group.rows.length} endpoints • [OK] ${reachable} • ${timeout} • [FAIL] ${unreachable}</span>
       </summary>
       <div class="endpoint-group-content">
         <div class="endpoint-card-grid">

@@ -88,10 +88,10 @@
     https://dl.delivery.mp.microsoft.com  OK      52.97.144.85    23.45      1250.75
     https://download.windowsupdate.com     OK      204.79.197.200  18.92      890.33
     
-    📊 Durchschnittliche Latenz: 21.19 ms
-    🚀 Durchschnittliche Antwortzeit: 542.10 ms
-    ✅ Alle Endpunkte für Windows Update for Business sind erreichbar.
-    🌟 Exzellente Netzwerk-Performance!
+    Durchschnittliche Latenz: 21.19 ms
+    Durchschnittliche Antwortzeit: 542.10 ms
+    Alle Endpunkte für Windows Update for Business sind erreichbar.
+    Exzellente Netzwerk-Performance!
 
 .EXAMPLE
     # Use in automated monitoring
@@ -364,11 +364,11 @@ function Show-ServiceImpactWarning {
     )
     
     if ($serviceImpacts.ContainsKey($ServiceName)) {
-        Write-Host "    ⚠️  AUSWIRKUNGEN:" -ForegroundColor Yellow
+        Write-Host "    [WARN] AUSWIRKUNGEN:" -ForegroundColor Yellow
         Write-Host "       • $($serviceImpacts[$ServiceName].Impact)" -ForegroundColor Yellow
-        Write-Host "    🔍 SYMPTOME:" -ForegroundColor Cyan
+        Write-Host "    SYMPTOME:" -ForegroundColor Cyan
         Write-Host "       • $($serviceImpacts[$ServiceName].Symptoms)" -ForegroundColor Cyan
-        Write-Host "    🚫 Betroffene Endpunkte: $($FailedEndpoints.Count)" -ForegroundColor Red
+        Write-Host "    Betroffene Endpunkte: $($FailedEndpoints.Count)" -ForegroundColor Red
         Write-Host ""
     }
 }
@@ -388,7 +388,7 @@ $testUrls = $urls | ForEach-Object {
 
 $results = @()
 
-Write-Host "🔍 Starte erweiterte Endpunkt-Tests (Konnektivität, Ping, Geschwindigkeit)..." -ForegroundColor Cyan
+Write-Host "Starte erweiterte Endpunkt-Tests (Konnektivität, Ping, Geschwindigkeit)..." -ForegroundColor Cyan
 Write-Host "Dies kann einige Minuten dauern..." -ForegroundColor Yellow
 Write-Host ""
 
@@ -412,13 +412,13 @@ foreach ($url in $testUrls) {
     
     # If basic connectivity works, test ping and speed
     if ($result.TcpTestSucceeded) {
-        Write-Host "  ✅ $testHost - Teste Ping..." -ForegroundColor Green
+        Write-Host "  [OK] $testHost - Teste Ping..." -ForegroundColor Green
         $pingLatency = Test-PingLatency -HostName $testHost
         
-        Write-Host "  📊 $testHost - Teste Geschwindigkeit..." -ForegroundColor Blue
+        Write-Host "  $testHost - Teste Geschwindigkeit..." -ForegroundColor Blue
         $downloadSpeed = Test-DownloadSpeed -Url $url
     } else {
-        Write-Host "  ❌ $testHost - Nicht erreichbar" -ForegroundColor Red
+        Write-Host "  [FAIL] $testHost - Nicht erreichbar" -ForegroundColor Red
     }
     
     $results += [PSCustomObject]@{
@@ -458,31 +458,31 @@ foreach ($backend in $backendUrls.Keys) {
         
         if ($avgPing) {
             $pingColor = if ($avgPing -lt 50) { "Green" } elseif ($avgPing -lt 100) { "Yellow" } else { "Red" }
-            Write-Host "📊 Durchschnittliche Latenz: $([math]::Round($avgPing, 2)) ms" -ForegroundColor $pingColor
+            Write-Host "Durchschnittliche Latenz: $([math]::Round($avgPing, 2)) ms" -ForegroundColor $pingColor
         }
         
         if ($avgSpeed) {
             $speedColor = if ($avgSpeed -gt 1000) { "Green" } elseif ($avgSpeed -gt 100) { "Yellow" } else { "Red" }
-            Write-Host "🚀 Durchschnittliche Antwortzeit: $([math]::Round($avgSpeed, 2)) ms" -ForegroundColor $speedColor
+            Write-Host "Durchschnittliche Antwortzeit: $([math]::Round($avgSpeed, 2)) ms" -ForegroundColor $speedColor
         }
     }
     
     $failedEndpoints = $backendResults | Where-Object { $_.Status -eq 'FAILED' }
     if ($failedEndpoints.Count -gt 0) {
-        Write-Host "❌ $($failedEndpoints.Count) Endpunkt(e) für $backend sind NICHT erreichbar!" -ForegroundColor Red
+        Write-Host "[FAIL] $($failedEndpoints.Count) Endpunkt(e) für $backend sind NICHT erreichbar!" -ForegroundColor Red
         $failedServices += $backend
         Show-ServiceImpactWarning -ServiceName $backend -FailedEndpoints $failedEndpoints
     } else {
-        Write-Host "✅ Alle Endpunkte für $backend sind erreichbar." -ForegroundColor Green
+        Write-Host "[OK] Alle Endpunkte für $backend sind erreichbar." -ForegroundColor Green
         
         # Performance rating
         if ($avgPing) {
             if ($avgPing -lt 50) {
-                Write-Host "🌟 Exzellente Netzwerk-Performance!" -ForegroundColor Green
+                Write-Host "Exzellente Netzwerk-Performance!" -ForegroundColor Green
             } elseif ($avgPing -lt 100) {
-                Write-Host "👍 Gute Netzwerk-Performance" -ForegroundColor Yellow
+                Write-Host "Gute Netzwerk-Performance" -ForegroundColor Yellow
             } else {
-                Write-Host "⚠️  Langsame Netzwerk-Performance - Überprüfung empfohlen" -ForegroundColor Red
+                Write-Host "[WARN] Langsame Netzwerk-Performance - Überprüfung empfohlen" -ForegroundColor Red
             }
         }
     }
@@ -504,7 +504,7 @@ $results | Format-Table @(
 ) -AutoSize
 
 # Overall performance statistics
-Write-Host "`n📈 GESAMTE NETZWERK-PERFORMANCE STATISTIKEN:" -ForegroundColor Cyan
+Write-Host "`nGESAMTE NETZWERK-PERFORMANCE STATISTIKEN:" -ForegroundColor Cyan
 Write-Host "-"*60 -ForegroundColor DarkCyan
 
 $successfulTests = $results | Where-Object { $_.Status -eq 'OK' }
@@ -516,7 +516,7 @@ if ($testsWithPing.Count -gt 0) {
     $minPing = ($testsWithPing | Measure-Object PingLatency_ms -Minimum).Minimum
     $maxPing = ($testsWithPing | Measure-Object PingLatency_ms -Maximum).Maximum
     
-    Write-Host "🏓 Ping-Statistiken:" -ForegroundColor Yellow
+    Write-Host "Ping-Statistiken:" -ForegroundColor Yellow
     Write-Host "   • Durchschnitt: $([math]::Round($overallAvgPing, 2)) ms" -ForegroundColor White
     Write-Host "   • Minimum: $([math]::Round($minPing, 2)) ms" -ForegroundColor Green
     Write-Host "   • Maximum: $([math]::Round($maxPing, 2)) ms" -ForegroundColor Red
@@ -528,7 +528,7 @@ if ($testsWithSpeed.Count -gt 0) {
     $minSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Minimum).Minimum
     $maxSpeed = ($testsWithSpeed | Measure-Object DownloadSpeed_Kbps -Maximum).Maximum
     
-    Write-Host "🚀 Antwortzeit-Statistiken:" -ForegroundColor Yellow
+    Write-Host "Antwortzeit-Statistiken:" -ForegroundColor Yellow
     Write-Host "   • Durchschnitt: $([math]::Round($overallAvgSpeed, 2)) ms" -ForegroundColor White
     Write-Host "   • Minimum: $([math]::Round($minSpeed, 2)) ms" -ForegroundColor Green
     Write-Host "   • Maximum: $([math]::Round($maxSpeed, 2)) ms" -ForegroundColor Red
@@ -540,23 +540,23 @@ if ($results.Status -contains 'FAILED') {
     $totalFailed = ($results | Where-Object { $_.Status -eq 'FAILED' }).Count
     $totalTested = $results.Count
     
-    Write-Host "`n🚨 WARNUNG: $totalFailed von $totalTested Microsoft-Endpunkten sind NICHT erreichbar!" -ForegroundColor Red
+    Write-Host "`nWARNUNG: $totalFailed von $totalTested Microsoft-Endpunkten sind NICHT erreichbar!" -ForegroundColor Red
     Write-Host "="*80 -ForegroundColor Red
     
     if ($failedServices.Count -gt 0) {
-        Write-Host "📋 BETROFFENE SERVICES UND MÖGLICHE AUSWIRKUNGEN:" -ForegroundColor Yellow
+        Write-Host "BETROFFENE SERVICES UND MÖGLICHE AUSWIRKUNGEN:" -ForegroundColor Yellow
         Write-Host "-"*50 -ForegroundColor Yellow
         foreach ($service in $failedServices) {
-            Write-Host "🔴 $service" -ForegroundColor Red
+            Write-Host "$service" -ForegroundColor Red
             if ($serviceImpacts.ContainsKey($service)) {
                 Write-Host "   └─ $($serviceImpacts[$service].Impact)" -ForegroundColor Yellow
             }
         }
-        Write-Host "`n💡 EMPFEHLUNG: Überprüfen Sie Ihre Firewall- und Proxy-Konfiguration für die oben genannten Services." -ForegroundColor Cyan
+        Write-Host "`nEMPFEHLUNG: Überprüfen Sie Ihre Firewall- und Proxy-Konfiguration für die oben genannten Services." -ForegroundColor Cyan
     }
     exit 1
 } else {
-    Write-Host "`n✅ ERFOLG: Alle $($results.Count) Microsoft-Endpunkte sind erreichbar!" -ForegroundColor Green
-    Write-Host "🎉 Alle Microsoft Cloud Services sollten ordnungsgemäß funktionieren." -ForegroundColor Green
+    Write-Host "`nERFOLG: Alle $($results.Count) Microsoft-Endpunkte sind erreichbar!" -ForegroundColor Green
+    Write-Host "Alle Microsoft Cloud Services sollten ordnungsgemäß funktionieren." -ForegroundColor Green
     exit 0
 }
