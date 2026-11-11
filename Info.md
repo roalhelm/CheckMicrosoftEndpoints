@@ -1,39 +1,39 @@
-# 📊 Microsoft Endpoint Connectivity Testing - Technische Dokumentation
+# Microsoft Endpoint Connectivity Testing - Technische Dokumentation
 
-## 📋 Übersicht
+## Übersicht
 
 Dieses Dokument enthält umfassende technische Informationen über die Microsoft Endpoint Connectivity Tests, einschließlich der Datenquellen, Endpoint-URLs, Testmethodiken und technischen Implementierungsdetails.
 
 ---
 
-## 🎯 Getestete Microsoft Services
+## Getestete Microsoft Services
 
-### 📊 Service-Übersicht
+### Service-Übersicht
 
 | Service | Endpoints | Zweck | Kritikalität |
 |---------|-----------|--------|--------------|
-| **Windows Update for Business** | 16 URLs | System-Updates und Patches | 🔴 Kritisch |
-| **Windows Autopatch** | 8 URLs | Automatische Patch-Verwaltung | 🟡 Hoch |
-| **Microsoft Intune** | 16 URLs | Device Management/MDM | 🔴 Kritisch |
-| **Microsoft Defender** | 11 URLs | Antivirus und Security | 🔴 Kritisch |
-| **Azure Active Directory** | 8 URLs | Identity/Authentication | 🔴 Kritisch |
-| **Microsoft 365** | 14 URLs | Produktivitäts-Suite | 🟡 Hoch |
-| **Microsoft Store** | 8 URLs | App-Distribution | 🟢 Mittel |
-| **Windows Activation** | 6 URLs | Lizenzierung | 🟡 Hoch |
-| **Microsoft Edge** | 6 URLs | Browser-Services | 🟢 Mittel |
-| **Windows Telemetry** | 10 URLs | Diagnostik und Monitoring | 🟢 Niedrig |
+| **Windows Update for Business** | 16 URLs | System-Updates und Patches | Kritisch |
+| **Windows Autopatch** | 8 URLs | Automatische Patch-Verwaltung | Hoch |
+| **Microsoft Intune** | 16 URLs | Device Management/MDM | Kritisch |
+| **Microsoft Defender** | 11 URLs | Antivirus und Security | Kritisch |
+| **Azure Active Directory** | 8 URLs | Identity/Authentication | Kritisch |
+| **Microsoft 365** | 14 URLs | Produktivitäts-Suite | Hoch |
+| **Microsoft Store** | 8 URLs | App-Distribution | Mittel |
+| **Windows Activation** | 6 URLs | Lizenzierung | Hoch |
+| **Microsoft Edge** | 6 URLs | Browser-Services | Mittel |
+| **Windows Telemetry** | 10 URLs | Diagnostik und Monitoring | Niedrig |
 
 **Gesamt: 103 eindeutige Endpoints über 10 Microsoft Service-Kategorien**
 
 ---
 
-## 🌐 Endpoint-Datenquellen und Methodik
+## Endpoint-Datenquellen und Methodik
 
-### 📚 Offizielle Microsoft-Dokumentation
+### Offizielle Microsoft-Dokumentation
 
 Die Endpoint-URLs werden aus folgenden **offiziellen Microsoft-Quellen** bezogen:
 
-#### 🔗 Primäre Dokumentationsquellen
+#### Primäre Dokumentationsquellen
 
 1. **Microsoft 365 Network Connectivity**
    - URL: https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges
@@ -63,7 +63,7 @@ Die Endpoint-URLs werden aus folgenden **offiziellen Microsoft-Quellen** bezogen
    - URL: https://learn.microsoft.com/en-us/windows/deployment/volume-activation/activate-using-key-management-service-vamt
    - Verwendung: KMS, MAK, Digital License Activation
 
-#### 🔍 Zusätzliche Validierungsquellen
+#### Zusätzliche Validierungsquellen
 
 8. **Microsoft Edge Enterprise**
    - URL: https://learn.microsoft.com/en-us/deployedge/microsoft-edge-security-endpoints
@@ -77,16 +77,16 @@ Die Endpoint-URLs werden aus folgenden **offiziellen Microsoft-Quellen** bezogen
     - URL: https://learn.microsoft.com/en-us/windows/deployment/windows-autopatch/
     - Verwendung: Automated Patch Management, Device Health
 
-### 🔄 Endpoint-Validierung und Aktualisierung
+### Endpoint-Validierung und Aktualisierung
 
-#### ✅ Validierungsmethodik
+#### Validierungsmethodik
 
 1. **Offizielle Dokumentation**: Alle URLs werden gegen Microsoft's offizielle Dokumentation validiert
 2. **Network Testing**: Praktische Konnektivitätstests in Produktionsumgebungen
 3. **Community Feedback**: Validierung durch Enterprise-IT-Communities
 4. **Microsoft Support**: Bestätigung kritischer Endpoints durch Microsoft Support Cases
 
-#### 🔄 Aktualisierungsprozess
+#### Aktualisierungsprozess
 
 - **Quarterly Reviews**: Vierteljährliche Überprüfung aller Endpoint-Listen
 - **Microsoft Documentation Monitoring**: Überwachung von Änderungen in Microsoft Docs
@@ -95,9 +95,9 @@ Die Endpoint-URLs werden aus folgenden **offiziellen Microsoft-Quellen** bezogen
 
 ---
 
-## 🏗️ Technische Implementierung
+## Technische Implementierung
 
-### 📊 Endpoint-Struktur im Script
+### Endpoint-Struktur im Script
 
 ```powershell
 $backendUrls = @{
@@ -119,9 +119,9 @@ $backendUrls = @{
 }
 ```
 
-### 🔧 Testmethodiken
+### Testmethodiken
 
-#### 1️⃣ **Konnektivitätstest (TCP)**
+#### 1. **Konnektivitätstest (TCP)**
 ```powershell
 Test-TcpConnectivity -HostName $hostname -Port 443
 ```
@@ -129,7 +129,7 @@ Test-TcpConnectivity -HostName $hostname -Port 443
 - **Timeout**: 5 Sekunden pro Endpoint
 - **Bewertung**: Erfolg/Fehler binär
 
-#### 2️⃣ **Latenz-Test (Ping)**
+#### 2. **Latenz-Test (Ping)**
 ```powershell
 Test-Connection -ComputerName $hostname -Count 3 -Quiet
 ```
@@ -137,7 +137,7 @@ Test-Connection -ComputerName $hostname -Count 3 -Quiet
 - **Metriken**: Min/Max/Durchschnitt Latenz in ms
 - **Bewertung**: Exzellent (<50ms), Gut (50-200ms), Verbesserungsbedarf (>200ms)
 
-#### 3️⃣ **Performance-Test (Download)**
+#### 3. **Performance-Test (Download)**
 ```powershell
 Test-DownloadSpeed -Url $url
 ```
@@ -145,15 +145,15 @@ Test-DownloadSpeed -Url $url
 - **Metriken**: HTTP Response Time in ms
 - **Bewertung**: Schnell (<500ms), Normal (500-2000ms), Langsam (>2000ms)
 
-### 🎨 HTML-Report Generation
+### HTML-Report Generation
 
-#### 📊 Report-Struktur
+#### Report-Struktur
 - **Dashboard**: Übersicht mit Statistiken und Status-Karten
 - **Service-Tabellen**: Detaillierte Ergebnisse gruppiert nach Microsoft Services
 - **Performance-Charts**: Visuelle Latenz- und Speed-Analysen
 - **Impact-Analysis**: Auswirkungen von Verbindungsproblemen
 
-#### 🎨 Design-Elemente
+#### Design-Elemente
 - **Responsive Layout**: Bootstrap-ähnliches Grid-System
 - **Microsoft Look & Feel**: Offizielle Microsoft-Farben und Fonts
 - **Accessibility**: WCAG 2.1 konforme Farbkontraste
@@ -163,9 +163,9 @@ Test-DownloadSpeed -Url $url
 
 ---
 
-## 📋 Detaillierte Endpoint-Listen
+## Detaillierte Endpoint-Listen
 
-### 🔄 Windows Update for Business (16 Endpoints)
+### Windows Update for Business (16 Endpoints)
 
 | URL | Zweck | Kritikalität |
 |-----|-------|--------------|
@@ -183,7 +183,7 @@ Test-DownloadSpeed -Url $url
 
 **Ausfallauswirkungen**: Keine Windows Updates, Sicherheitslücken, veraltete Treiber
 
-### 🛡️ Microsoft Defender (11 Endpoints)
+### Microsoft Defender (11 Endpoints)
 
 | URL | Zweck | Kritikalität |
 |-----|-------|--------------|
@@ -197,7 +197,7 @@ Test-DownloadSpeed -Url $url
 
 **Ausfallauswirkungen**: Veraltete Antivirus-Signaturen, kein Cloud-Schutz, eingeschränkte Threat Detection
 
-### 📱 Microsoft Intune (13 Endpoints)
+### Microsoft Intune (13 Endpoints)
 
 | URL | Zweck | Kritikalität |
 |-----|-------|--------------|
@@ -211,7 +211,7 @@ Test-DownloadSpeed -Url $url
 
 **Ausfallauswirkungen**: Kein Device Enrollment, App-Deployment schlägt fehl, Compliance-Checks funktionieren nicht
 
-### 🔐 Azure Active Directory (8 Endpoints)
+### Azure Active Directory (8 Endpoints)
 
 | URL | Zweck | Kritikalität |
 |-----|-------|--------------|
@@ -224,7 +224,7 @@ Test-DownloadSpeed -Url $url
 
 **Ausfallauswirkungen**: Login-Probleme, Single Sign-On schlägt fehl, Device Registration nicht möglich
 
-### 📊 Microsoft 365 (11 Endpoints)
+### Microsoft 365 (11 Endpoints)
 
 | URL | Zweck | Kritikalität |
 |-----|-------|--------------|
@@ -242,30 +242,30 @@ Test-DownloadSpeed -Url $url
 
 ---
 
-## 🔧 Verwendung und Parameter
+## Verwendung und Parameter
 
-### 🎮 Interactive Mode (Standard)
+### Interactive Mode (Standard)
 ```powershell
 .\CheckMicrosoftEndpointsV2.ps1
 ```
 Zeigt interaktives Menü zur Service-Auswahl
 
-### 🚀 All Services mit vollem Report
+### All Services mit vollem Report
 ```powershell
 .\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "NetworkReport.html" -OpenReport
 ```
 
-### ⚡ Schneller Test kritischer Services
+### Schneller Test kritischer Services
 ```powershell
 .\CheckMicrosoftEndpointsV2.ps1 -Services WindowsUpdate,Intune,Defender,AzureAD -SkipSpeed
 ```
 
-### 🤖 Automatisierter Test für CI/CD
+### Automatisierter Test für CI/CD
 ```powershell
 .\CheckMicrosoftEndpointsV2.ps1 -Services All -Quiet -HtmlReport "connectivity-report.html"
 ```
 
-### 📊 Selektive Service-Tests
+### Selektive Service-Tests
 ```powershell
 # Nur Windows Update und Intune
 .\CheckMicrosoftEndpointsV2.ps1 -Services WindowsUpdate,Intune
@@ -279,21 +279,21 @@ Zeigt interaktives Menü zur Service-Auswahl
 
 ---
 
-## 🎨 HTML-Report Features
+## HTML-Report Features
 
-### 📊 Dashboard-Komponenten
+### Dashboard-Komponenten
 - **Service Status Cards**: Übersicht aller getesteten Services
 - **Performance Statistics**: Latenz-/Speed-Metriken
 - **Failed Connections Summary**: Problembereiche sofort erkennbar
 - **Test Configuration**: Welche Parameter wurden verwendet
 
-### 📋 Detaillierte Service-Tabellen
+### Detaillierte Service-Tabellen
 - **Status Badges**: Farbkodierte OK/FAILED Indikatoren
 - **IP Resolution**: Aufgelöste IP-Adressen für Troubleshooting
 - **Performance Metrics**: Ping-Latenz und Response-Times (falls aktiviert)
 - **Service Grouping**: Logische Gruppierung nach Microsoft Services
 
-### 🎨 Design-Prinzipien
+### Design-Prinzipien
 - **Microsoft Design Language**: Vertraute Optik für IT-Professionals
 - **Responsive Layout**: Funktioniert auf Desktop, Tablet, Mobile
 - **Accessibility**: Hohe Kontraste, Screen Reader kompatibel
@@ -301,40 +301,40 @@ Zeigt interaktives Menü zur Service-Auswahl
 
 ---
 
-## 🔍 Troubleshooting und Diagnostik
+## Troubleshooting und Diagnostik
 
-### ❌ Häufige Verbindungsprobleme
+### Häufige Verbindungsprobleme
 
-#### 🔥 Firewall/Proxy-Probleme
+#### Firewall/Proxy-Probleme
 ```
 FAILED: Connection timed out
 FAILED: Access denied
 ```
 **Lösung**: Firewall-Regeln für HTTPS (443) zu Microsoft Domains prüfen
 
-#### 🌐 DNS-Resolution-Probleme
+#### DNS-Resolution-Probleme
 ```
 FAILED: Name resolution failed
 ```
 **Lösung**: DNS-Server-Konfiguration und Connectivity prüfen
 
-#### ⚡ Performance-Probleme
+#### Performance-Probleme
 ```
 OK but slow response (>2000ms)
 High ping latency (>200ms)
 ```
 **Lösung**: Netzwerk-Latenz und Bandbreite analysieren
 
-### 🔧 Erweiterte Diagnostik
+### Erweiterte Diagnostik
 
-#### 📋 Log-Analyse
+#### Log-Analyse
 ```powershell
 # Detaillierte Fehlermeldungen aktivieren
 $VerbosePreference = 'Continue'
 .\CheckMicrosoftEndpointsV2.ps1 -Services All -Verbose
 ```
 
-#### 🌐 Netzwerk-Trace
+#### Netzwerk-Trace
 ```powershell
 # Netzwerk-Trace für spezifische URLs
 netsh trace start capture=yes tracefile=network.etl provider=Microsoft-Windows-TCPIP
@@ -342,7 +342,7 @@ netsh trace start capture=yes tracefile=network.etl provider=Microsoft-Windows-T
 netsh trace stop
 ```
 
-#### 📊 Performance-Baseline
+#### Performance-Baseline
 ```powershell
 # Baseline-Report für Vergleiche erstellen
 .\CheckMicrosoftEndpointsV2.ps1 -Services All -HtmlReport "Baseline-$(Get-Date -Format 'yyyy-MM-dd').html"
@@ -350,25 +350,25 @@ netsh trace stop
 
 ---
 
-## 📈 Performance-Metriken und Bewertung
+## Performance-Metriken und Bewertung
 
-### ⚡ Latenz-Bewertung (Ping)
+### Latenz-Bewertung (Ping)
 
 | Kategorie | Latenz | Bewertung | Auswirkung |
 |-----------|--------|-----------|------------|
-| 🟢 **Exzellent** | < 50ms | Optimal | Keine Performance-Einbußen |
-| 🟡 **Gut** | 50-200ms | Akzeptabel | Minimale Verzögerungen |
-| 🔴 **Verbesserungsbedarf** | > 200ms | Problematisch | Spürbare Performance-Probleme |
+| **Exzellent** | < 50ms | Optimal | Keine Performance-Einbußen |
+| **Gut** | 50-200ms | Akzeptabel | Minimale Verzögerungen |
+| **Verbesserungsbedarf** | > 200ms | Problematisch | Spürbare Performance-Probleme |
 
-### 🚀 Response-Time-Bewertung (HTTP)
+### Response-Time-Bewertung (HTTP)
 
 | Kategorie | Response-Time | Bewertung | Auswirkung |
 |-----------|---------------|-----------|------------|
-| 🟢 **Schnell** | < 500ms | Optimal | Flüssige Nutzererfahrung |
-| 🟡 **Normal** | 500-2000ms | Akzeptabel | Gelegentliche Verzögerungen |
-| 🔴 **Langsam** | > 2000ms | Problematisch | Deutliche Performance-Einbußen |
+| **Schnell** | < 500ms | Optimal | Flüssige Nutzererfahrung |
+| **Normal** | 500-2000ms | Akzeptabel | Gelegentliche Verzögerungen |
+| **Langsam** | > 2000ms | Problematisch | Deutliche Performance-Einbußen |
 
-### 📊 Service-spezifische SLAs
+### Service-spezifische SLAs
 
 | Service | Acceptable Latenz | Critical Threshold | Business Impact |
 |---------|------------------|-------------------|-----------------|
@@ -379,9 +379,9 @@ netsh trace stop
 
 ---
 
-## 🔄 Automatisierung und Integration
+## Automatisierung und Integration
 
-### 📅 Scheduled Tasks
+### Scheduled Tasks
 ```powershell
 # Täglicher Connectivity-Check
 $action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-File C:\Scripts\CheckMicrosoftEndpointsV2.ps1 -Services All -Quiet -HtmlReport 'C:\Reports\Daily-Connectivity.html'"
@@ -389,7 +389,7 @@ $trigger = New-ScheduledTaskTrigger -Daily -At "06:00"
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Daily-Microsoft-Connectivity-Check"
 ```
 
-### 🔄 CI/CD Integration
+### CI/CD Integration
 ```yaml
 # Azure DevOps Pipeline Step
 - task: PowerShell@2
@@ -400,7 +400,7 @@ Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "Daily-Micros
     arguments: '-Services All -Quiet -HtmlReport "$(Agent.TempDirectory)/connectivity-report.html"'
 ```
 
-### 📊 Monitoring Integration
+### Monitoring Integration
 ```powershell
 # SCOM/PRTG Integration
 $exitCode = .\CheckMicrosoftEndpointsV2.ps1 -Services All -Quiet
@@ -412,20 +412,20 @@ if ($exitCode -ne 0) {
 
 ---
 
-## 🛡️ Security und Best Practices
+## Security und Best Practices
 
-### 🔒 Execution Policy
+### Execution Policy
 ```powershell
 # Sichere Execution Policy für Scripts
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-### 🔐 Least Privilege Principle
+### Least Privilege Principle
 - **Standard User**: Basis-Connectivity-Tests
 - **Administrator**: Nicht erforderlich für Network-Tests
 - **Graph API**: Nur für erweiterte Intune-Diagnostik
 
-### 🛡️ Firewall-Konfiguration
+### Firewall-Konfiguration
 ```powershell
 # Windows Firewall Regel für ausgehende HTTPS-Verbindungen
 New-NetFirewallRule -DisplayName "Microsoft Services HTTPS" -Direction Outbound -Protocol TCP -RemotePort 443 -Action Allow
@@ -433,82 +433,82 @@ New-NetFirewallRule -DisplayName "Microsoft Services HTTPS" -Direction Outbound 
 
 ---
 
-## 📚 Weiterführende Ressourcen
+## Weiterführende Ressourcen
 
-### 📖 Offizielle Microsoft Dokumentation
+### Offizielle Microsoft Dokumentation
 - [Microsoft 365 Network Connectivity Principles](https://learn.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-network-connectivity-principles)
 - [Intune Network Configuration](https://learn.microsoft.com/en-us/mem/intune/fundamentals/intune-endpoints)
 - [Windows Update Delivery Optimization](https://learn.microsoft.com/en-us/windows/deployment/update/waas-delivery-optimization)
 - [Azure AD Network Requirements](https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports)
 
-### 🔧 Tools und Utilities
+### Tools und Utilities
 - [Microsoft Remote Connectivity Analyzer](https://testconnectivity.microsoft.com/)
 - [Microsoft 365 Network Assessment Tool](https://connectivity.office.com/)
 - [Windows Network Troubleshooter](https://support.microsoft.com/en-us/help/10741/windows-fix-network-connection-issues)
 
-### 🏢 Enterprise Deployment Guides
+### Enterprise Deployment Guides
 - [Microsoft 365 Enterprise Deployment Guide](https://learn.microsoft.com/en-us/microsoft-365/enterprise/)
 - [Intune Deployment Planning Guide](https://learn.microsoft.com/en-us/mem/intune/fundamentals/planning-guide)
 - [Windows 10/11 Enterprise Deployment](https://learn.microsoft.com/en-us/windows/deployment/)
 
 ---
 
-## 📄 Changelog und Versionierung
+## Changelog und Versionierung
 
 ### Version 2.1 (Aktuell - Oktober 2025)
-- ✨ **HTML-Report Generation** mit responsivem Design
-- 🎯 **Service-Selection** Parameter und Interactive Menu  
-- ⚡ **Performance-Optimierungen** mit Skip-Optionen
-- 📱 **Mobile-Optimized** Reports
-- 🔍 **Enhanced Analytics** und Performance-Statistiken
+- **HTML-Report Generation** mit responsivem Design
+- **Service-Selection** Parameter und Interactive Menu  
+- **Performance-Optimierungen** mit Skip-Optionen
+- **Mobile-Optimized** Reports
+- **Enhanced Analytics** und Performance-Statistiken
 
 ### Version 2.0 (Oktober 2025)  
-- 🎮 **Interactive Menu-System** für Service-Auswahl
-- 📊 **Selective Testing** Funktionalität
-- 🚀 **Speed Optimizations** durch optionale Tests
-- 🔇 **Quiet Mode** für Automation
+- **Interactive Menu-System** für Service-Auswahl
+- **Selective Testing** Funktionalität
+- **Speed Optimizations** durch optionale Tests
+- **Quiet Mode** für Automation
 
 ### Version 1.1 (Oktober 2025)
-- 🏓 **Ping Latency Tests** hinzugefügt
-- 📈 **Download Speed Tests** implementiert  
-- 🎨 **Enhanced Console Output** mit Farben
-- 📊 **Performance Statistics** und Bewertungen
+- **Ping Latency Tests** hinzugefügt
+- **Download Speed Tests** implementiert  
+- **Enhanced Console Output** mit Farben
+- **Performance Statistics** und Bewertungen
 
 ### Version 1.0 (Oktober 2025)
-- 🔌 **Basic TCP Connectivity Tests** 
-- 🌐 **Comprehensive Service Coverage**
-- 🎯 **Impact Analysis** für failed connections
-- 📋 **Structured Output** nach Service-Kategorien
+- **Basic TCP Connectivity Tests** 
+- **Comprehensive Service Coverage**
+- **Impact Analysis** für failed connections
+- **Structured Output** nach Service-Kategorien
 
 ---
 
-## ⚠️ Microsoft Services Criticality Assessment
+## Microsoft Services Criticality Assessment
 
 | Service | Endpoint Purpose | Criticality | Business Impact on Failure |
 |---------|------------------|-------------|---------------------------|
-| **Windows Update for Business** | Update Downloads, Catalog Sync, CDN Access | 🔴 **Critical** | No security updates, system vulnerabilities |
-| **Microsoft Intune** | Device Management, Policy Sync, App Deployment | 🔴 **Critical** | No MDM, compliance loss, app installations fail |
-| **Azure Active Directory** | Authentication, Token Renewal, Device Registration | 🔴 **Critical** | Login issues, SSO failure, device registration blocked |
-| **Microsoft Defender** | Threat Intelligence, Cloud Protection, Definition Updates | 🟠 **High** | Outdated antivirus signatures, limited malware protection |
-| **Windows Autopatch** | Automatic Patch Management, Update Orchestration | 🟠 **High** | Manual update management required, no automated deployments |
-| **Microsoft 365** | Office Apps, OneDrive Sync, SharePoint Access | 🟠 **High** | Office apps limited, sync issues, productivity loss |
-| **Windows Activation** | License Validation, KMS Services, Digital License | 🟡 **Medium** | Activation issues on fresh installs, license warnings |
-| **Microsoft Store** | App Downloads, Updates, Deployment | 🟡 **Medium** | Store apps won't install, update issues with Store apps |
-| **Microsoft Edge** | Browser Updates, SmartScreen, Enterprise Services | 🟡 **Medium** | Browser updates fail, limited security features |
-| **Windows Telemetry** | Diagnostic Data, Error Reports, Analytics | 🟢 **Low** | No functional impact, only diagnostic data affected |
+| **Windows Update for Business** | Update Downloads, Catalog Sync, CDN Access | **Critical** | No security updates, system vulnerabilities |
+| **Microsoft Intune** | Device Management, Policy Sync, App Deployment | **Critical** | No MDM, compliance loss, app installations fail |
+| **Azure Active Directory** | Authentication, Token Renewal, Device Registration | **Critical** | Login issues, SSO failure, device registration blocked |
+| **Microsoft Defender** | Threat Intelligence, Cloud Protection, Definition Updates | **High** | Outdated antivirus signatures, limited malware protection |
+| **Windows Autopatch** | Automatic Patch Management, Update Orchestration | **High** | Manual update management required, no automated deployments |
+| **Microsoft 365** | Office Apps, OneDrive Sync, SharePoint Access | **High** | Office apps limited, sync issues, productivity loss |
+| **Windows Activation** | License Validation, KMS Services, Digital License | **Medium** | Activation issues on fresh installs, license warnings |
+| **Microsoft Store** | App Downloads, Updates, Deployment | **Medium** | Store apps won't install, update issues with Store apps |
+| **Microsoft Edge** | Browser Updates, SmartScreen, Enterprise Services | **Medium** | Browser updates fail, limited security features |
+| **Windows Telemetry** | Diagnostic Data, Error Reports, Analytics | **Low** | No functional impact, only diagnostic data affected |
 
-### 🎯 Criticality Legend
+### Criticality Legend
 
 | Symbol | Level | Downtime Tolerance | Action Required |
 |--------|-------|-------------------|-----------------|
-| 🔴 **Critical** | System-essential | < 1 Hour | Immediate fix required |
-| 🟠 **High** | Business-critical | < 4 Hours | Priority treatment |
-| 🟡 **Medium** | Functionality-impact | < 24 Hours | Planned remediation |
-| 🟢 **Low** | Optional/Analytics | > 24 Hours | Fix when convenient |
+| **Critical** | System-essential | < 1 Hour | Immediate fix required |
+| **High** | Business-critical | < 4 Hours | Priority treatment |
+| **Medium** | Functionality-impact | < 24 Hours | Planned remediation |
+| **Low** | Optional/Analytics | > 24 Hours | Fix when convenient |
 
 ---
 
-## 👨‍💻 Author & Maintenance
+## Author & Maintenance
 
 **Entwickelt von**: Ronny Alhelm  
 **GitHub**: [@roalhelm](https://github.com/roalhelm)  
