@@ -455,8 +455,8 @@ dialog::backdrop { background: rgba(7, 11, 22, .6); backdrop-filter: blur(4px); 
 }
 
 /* Tools dropdown in the main nav (shared with letmetrythis.dev, CheckMicrosoftEndpoints, ClientFixPage) */
-.nav-tools { position: relative; }
-.nav-tools > summary { display: inline-flex; align-items: center; gap: .45rem; list-style: none; cursor: pointer; color: var(--muted); font-weight: 650; }
+.nav-tools { position: relative; margin: 0; }
+.nav-tools > summary { display: inline-flex; align-items: center; gap: .45rem; list-style: none; cursor: pointer; color: var(--muted); font-weight: 650; font-size: inherit; }
 .nav-tools > summary::-webkit-details-marker { display: none; }
 .nav-tools > summary::after { content: ""; width: .38em; height: .38em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-.15em) rotate(45deg); transition: transform .2s; }
 .nav-tools[open] > summary::after { transform: translateY(.1em) rotate(-135deg); }
