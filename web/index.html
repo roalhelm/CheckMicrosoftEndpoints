@@ -3,26 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Microsoft Endpoint Reachability Check</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <title>Microsoft Endpoint Check</title>
+    <meta name="description" content="Check from your browser which Microsoft endpoints for Intune, Windows Update, Autopatch and Defender are reachable, and see active Microsoft service incidents." />
+    <meta name="theme-color" content="#0b1120" />
+    <script>try{if(localStorage.getItem('theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+    <link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="assets/img/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+    <link rel="stylesheet" href="./styles.css?v=20261113" />
   </head>
   <body>
-    <main class="container">
-      <header>
-        <h1>Microsoft Endpoint Reachability Check</h1>
-        <p class="subtitle">
-          Checks from your browser which Microsoft endpoints are reachable. Live sources are preferred,
-          with automatic fallback to generated data.
-        </p>
-      </header>
+    <header class="site-header">
+      <a class="brand" href="https://letmetrythis.dev/" aria-label="LetMeTryThis.dev home">
+        <img src="assets/img/logo-256.webp" alt="LetMeTryThis.dev logo" width="48" height="48" />
+        <span>LetMeTryThis.dev</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+        <a href="./" aria-current="page">Endpoint Check</a>
+        <a href="#endpoints">Endpoints</a>
+        <a href="https://letmetrythis.dev/index-en.html#projects">Projects</a>
+        <a href="https://letmetrythis.dev/index-en.html#blog">Blog</a>
+        <a href="https://letmetrythis.dev/about-en.html">About</a>
+        <a class="button button-small" href="https://github.com/roalhelm/CheckMicrosoftEndpoints" rel="noopener" target="_blank">GitHub</a>
+      </nav>
+    </header>
 
+    <section class="hero wrap">
+      <p class="eyebrow">microsoft endpoint reachability</p>
+      <h1>Microsoft <span class="hl">Endpoint Check<span class="cursor" aria-hidden="true"></span></span></h1>
+      <p class="lede">
+        Checks from your browser which Microsoft endpoints for Intune, Windows Update, Autopatch and Defender are
+        reachable. Live sources are preferred, with automatic fallback to generated data.
+      </p>
+      <section id="msStatus" class="ms-status is-loading" role="status" aria-live="polite" aria-label="Microsoft service status">
+        <p class="ms-status-line"><span class="ms-dot" aria-hidden="true"></span><span>Checking Microsoft service status ...</span></p>
+      </section>
+    </section>
+
+    <main class="container wrap">
       <section class="panel controls">
         <div class="control-row">
-          <button id="runCheckBtn" class="btn primary">Run reachability check</button>
-          <button id="refreshLiveBtn" class="btn">Reload live data</button>
-          <button id="exportJsonBtn" class="btn">Export JSON</button>
-          <button id="exportCsvBtn" class="btn">Export CSV</button>
-          <button id="shareLinkBtn" class="btn">Copy share link</button>
+          <button id="runCheckBtn" class="btn primary" type="button">Run reachability check</button>
+          <button id="refreshLiveBtn" class="btn" type="button">Reload live data</button>
+          <button id="exportJsonBtn" class="btn" type="button">Export JSON</button>
+          <button id="exportCsvBtn" class="btn" type="button">Export CSV</button>
+          <button id="shareLinkBtn" class="btn" type="button">Copy share link</button>
         </div>
 
         <div id="liveStatus" class="live-status" role="status" aria-live="polite">
@@ -31,23 +57,23 @@
 
         <div class="control-row">
           <label>
-            Search:
+            Search
             <input id="searchInput" type="search" placeholder="e.g. manage.microsoft.com" />
           </label>
           <label>
-            Service:
+            Service
             <select id="serviceFilter">
               <option value="all">All services</option>
             </select>
           </label>
           <label>
-            Region:
+            Region
             <select id="regionFilter">
               <option value="all">All regions</option>
             </select>
           </label>
           <label>
-            Status:
+            Status
             <select id="statusFilter">
               <option value="all">All</option>
               <option value="reachable">Reachable</option>
@@ -57,7 +83,7 @@
             </select>
           </label>
           <label>
-            Sort by:
+            Sort by
             <select id="sortBy">
               <option value="service">Service</option>
               <option value="host">Host</option>
@@ -66,7 +92,7 @@
             </select>
           </label>
           <label>
-            View:
+            View
             <select id="layoutMode">
               <option value="detailed">Detailed</option>
               <option value="compact">Compact</option>
@@ -132,7 +158,7 @@
         </p>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="endpoints">
         <h2>Endpoints</h2>
         <div class="group-actions">
           <button id="expandAllGroupsBtn" class="btn" type="button">Expand all services</button>
@@ -166,11 +192,28 @@
         <p id="infoDialogPurpose"></p>
         <p id="infoDialogSource" class="small-text"></p>
         <footer>
-          <button id="closeInfoDialogBtn" class="btn primary">Close</button>
+          <button id="closeInfoDialogBtn" class="btn" type="button">Close</button>
         </footer>
       </article>
     </dialog>
 
-    <script type="module" src="./app.js"></script>
+    <footer class="site-footer">
+      <a class="footer-brand" href="https://letmetrythis.dev/"><img src="assets/img/logo-256.webp" alt="" width="32" height="32" loading="lazy" />&copy; <span id="year"></span> LetMeTryThis.dev</a>
+      <span class="footer-tagline">Explore · Automate · Improve</span>
+      <span>
+        <a href="https://letmetrythis.dev/">Blog</a>
+        •
+        <a href="https://letmetrythis.dev/impressum-en.html">Legal notice</a>
+        •
+        <a href="https://letmetrythis.dev/datenschutz-en.html">Privacy</a>
+        •
+        <a href="https://github.com/roalhelm" rel="noopener" target="_blank">GitHub</a>
+        •
+        <a href="https://www.linkedin.com/in/ronny-alhelm-3aa28910b" rel="noopener" target="_blank">LinkedIn</a>
+      </span>
+    </footer>
+
+    <script src="assets/site.js?v=20261113"></script>
+    <script type="module" src="./app.js?v=20261113"></script>
   </body>
 </html>

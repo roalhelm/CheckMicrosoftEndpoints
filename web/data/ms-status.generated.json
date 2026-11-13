@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": null,
+  "statusPage": "https://status.cloud.microsoft",
+  "sources": [
+    { "id": "mac", "name": "Microsoft 365", "ok": false, "error": "Not checked yet" },
+    { "id": "azure", "name": "Azure", "ok": false, "error": "Not checked yet" },
+    { "id": "ppac", "name": "Power Platform", "ok": false, "error": "Not checked yet" },
+    { "id": "m365Consumer", "name": "Microsoft 365 consumer", "ok": false, "error": "Not checked yet" }
+  ],
+  "incidents": []
+}

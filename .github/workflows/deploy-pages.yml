@@ -8,7 +8,7 @@ on:
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
   workflow_run:
-    workflows: ["Update endpoint data"]
+    workflows: ["Update endpoint data", "Update Microsoft service status"]
     types: [completed]
 
 permissions:
