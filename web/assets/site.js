@@ -17,6 +17,19 @@
     });
   }
 
+  // Tools dropdown: close it on a click outside or on Escape.
+  Array.prototype.forEach.call(document.querySelectorAll('.nav-tools'), function (menu) {
+    document.addEventListener('click', function (event) {
+      if (menu.open && !menu.contains(event.target)) menu.open = false;
+    });
+    menu.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      }
+    });
+  });
+
   var header = document.querySelector('.site-header');
   if (header) {
     var btn = document.createElement('button');
