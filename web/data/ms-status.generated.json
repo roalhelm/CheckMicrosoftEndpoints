@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-11-13T17:48:53.070Z",
+  "checkedAt": "2026-11-13T22:55:05.626Z",
   "statusPage": "https://status.cloud.microsoft",
   "sources": [
     {
@@ -35,8 +35,8 @@
       "status": "Service degradation",
       "severity": "degraded",
       "title": "Users may be unable to connect to multiple Microsoft 365 services",
-      "summary": "Current status: We remain focused on addressing residual impact and ensuring reliable service restoration. We continue to assess recovery across various connection methods and are closely monitoring service health to verify sustained stability. At this time, we have no evidence of malicious activity associated with this incident. We will continue to treat ...",
-      "updatedAt": "2026-11-13T16:07:11+00:00"
+      "summary": "Current status: We continue to observe sustained service recovery across the previously affected environments. Due to the severity of impact this incident caused, we're monitoring for an extended period to ensure no additional mitigative actions are required. In parallel, we're monitoring the backlog of email messages accrued during this event to ensure all ...",
+      "updatedAt": "2026-11-13T22:00:36+00:00"
     },
     {
       "source": "m365Consumer",
@@ -44,7 +44,7 @@
       "status": "Service degradation",
       "severity": "degraded",
       "title": "Users may be unable to access or perform several actions in Microsoft 365 services",
-      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: We're observing signs of sustained recovery throughout the affected environment, and while our investigation into the underlying root cause is ongoing, we're continuing to monitor the impacted services to verify service health levels remain ...",
+      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: As infrastructure stabilizes, we're still draining queued messages and rebalancing traffic, so customers may see improved sign-in/access while delivery and processing continue to catch up. We do not have an ETA for full recovery yet. Service ...",
       "updatedAt": null
     }
   ]
