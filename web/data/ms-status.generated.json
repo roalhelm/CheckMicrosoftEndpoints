@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-11-13T10:24:28.461Z",
+  "checkedAt": "2026-11-13T17:48:53.070Z",
   "statusPage": "https://status.cloud.microsoft",
   "sources": [
     {
@@ -35,8 +35,8 @@
       "status": "Service degradation",
       "severity": "degraded",
       "title": "Users may be unable to connect to multiple Microsoft 365 services",
-      "summary": "User impact: Users may be unable to connect to multiple Microsoft 365 services. More info: Features of the Microsoft 365 services below that interact with Exchange Online and email services are impacted. Elements of those services that do not depend on interaction with Exchange Online remain functional. - Exchange Online: Users may be unable to access their ...",
-      "updatedAt": "2026-11-13T10:01:07+00:00"
+      "summary": "Current status: We remain focused on addressing residual impact and ensuring reliable service restoration. We continue to assess recovery across various connection methods and are closely monitoring service health to verify sustained stability. At this time, we have no evidence of malicious activity associated with this incident. We will continue to treat ...",
+      "updatedAt": "2026-11-13T16:07:11+00:00"
     },
     {
       "source": "m365Consumer",
@@ -44,7 +44,7 @@
       "status": "Service degradation",
       "severity": "degraded",
       "title": "Users may be unable to access or perform several actions in Microsoft 365 services",
-      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: We’re pursuing multiple workstreams to pinpoint the source of the issue and ensure the recovery of the affected environment. This issue impacts Outlook.com, OneDrive, OneNote, Microsoft To Do, Teams, and Microsoft 365 for the web although you may ...",
+      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: We're observing signs of sustained recovery throughout the affected environment, and while our investigation into the underlying root cause is ongoing, we're continuing to monitor the impacted services to verify service health levels remain ...",
       "updatedAt": null
     }
   ]
