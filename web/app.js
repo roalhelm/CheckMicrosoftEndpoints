@@ -1,5 +1,11 @@
+import { readMicrosoftStatus, sortIncidents, STATUS_PAGE_URL } from "./ms-status.mjs";
+
 const FALLBACK_DATA_PATH = "./data/endpoints.generated.json";
 const SOURCE_HEALTH_PATH = "./data/source-health.generated.json";
+const MS_STATUS_PATH = "./data/ms-status.generated.json";
+const MS_STATUS_LIVE_TIMEOUT_MS = 6000;
+const MS_STATUS_MAX_SHOWN = 4;
+const MS_STATUS_STALE_HOURS = 12;
 const REQUEST_TIMEOUT_MS = 8000;
 const CHECK_CONCURRENCY = 6;
 const LIVE_REFRESH_TIMEOUT_MS = 10000;
@@ -57,6 +63,7 @@ const elements = {
   infoDialogSource: document.getElementById("infoDialogSource"),
   closeInfoDialogBtn: document.getElementById("closeInfoDialogBtn"),
   liveStatus: document.getElementById("liveStatus"),
+  msStatus: document.getElementById("msStatus"),
 };
 
 const purposeRules = [
@@ -641,7 +648,7 @@ function renderGroupedByService() {
     details.innerHTML = `
       <summary>
         <strong>${group.serviceName}</strong>
-        <span class="group-meta">Region: ${group.region} • ${group.rows.length} endpoints • [OK] ${reachable} • ${timeout} • [FAIL] ${unreachable}</span>
+        <span class="group-meta">${group.region} · ${group.rows.length} endpoints · <span class="status-text reachable">${reachable} reachable</span> · <span class="status-text timeout">${timeout} timeout</span> · <span class="status-text unreachable">${unreachable} unreachable</span></span>
       </summary>
       <div class="endpoint-group-content">
         <div class="endpoint-card-grid">
@@ -986,7 +993,125 @@ function attachEventHandlers() {
   elements.closeInfoDialogBtn.addEventListener("click", () => elements.infoDialog.close());
 }
 
+// ---------------------------------------------------------------------------
+// Microsoft service status banner (status.cloud.microsoft)
+// Live read first; sources the browser cannot read come from the generated file
+// that the "Update Microsoft service status" workflow refreshes every 15 minutes.
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+}
+
+function formatStatusTime(iso) {
+  const time = Date.parse(iso ?? "");
+  if (Number.isNaN(time)) return "";
+  return new Date(time).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+}
+
+function relativeAge(iso) {
+  const time = Date.parse(iso ?? "");
+  if (Number.isNaN(time)) return "";
+  const minutes = Math.max(0, Math.round((Date.now() - time) / 60000));
+  if (minutes < 2) return "just now";
+  if (minutes < 90) return `${minutes} min ago`;
+  return `${Math.round(minutes / 60)} h ago`;
+}
+
+async function loadMicrosoftStatus() {
+  const [live, generated] = await Promise.all([
+    readMicrosoftStatus({ timeoutMs: MS_STATUS_LIVE_TIMEOUT_MS, hosts: [STATUS_PAGE_URL] }).catch(() => null),
+    fetchJson(MS_STATUS_PATH).catch(() => null),
+  ]);
+
+  const liveOk = new Set((live?.sources ?? []).filter((source) => source.ok).map((source) => source.id));
+  // An old generated file (workflow stopped) must not claim an all-clear.
+  const generatedAgeHours = (Date.now() - Date.parse(generated?.checkedAt ?? "")) / 36e5;
+  const generatedFresh = generatedAgeHours < MS_STATUS_STALE_HOURS;
+  const generatedOk = new Set(
+    generatedFresh ? (generated?.sources ?? []).filter((source) => source.ok).map((source) => source.id) : [],
+  );
+  const fromGenerated = [...generatedOk].filter((id) => !liveOk.has(id));
+
+  const incidents = [
+    ...(live?.incidents ?? []).filter((incident) => liveOk.has(incident.source)),
+    ...(generated?.incidents ?? []).filter((incident) => fromGenerated.includes(incident.source)),
+  ];
+
+  return {
+    incidents: sortIncidents(incidents),
+    readable: liveOk.size + fromGenerated.length,
+    total: Math.max(live?.sources?.length ?? 0, generated?.sources?.length ?? 0),
+    checkedAt: fromGenerated.length ? generated?.checkedAt : new Date().toISOString(),
+    usedGenerated: fromGenerated.length > 0,
+  };
+}
+
+function renderMicrosoftStatus(result) {
+  const box = elements.msStatus;
+  if (!box) return;
+  const link = `<a href="${STATUS_PAGE_URL}" target="_blank" rel="noopener">status.cloud.microsoft</a>`;
+  const checked = result?.checkedAt
+    ? `<span class="ms-status-meta" title="${escapeHtml(formatStatusTime(result.checkedAt))}">checked ${escapeHtml(relativeAge(result.checkedAt))}</span>`
+    : "";
+
+  box.hidden = false;
+  box.className = "ms-status";
+
+  if (!result || result.readable === 0) {
+    box.classList.add("is-unknown");
+    box.innerHTML = `<p class="ms-status-line"><span class="ms-dot" aria-hidden="true"></span>
+      <span>Microsoft service status could not be read here. Check ${link}.</span></p>`;
+    return;
+  }
+
+  if (result.incidents.length === 0) {
+    box.classList.add("is-ok");
+    box.innerHTML = `<p class="ms-status-line"><span class="ms-dot" aria-hidden="true"></span>
+      <span>No active Microsoft service incidents on ${link}.</span>${checked}</p>`;
+    return;
+  }
+
+  const shown = result.incidents.slice(0, MS_STATUS_MAX_SHOWN);
+  const more = result.incidents.length - shown.length;
+  box.classList.add("is-incident");
+  box.innerHTML = `
+    <div class="ms-status-head">
+      <p class="ms-status-title"><span class="ms-dot" aria-hidden="true"></span>
+        ${result.incidents.length === 1 ? "1 active Microsoft service incident" : `${result.incidents.length} active Microsoft service incidents`}</p>
+      ${checked}
+    </div>
+    <ul class="ms-incidents">
+      ${shown
+        .map(
+          (incident) => `
+        <li class="ms-incident sev-${escapeHtml(incident.severity)}">
+          <div class="ms-incident-head">
+            <span class="ms-service">${escapeHtml(incident.service)}</span>
+            <span class="ms-badge">${escapeHtml(incident.status)}</span>
+            ${incident.updatedAt ? `<span class="ms-status-meta">updated ${escapeHtml(formatStatusTime(incident.updatedAt))}</span>` : ""}
+          </div>
+          <p class="ms-incident-title">${escapeHtml(incident.title)}</p>
+          ${incident.summary ? `<p class="ms-incident-summary">${escapeHtml(incident.summary)}</p>` : ""}
+        </li>`,
+        )
+        .join("")}
+    </ul>
+    <p class="ms-status-foot">${more > 0 ? `${more} more. ` : ""}Details and updates on ${link}. Your tenant's own service health is in the Microsoft 365 admin center.</p>
+  `;
+}
+
+async function refreshMicrosoftStatus() {
+  try {
+    renderMicrosoftStatus(await loadMicrosoftStatus());
+  } catch (error) {
+    console.warn("Microsoft service status:", error);
+    renderMicrosoftStatus(null);
+  }
+}
+
 async function init() {
+  refreshMicrosoftStatus();
+
   updateFiltersFromQuery();
 
   const [fallbackData, sourceHealthData] = await Promise.all([fetchJson(FALLBACK_DATA_PATH), fetchJson(SOURCE_HEALTH_PATH)]);

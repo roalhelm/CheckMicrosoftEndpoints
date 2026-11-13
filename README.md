@@ -29,6 +29,15 @@ Notes:
 - In repository settings, ensure **Pages → Build and deployment → Source = GitHub Actions**.
 - First deployment can take a few minutes.
 
+### Microsoft service status banner
+
+Above the controls, the page shows active Microsoft service incidents from the public status page [status.cloud.microsoft](https://status.cloud.microsoft) and links to it. When there are none, it shows a single line "No active Microsoft service incidents".
+
+- Data: the public JSON documents behind that status page (`/api/posts/mac`, `/api/posts/azure`, `/api/posts/ppac`, `/api/posts/m365Consumer`). No tenant, token or sign-in is involved, so this is Microsoft's global status, not the health of your own tenant (that stays in the Microsoft 365 admin center).
+- The browser reads these documents live. If the browser cannot (for example because of CORS), the page uses `web/data/ms-status.generated.json`.
+- That file is refreshed every 15 minutes by [update-ms-status.yml](.github/workflows/update-ms-status.yml) using [fetch-ms-status.mjs](tools/fetch-ms-status.mjs). It is only committed when the incidents change or the last check is older than 6 hours. A file older than 12 hours is ignored by the page, so a stopped workflow never shows a false all-clear.
+- If nothing can be read, the page says so and links to the status page.
+
 ### Automatic Endpoint Updates
 
 To reduce manual endpoint maintenance, the web app uses a hybrid source model:
