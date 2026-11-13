@@ -289,6 +289,18 @@ details[open] > .collapsible-summary > span:first-child::before { content: "− 
 .collapsible-summary .small-text { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-regular); }
 #sourcePanel { margin-top: var(--space-4); }
 
+/* ---------- Local PowerShell test ---------- */
+.local-test h2 { margin-bottom: var(--space-2); }
+.local-test > .small-text { margin: 0; max-width: 78ch; }
+.cmd { position: relative; margin: var(--space-4) 0; }
+.cmd pre { margin: 0; padding: .8rem 5.5rem .8rem 1rem; background: var(--code-bg); border: 1px solid var(--line); border-radius: var(--radius-md); overflow-x: auto; }
+.cmd code { font-size: .84rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+.cmd .btn { position: absolute; top: 7px; right: 7px; }
+.btn.small { padding: .25rem .75rem; font-size: var(--fs-xs); font-family: var(--font-mono); font-weight: var(--fw-medium); background: var(--surface); }
+.row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.local-hint { margin: var(--space-4) 0 0; }
+.local-hint code { font-size: .82rem; color: var(--text); }
+
 /* ---------- Controls ---------- */
 .controls .control-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-4); }
 .controls .control-row:last-child { margin-bottom: 0; }

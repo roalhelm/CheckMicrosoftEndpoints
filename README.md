@@ -29,6 +29,10 @@ Notes:
 - In repository settings, ensure **Pages → Build and deployment → Source = GitHub Actions**.
 - First deployment can take a few minutes.
 
+### PowerShell script download on the page
+
+The page has a "Run the full check locally with PowerShell" section with a copyable command and download links. The deploy workflow copies `CheckMicrosoftEndpointsV2.ps1` and `CheckMEMEndpoints.ps1` into the published site (`/scripts/`), so the downloads always match the repository.
+
 ### Microsoft service status banner
 
 Above the controls, the page shows active Microsoft service incidents from the public status page [status.cloud.microsoft](https://status.cloud.microsoft) and links to it. When there are none, it shows a single line "No active Microsoft service incidents".

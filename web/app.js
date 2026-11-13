@@ -1109,8 +1109,28 @@ async function refreshMicrosoftStatus() {
   }
 }
 
+function attachCopyButtons() {
+  document.querySelectorAll("[data-copy]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const source = document.querySelector(button.dataset.copy);
+      if (!source) return;
+      const label = button.textContent;
+      try {
+        await navigator.clipboard.writeText(source.textContent.trim());
+        button.textContent = "Copied";
+      } catch {
+        button.textContent = "Select and copy";
+      }
+      setTimeout(() => {
+        button.textContent = label;
+      }, 1400);
+    });
+  });
+}
+
 async function init() {
   refreshMicrosoftStatus();
+  attachCopyButtons();
 
   updateFiltersFromQuery();
 
