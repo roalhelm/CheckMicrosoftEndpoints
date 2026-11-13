@@ -1,12 +1,51 @@
 {
   "schemaVersion": 1,
-  "checkedAt": null,
+  "checkedAt": "2026-11-13T10:24:28.461Z",
   "statusPage": "https://status.cloud.microsoft",
   "sources": [
-    { "id": "mac", "name": "Microsoft 365", "ok": false, "error": "Not checked yet" },
-    { "id": "azure", "name": "Azure", "ok": false, "error": "Not checked yet" },
-    { "id": "ppac", "name": "Power Platform", "ok": false, "error": "Not checked yet" },
-    { "id": "m365Consumer", "name": "Microsoft 365 consumer", "ok": false, "error": "Not checked yet" }
+    {
+      "id": "mac",
+      "name": "Microsoft 365",
+      "ok": true,
+      "error": null
+    },
+    {
+      "id": "azure",
+      "name": "Azure",
+      "ok": true,
+      "error": null
+    },
+    {
+      "id": "ppac",
+      "name": "Power Platform",
+      "ok": true,
+      "error": null
+    },
+    {
+      "id": "m365Consumer",
+      "name": "Microsoft 365 consumer",
+      "ok": true,
+      "error": null
+    }
   ],
-  "incidents": []
+  "incidents": [
+    {
+      "source": "mac",
+      "service": "Microsoft 365",
+      "status": "Service degradation",
+      "severity": "degraded",
+      "title": "Users may be unable to connect to multiple Microsoft 365 services",
+      "summary": "User impact: Users may be unable to connect to multiple Microsoft 365 services. More info: Features of the Microsoft 365 services below that interact with Exchange Online and email services are impacted. Elements of those services that do not depend on interaction with Exchange Online remain functional. - Exchange Online: Users may be unable to access their ...",
+      "updatedAt": "2026-11-13T10:01:07+00:00"
+    },
+    {
+      "source": "m365Consumer",
+      "service": "Microsoft 365 (Consumer)",
+      "status": "Service degradation",
+      "severity": "degraded",
+      "title": "Users may be unable to access or perform several actions in Microsoft 365 services",
+      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: We’re pursuing multiple workstreams to pinpoint the source of the issue and ensure the recovery of the affected environment. This issue impacts Outlook.com, OneDrive, OneNote, Microsoft To Do, Teams, and Microsoft 365 for the web although you may ...",
+      "updatedAt": null
+    }
+  ]
 }
