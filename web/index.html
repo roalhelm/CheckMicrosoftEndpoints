@@ -36,6 +36,7 @@
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
         <a href="./" aria-current="page">Endpoint Check</a>
+        <a href="#local-test">PowerShell script</a>
         <a href="#endpoints">Endpoints</a>
         <a href="https://letmetrythis.dev/index-en.html#projects">Projects</a>
         <a href="https://letmetrythis.dev/index-en.html#blog">Blog</a>
@@ -57,6 +58,25 @@
     </section>
 
     <main class="container wrap">
+      <section class="panel local-test" id="local-test" aria-labelledby="localTestTitle">
+        <p class="eyebrow">test on the client</p>
+        <h2 id="localTestTitle">Run the full check locally with PowerShell</h2>
+        <p class="small-text">
+          The browser can only send HTTP requests. For TCP, latency and download tests through the client's real
+          proxy and firewall path, run the PowerShell script on the affected device. It does not change any settings on the device.
+        </p>
+        <div class="cmd">
+          <pre><code id="localTestCmd">powershell.exe -ExecutionPolicy Bypass -Command "&amp; .\CheckMicrosoftEndpointsV2.ps1 -Services Intune,Defender,WindowsUpdate -HtmlReport .\Microsoft-Endpoints.html -OpenReport"</code></pre>
+          <button type="button" class="btn small" data-copy="#localTestCmd">Copy</button>
+        </div>
+        <div class="row">
+          <a class="btn" href="scripts/CheckMicrosoftEndpointsV2.ps1" download>Download CheckMicrosoftEndpointsV2.ps1</a>
+          <a class="btn" href="scripts/CheckMEMEndpoints.ps1" download>Intune only: CheckMEMEndpoints.ps1</a>
+          <a class="btn" href="https://github.com/roalhelm/CheckMicrosoftEndpoints#readme" rel="noopener" target="_blank">All options on GitHub</a>
+        </div>
+        <p class="small-text local-hint">Run it from the folder you saved it to. Use <code>-Services All</code> for every service; without <code>-Services</code> the script shows an interactive menu. Works with Windows PowerShell 5.1 and PowerShell 7 (also macOS and Linux).</p>
+      </section>
+
       <section class="panel controls">
         <div class="control-row">
           <button id="runCheckBtn" class="btn primary" type="button">Run reachability check</button>

@@ -5,6 +5,8 @@ on:
     branches: ["main"]
     paths:
       - "web/**"
+      - "CheckMicrosoftEndpointsV2.ps1"
+      - "CheckMEMEndpoints.ps1"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
   workflow_run:
@@ -33,6 +35,11 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Add PowerShell scripts for download
+        run: |
+          mkdir -p web/scripts
+          cp CheckMicrosoftEndpointsV2.ps1 CheckMEMEndpoints.ps1 web/scripts/
 
       - name: Upload web artifact
         uses: actions/upload-pages-artifact@v3
