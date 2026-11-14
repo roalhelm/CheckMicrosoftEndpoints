@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-11-14T03:02:15.926Z",
+  "checkedAt": "2026-11-14T10:04:32.312Z",
   "statusPage": "https://status.cloud.microsoft",
   "sources": [
     {
@@ -28,24 +28,5 @@
       "error": null
     }
   ],
-  "incidents": [
-    {
-      "source": "mac",
-      "service": "Microsoft 365",
-      "status": "Service degradation",
-      "severity": "degraded",
-      "title": "Users may be unable to connect to multiple Microsoft 365 services",
-      "summary": "Current status: We continue to observe sustained service recovery across the previously affected environments. Due to the severity of impact this incident caused, we're monitoring for an extended period to ensure no additional mitigative actions are required. In parallel, we're monitoring the backlog of email messages accrued during this event to ensure all ...",
-      "updatedAt": "2026-11-13T22:00:36+00:00"
-    },
-    {
-      "source": "m365Consumer",
-      "service": "Microsoft 365 (Consumer)",
-      "status": "Service degradation",
-      "severity": "degraded",
-      "title": "Users may be unable to access or perform several actions in Microsoft 365 services",
-      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: We're continuing to observe sustained recovery of impacted services across the previously affected environments. We're also continuing to monitor service health metrics to ensure no further actions are required to fully remediate the issue along ...",
-      "updatedAt": null
-    }
-  ]
+  "incidents": []
 }
