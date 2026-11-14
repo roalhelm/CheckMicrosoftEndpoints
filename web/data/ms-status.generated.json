@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-11-13T22:55:05.626Z",
+  "checkedAt": "2026-11-14T03:02:15.926Z",
   "statusPage": "https://status.cloud.microsoft",
   "sources": [
     {
@@ -44,7 +44,7 @@
       "status": "Service degradation",
       "severity": "degraded",
       "title": "Users may be unable to access or perform several actions in Microsoft 365 services",
-      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: As infrastructure stabilizes, we're still draining queued messages and rebalancing traffic, so customers may see improved sign-in/access while delivery and processing continue to catch up. We do not have an ETA for full recovery yet. Service ...",
+      "summary": "User impact: Users may be unable to access or perform several actions in Microsoft 365 services. Current status: We're continuing to observe sustained recovery of impacted services across the previously affected environments. We're also continuing to monitor service health metrics to ensure no further actions are required to fully remediate the issue along ...",
       "updatedAt": null
     }
   ]
