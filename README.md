@@ -42,6 +42,15 @@ Above the controls, the page shows active Microsoft service incidents from the p
 - That file is refreshed every 15 minutes by [update-ms-status.yml](.github/workflows/update-ms-status.yml) using [fetch-ms-status.mjs](tools/fetch-ms-status.mjs). It is only committed when the incidents change or the last check is older than 6 hours. A file older than 12 hours is ignored by the page, so a stopped workflow never shows a false all-clear.
 - If nothing can be read, the page says so and links to the status page.
 
+### Possible service impact
+
+After a check, the page and the PowerShell report show which service features are affected by unreachable endpoints, for example "Intune: Device check-in and policies, 3 of 7 unreachable, probably affected" with a one-line description of what users will notice.
+
+- Every endpoint is mapped to one feature (Intune enrollment, Teams calls, Windows Update downloads, Defender cloud protection and so on) by the rules in [web/service-impact.mjs](web/service-impact.mjs).
+- Each feature has a severity: **Critical** (core function stops), **Degraded** (a feature is missing or slower) or **Low** (optional, admin-only or telemetry).
+- Microsoft 365 endpoints also get the `serviceArea` and `category` from the official [Microsoft 365 endpoint web service](https://learn.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-service). Optimize and Allow endpoints count as critical, Default endpoints at most as degraded. The PowerShell script queries it at runtime (`-SkipM365Lookup` turns that off), the web app reads it from the generated data.
+- The PowerShell script carries a copy of the rules. After changing `web/service-impact.mjs`, run `node tools/sync-impact-rules.mjs` (`--check` only verifies).
+
 ### Automatic Endpoint Updates
 
 To reduce manual endpoint maintenance, the web app uses a hybrid source model:

@@ -11,6 +11,12 @@ const psScriptPath = path.join(repoRoot, "CheckMicrosoftEndpointsV2.ps1");
 const outputDataPath = path.join(repoRoot, "web", "data", "endpoints.generated.json");
 const outputHealthPath = path.join(repoRoot, "web", "data", "source-health.generated.json");
 const DEFAULT_WHITELIST_MODE = "strict";
+// Official Microsoft 365 endpoint web service. It tags every URL with its
+// serviceArea (Exchange, SharePoint, Skype = Teams, Common) and category
+// (Optimize, Allow, Default), which the web app uses to rate the impact of an
+// unreachable endpoint. The client request id is the sample GUID from the docs.
+const M365_ENDPOINTS_URL =
+  "https://endpoints.office.com/endpoints/worldwide?clientrequestid=b10c5ed1-bad1-445f-b386-b919946339a7";
 
 const serviceSourceConfig = {
   "Windows Update for Business": {
@@ -469,6 +475,54 @@ function mergeBaselineAndLiveHosts(baselineHosts, liveHosts) {
   return [...merged].sort();
 }
 
+export function buildM365Lookup(entries) {
+  const exact = new Map();
+  const wildcards = [];
+  for (const entry of Array.isArray(entries) ? entries : []) {
+    const info = {
+      serviceArea: entry.serviceArea ?? null,
+      category: entry.category ?? null,
+      required: Boolean(entry.required),
+    };
+    for (const rawUrl of entry.urls ?? []) {
+      const url = String(rawUrl).trim().toLowerCase();
+      if (!url) continue;
+      if (url.startsWith("*.")) {
+        wildcards.push({ suffix: url.slice(1), info, pattern: url });
+      }
+      // Keep the first (usually most important) classification for a URL.
+      if (!exact.has(url)) exact.set(url, info);
+    }
+  }
+  // Longest suffix first, so *.teams.microsoft.com wins over *.microsoft.com.
+  wildcards.sort((a, b) => b.suffix.length - a.suffix.length);
+  return { exact, wildcards };
+}
+
+export function lookupM365Info(lookup, host) {
+  if (!lookup) return null;
+  const normalized = String(host).toLowerCase();
+  if (lookup.exact.has(normalized)) return lookup.exact.get(normalized);
+  const bare = normalized.replace(/^\*\./, "");
+  for (const wildcard of lookup.wildcards) {
+    if (wildcard.suffix === ".microsoft.com" || wildcard.suffix === ".windows.net") continue; // too broad to say anything
+    if (bare.endsWith(wildcard.suffix) || `.${bare}` === wildcard.suffix) return wildcard.info;
+  }
+  return null;
+}
+
+async function fetchM365Lookup() {
+  try {
+    const text = await fetchSourceText(M365_ENDPOINTS_URL, 15000);
+    const lookup = buildM365Lookup(JSON.parse(text));
+    console.log(`M365 endpoint web service: ${lookup.exact.size} URLs loaded.`);
+    return lookup;
+  } catch (error) {
+    console.warn(`M365 endpoint web service not available: ${error instanceof Error ? error.message : error}`);
+    return null;
+  }
+}
+
 async function ensureDir(dirPath) {
   await fs.mkdir(dirPath, { recursive: true });
 }
@@ -476,6 +530,7 @@ async function ensureDir(dirPath) {
 async function main() {
   const psContent = await fs.readFile(psScriptPath, "utf-8");
   const baselineByService = parseBackendUrlsFromPs(psContent);
+  const m365Lookup = await fetchM365Lookup();
 
   const services = [];
   const sourceHealth = [];
@@ -511,13 +566,18 @@ async function main() {
     }
 
     const mergedHosts = mergeBaselineAndLiveHosts(baselineHosts, liveHosts);
-    const endpoints = mergedHosts.map((host) => ({
-      host,
-      url: `https://${host.replace(/^\*\./, "www.")}`,
-      purposeShort: inferPurpose(host, serviceName),
-      ports: [443],
-      source: config.sourceUrl ? "microsoft-official+baseline" : "baseline",
-    }));
+    const endpoints = mergedHosts.map((host) => {
+      const endpoint = {
+        host,
+        url: `https://${host.replace(/^\*\./, "www.")}`,
+        purposeShort: inferPurpose(host, serviceName),
+        ports: [443],
+        source: config.sourceUrl ? "microsoft-official+baseline" : "baseline",
+      };
+      const m365 = lookupM365Info(m365Lookup, host);
+      if (m365) endpoint.m365 = m365;
+      return endpoint;
+    });
 
     const baselineCount = baselineHosts.length;
     const liveCount = liveHosts.length;
@@ -586,7 +646,9 @@ async function main() {
   console.log(`Live source merge successful for ${withLiveSources}/${sourceHealth.length} services.`);
 }
 
-main().catch((error) => {
-  console.error("Failed to generate endpoint data:", error);
-  process.exitCode = 1;
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  main().catch((error) => {
+    console.error("Failed to generate endpoint data:", error);
+    process.exitCode = 1;
+  });
+}

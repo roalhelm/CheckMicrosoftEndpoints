@@ -25,7 +25,7 @@
     <link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="assets/img/favicon-48.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-    <link rel="stylesheet" href="./styles.css?v=20261113c" />
+    <link rel="stylesheet" href="./styles.css?v=20261117a" />
   </head>
   <body>
     <header class="site-header">
@@ -190,6 +190,17 @@
         </div>
       </section>
 
+      <section class="panel" id="impactPanel" hidden aria-labelledby="impactTitle">
+        <h2 id="impactTitle">Possible service impact</h2>
+        <p id="impactIntro" class="small-text"></p>
+        <div id="impactList" class="impact-list"></div>
+        <p class="small-text impact-note">
+          Ratings: <strong>Critical</strong> means the core function stops working, <strong>Degraded</strong> means a
+          feature is missing or slower, <strong>Low</strong> covers optional, admin-only and telemetry endpoints.
+          Microsoft 365 endpoints marked Optimize or Allow by Microsoft always count as critical.
+        </p>
+      </section>
+
       <section class="panel" id="proxyHintsPanel" hidden>
         <h2>Proxy/firewall guidance</h2>
         <p>
@@ -230,6 +241,7 @@
           <h3 id="infoDialogTitle">Endpoint info</h3>
         </header>
         <p id="infoDialogPurpose"></p>
+        <p id="infoDialogImpact" class="small-text"></p>
         <p id="infoDialogSource" class="small-text"></p>
         <footer>
           <button id="closeInfoDialogBtn" class="btn" type="button">Close</button>
@@ -254,6 +266,6 @@
     </footer>
 
     <script src="assets/site.js?v=20261113c"></script>
-    <script type="module" src="./app.js?v=20261113c"></script>
+    <script type="module" src="./app.js?v=20261117a"></script>
   </body>
 </html>
