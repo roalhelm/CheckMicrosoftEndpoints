@@ -220,7 +220,6 @@ Test-DownloadSpeed -Url $url
 | `enterpriseregistration.windows.net` | Device Registration | Critical |
 | `pas.windows.net` | Privileged Access Service | High |
 | `management.azure.com` | Azure Resource Manager | High |
-| `policykeyservice.dc.ad.msft.net` | Policy Key Service | High |
 
 **Failure Impact**: Login problems, Single Sign-On fails, device registration not possible
 

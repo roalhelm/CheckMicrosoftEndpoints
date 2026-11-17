@@ -247,6 +247,12 @@ function isEndpointCandidateHost(host) {
     /support\.microsoft\.com$/i,
     /techcommunity\.microsoft\.com$/i,
     /office\.edge$/i,
+    // Documentation/feedback sites linked from the Learn pages, not service endpoints.
+    /^(?:docs|msdn|technet)\.microsoft\.com$/i,
+    /^support\.office\.com$/i,
+    /^feedback\.azure\.com$/i,
+    // Truncated fragment scraped from page text (NXDOMAIN).
+    /^technet\.windows$/i,
   ];
   if (excludePatterns.some((pattern) => pattern.test(host))) {
     return false;
@@ -276,7 +282,15 @@ function resolveWhitelistMode(value) {
 
 const whitelistMode = resolveWhitelistMode(process.env.ENDPOINT_WHITELIST_MODE);
 
-function extractHostnamesFromText(text) {
+// Learn pages occasionally contain stray markup inside a hostname,
+// e.g. "swdc02-mscdn.manage.microsoft<.com". Without this repair the parser
+// stops at "<" and yields the non-existent host "swdc02-mscdn.manage.microsoft".
+function repairBrokenHostnames(text) {
+  return String(text ?? "").replace(/([a-z0-9])<(\.[a-z])/gi, "$1$2");
+}
+
+function extractHostnamesFromText(rawText) {
+  const text = repairBrokenHostnames(rawText);
   const hosts = new Set();
   let hadCodeSpanHosts = false;
 
