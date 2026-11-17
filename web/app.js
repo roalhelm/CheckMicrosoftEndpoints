@@ -205,6 +205,12 @@ function isEndpointCandidateHost(host) {
     /support\.microsoft\.com$/i,
     /techcommunity\.microsoft\.com$/i,
     /office\.edge$/i,
+    // Documentation/feedback sites linked from the Learn pages, not service endpoints.
+    /^(?:docs|msdn|technet)\.microsoft\.com$/i,
+    /^support\.office\.com$/i,
+    /^feedback\.azure\.com$/i,
+    // Truncated fragment scraped from page text (NXDOMAIN).
+    /^technet\.windows$/i,
   ];
   if (excludePatterns.some((pattern) => pattern.test(host))) return false;
 
@@ -237,7 +243,15 @@ function resolveLayoutMode(value) {
   return "detailed";
 }
 
-function extractHostnamesFromText(text) {
+// Learn pages occasionally contain stray markup inside a hostname,
+// e.g. "swdc02-mscdn.manage.microsoft<.com". Without this repair the parser
+// stops at "<" and yields the non-existent host "swdc02-mscdn.manage.microsoft".
+function repairBrokenHostnames(text) {
+  return String(text ?? "").replace(/([a-z0-9])<(\.[a-z])/gi, "$1$2");
+}
+
+function extractHostnamesFromText(rawText) {
+  const text = repairBrokenHostnames(rawText);
   const hosts = new Set();
   let hadCodeSpanHosts = false;
 
@@ -505,7 +519,12 @@ function isClientCertificateSkipped(row) {
   return row.status === "untested" && String(row.details ?? "").toLowerCase().startsWith("skipped:");
 }
 
+function isSkippedRow(row) {
+  return isClientCertificateSkipped(row);
+}
+
 function statusLabelForRow(row) {
+  if (isClientCertificateSkipped(row) && isWildcardHost(row.host)) return "Skipped (wildcard)";
   if (isClientCertificateSkipped(row)) return "Skipped (cert required)";
   return statusLabel(row.status);
 }
@@ -568,7 +587,7 @@ function renderServiceProgress() {
     }
     const item = grouped.get(row.serviceId);
     item.total += 1;
-    if (row.status !== "untested") item.done += 1;
+    if (row.status !== "untested" || isSkippedRow(row)) item.done += 1;
   });
 
   elements.serviceProgressGrid.innerHTML = "";
@@ -591,10 +610,11 @@ function renderSummary() {
   const reachable = rows.filter((row) => row.status === "reachable").length;
   const timeout = rows.filter((row) => row.status === "timeout").length;
   const unreachable = rows.filter((row) => row.status === "unreachable").length;
-  const tested = rows.filter((row) => row.status !== "untested").length;
+  const skipped = rows.filter((row) => isSkippedRow(row)).length;
+  const tested = rows.filter((row) => row.status !== "untested").length + skipped;
   const percent = total ? Math.round((tested / total) * 100) : 0;
 
-  elements.summaryTotal.textContent = `${total} endpoints`;
+  elements.summaryTotal.textContent = skipped ? `${total} endpoints (${skipped} skipped)` : `${total} endpoints`;
   elements.summaryReachable.textContent = `Reachable: ${reachable}`;
   elements.summaryTimeout.textContent = `Timeout: ${timeout}`;
   elements.summaryUnreachable.textContent = `Unreachable: ${unreachable}`;
@@ -728,7 +748,18 @@ function requiresClientCertificate(host) {
   return /(?:^|\.)certauth\./i.test(host);
 }
 
+function isWildcardHost(host) {
+  return String(host ?? "").includes("*");
+}
+
 async function runEndpointCheck(endpoint) {
+  if (isWildcardHost(endpoint.host)) {
+    return {
+      status: "untested",
+      durationMs: null,
+      details: "Skipped: wildcard entry (*.domain) is a firewall/proxy rule, not a resolvable host. Concrete hosts of this domain are tested separately.",
+    };
+  }
   if (requiresClientCertificate(endpoint.host)) {
     return {
       status: "untested",

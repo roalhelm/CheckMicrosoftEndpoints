@@ -293,11 +293,7 @@ $backendUrls = @{
         'https://sws.update.microsoft.com',
         'https://update.microsoft.com',
         'https://windowsupdate.microsoft.com',
-        'https://www.delivery.mp.microsoft.com',
-        'https://www.dl.delivery.mp.microsoft.com',
         'https://www.update.microsoft.com',
-        'https://www.windowsupdate.com',
-        'https://www.windowsupdate.microsoft.com',
         'https://*.delivery.mp.microsoft.com',
         'https://*.dl.delivery.mp.microsoft.com',
         'https://*.update.microsoft.com',
@@ -365,7 +361,6 @@ $backendUrls = @{
         'https://enterpriseregistration.windows.net',
         'https://pas.windows.net',
         'https://management.azure.com',
-        'https://policykeyservice.dc.ad.msft.net',
         'https://aadcdn.msauth.net',
         'https://aadcdn.msftauth.net'
     ) | Sort-Object -Unique
@@ -1241,16 +1236,25 @@ $urls = $selectedBackendUrls.Values | ForEach-Object { $_ }
 
 # Remove wildcards for direct test (cannot resolve * in Test-NetConnection)
 $seenTestUrls = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
+$script:skippedWildcardUrls = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
 $testUrls = foreach ($url in $urls) {
+    # Wildcard entries (*.domain) are firewall/proxy rules, not resolvable hosts.
+    # Testing a made-up host such as www.<domain> mostly fails with NXDOMAIN and
+    # reports false errors, so wildcards are skipped; their concrete hosts are tested.
     if ($url -match '\*') {
-        $normalizedUrl = ($url -replace '^https://\*\.', 'https://www.' -replace '\*', 'prod')
-    } else {
-        $normalizedUrl = $url
+        [void]$script:skippedWildcardUrls.Add($url)
+        continue
     }
+    $normalizedUrl = $url
 
     if ($seenTestUrls.Add($normalizedUrl)) {
         $normalizedUrl
     }
+}
+
+if (-not $Quiet -and $script:skippedWildcardUrls.Count -gt 0) {
+    Write-Host "`nSkipped $($script:skippedWildcardUrls.Count) wildcard entries (allow them as *.domain rules in firewall/proxy):" -ForegroundColor DarkGray
+    $script:skippedWildcardUrls | Sort-Object | ForEach-Object { Write-Host "   • $_" -ForegroundColor DarkGray }
 }
 
 # Store script start time for duration calculation
