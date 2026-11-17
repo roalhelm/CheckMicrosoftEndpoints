@@ -361,6 +361,23 @@ progress::-moz-progress-bar { background: var(--primary); border-radius: var(--r
 #proxyHintsPanel { border-left: 4px solid var(--accent); }
 #proxyHintsPanel p { margin: 0; color: var(--muted); }
 
+/* ---------- Service impact ---------- */
+.impact-list { display: grid; gap: var(--space-3); margin: var(--space-3) 0; }
+.impact-item { border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); background: var(--surface); }
+.impact-item.critical { border-left-color: var(--danger); }
+.impact-item.degraded { border-left-color: var(--accent); }
+.impact-item.low { border-left-color: var(--muted); }
+.impact-item-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem var(--space-3); }
+.impact-item p { margin: .4rem 0 0; color: var(--muted); }
+.impact-item details summary { cursor: pointer; margin-top: .4rem; color: var(--primary); font-size: var(--fs-xs); font-family: var(--font-mono); }
+.impact-hosts { display: flex; flex-wrap: wrap; gap: .3rem .6rem; font-size: .8rem; word-break: break-all; }
+.impact-count { color: var(--muted); font-family: var(--font-mono); font-size: var(--fs-xs); }
+.impact-severity { display: inline-block; padding: .1rem .5rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: .72rem; font-weight: 600; }
+.impact-severity.critical { color: var(--danger); background: var(--danger-soft); }
+.impact-severity.degraded { color: var(--accent-text); background: var(--accent-soft); }
+.impact-severity.low { color: var(--muted); background: var(--muted-soft); }
+.impact-note { margin: 0; }
+
 /* ---------- Endpoint groups and cards ---------- */
 .table-wrap { overflow: auto; }
 .group-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }

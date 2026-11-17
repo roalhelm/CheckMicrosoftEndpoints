@@ -1,4 +1,5 @@
 import { readMicrosoftStatus, sortIncidents, STATUS_PAGE_URL } from "./ms-status.mjs";
+import { classifyEndpoint, likelihoodText, SEVERITY_LABELS, summarizeImpacts } from "./service-impact.mjs";
 
 const FALLBACK_DATA_PATH = "./data/endpoints.generated.json";
 const SOURCE_HEALTH_PATH = "./data/source-health.generated.json";
@@ -57,9 +58,13 @@ const elements = {
   summaryTimeout: document.getElementById("summaryTimeout"),
   summaryUnreachable: document.getElementById("summaryUnreachable"),
   proxyHintsPanel: document.getElementById("proxyHintsPanel"),
+  impactPanel: document.getElementById("impactPanel"),
+  impactIntro: document.getElementById("impactIntro"),
+  impactList: document.getElementById("impactList"),
   infoDialog: document.getElementById("infoDialog"),
   infoDialogTitle: document.getElementById("infoDialogTitle"),
   infoDialogPurpose: document.getElementById("infoDialogPurpose"),
+  infoDialogImpact: document.getElementById("infoDialogImpact"),
   infoDialogSource: document.getElementById("infoDialogSource"),
   closeInfoDialogBtn: document.getElementById("closeInfoDialogBtn"),
   liveStatus: document.getElementById("liveStatus"),
@@ -389,19 +394,27 @@ async function fetchTextWithTimeout(url, timeoutMs = LIVE_REFRESH_TIMEOUT_MS) {
 
 function buildEndpointRowsFromServices(services) {
   return services.flatMap((service) =>
-    service.endpoints.map((endpoint) => ({
-      id: `${service.id}::${endpoint.host}`,
-      serviceId: service.id,
-      serviceName: service.name,
-      region: service.region ?? "global",
-      host: endpoint.host,
-      url: endpoint.url ?? `https://${endpoint.host.replace(/^\*\./, "www.")}`,
-      purposeShort: localizePurposeShort(endpoint.purposeShort ?? inferPurpose(endpoint.host, service.name)),
-      source: endpoint.source ?? service.sourceUrl ?? "generated",
-      status: "untested",
-      durationMs: null,
-      details: "Not tested yet",
-    })),
+    service.endpoints.map((endpoint) => {
+      const impact = classifyEndpoint(endpoint.host, service.name, endpoint.m365);
+      return {
+        id: `${service.id}::${endpoint.host}`,
+        serviceId: service.id,
+        serviceName: service.name,
+        region: service.region ?? "global",
+        host: endpoint.host,
+        url: endpoint.url ?? `https://${endpoint.host.replace(/^\*\./, "www.")}`,
+        purposeShort: localizePurposeShort(endpoint.purposeShort ?? inferPurpose(endpoint.host, service.name)),
+        source: endpoint.source ?? service.sourceUrl ?? "generated",
+        status: "untested",
+        durationMs: null,
+        details: "Not tested yet",
+        m365: endpoint.m365 ?? null,
+        impact,
+        impactArea: impact.area,
+        impactFeature: impact.feature,
+        impactSeverity: impact.severity,
+      };
+    }),
   );
 }
 
@@ -624,6 +637,48 @@ function renderSummary() {
   elements.proxyHintsPanel.hidden = unreachable + timeout < 3;
 
   renderServiceProgress();
+  renderImpacts();
+}
+
+function renderImpacts() {
+  if (!elements.impactPanel || !elements.impactList) return;
+  const impacts = summarizeImpacts(state.endpointRows);
+  if (impacts.length === 0) {
+    elements.impactPanel.hidden = true;
+    elements.impactList.innerHTML = "";
+    return;
+  }
+
+  const counts = impacts.reduce((acc, entry) => {
+    acc[entry.severity] = (acc[entry.severity] ?? 0) + 1;
+    return acc;
+  }, {});
+  const parts = [];
+  if (counts.critical) parts.push(`${counts.critical} critical`);
+  if (counts.degraded) parts.push(`${counts.degraded} degraded`);
+  if (counts.low) parts.push(`${counts.low} low`);
+  elements.impactIntro.textContent =
+    `Unreachable endpoints affect ${impacts.length} service feature${impacts.length === 1 ? "" : "s"} (${parts.join(", ")}). ` +
+    "Each endpoint belongs to one feature; the more of a feature's endpoints fail, the more likely it is broken.";
+
+  elements.impactList.innerHTML = impacts
+    .map(
+      (entry) => `
+      <article class="impact-item ${entry.severity}">
+        <header class="impact-item-header">
+          <span class="impact-severity ${entry.severity}">${escapeHtml(SEVERITY_LABELS[entry.severity] ?? entry.severity)}</span>
+          <strong>${escapeHtml(entry.area)}: ${escapeHtml(entry.feature)}</strong>
+          <span class="impact-count">${entry.failed} of ${entry.total} unreachable · ${likelihoodText(entry)}</span>
+        </header>
+        <p>${escapeHtml(entry.impact)}</p>
+        <details>
+          <summary>Affected endpoints</summary>
+          <p class="impact-hosts">${entry.failedHosts.map((host) => `<code>${escapeHtml(host)}</code>`).join(" ")}</p>
+        </details>
+      </article>`,
+    )
+    .join("");
+  elements.impactPanel.hidden = false;
 }
 
 function renderTable() {
@@ -681,6 +736,7 @@ function renderGroupedByService() {
                 <span class="status-badge ${statusBadgeClassForRow(row)}">${statusLabelForRow(row)}</span>
               </header>
               <div class="endpoint-card-meta">
+                <p class="endpoint-meta-row endpoint-meta-feature"><span>Feature</span><strong>${escapeHtml(row.impactArea)}: ${escapeHtml(row.impactFeature)}</strong></p>
                 <p class="endpoint-meta-row endpoint-meta-duration"><span>Duration</span><strong>${row.durationMs ?? "-"} ms</strong></p>
                 <p class="endpoint-meta-row endpoint-meta-source"><span>Source</span><strong>${row.source}</strong></p>
                 <p class="endpoint-meta-row endpoint-meta-result"><span>Result</span><strong>${row.details ?? "-"}</strong></p>
@@ -704,6 +760,10 @@ function renderGroupedByService() {
       if (!row) return;
       elements.infoDialogTitle.textContent = `${row.host}`;
       elements.infoDialogPurpose.textContent = row.purposeShort;
+      if (elements.infoDialogImpact) {
+        const category = row.impact?.m365Category ? ` · Microsoft 365 category: ${row.impact.m365Category}` : "";
+        elements.infoDialogImpact.textContent = `If unreachable (${SEVERITY_LABELS[row.impactSeverity] ?? row.impactSeverity}${category}): ${row.impact?.impact ?? ""}`;
+      }
       elements.infoDialogSource.textContent = `Service: ${row.serviceName} • Source: ${row.source}`;
       elements.infoDialog.showModal();
     });
@@ -969,14 +1029,31 @@ function exportJson() {
   const rows = sortRows(applyFilters(state.endpointRows));
   download(
     `endpoint-results-${new Date().toISOString().replace(/[:.]/g, "-")}.json`,
-    JSON.stringify({ generatedAt: new Date().toISOString(), filters: state.filters, rows }, null, 2),
+    JSON.stringify(
+      { generatedAt: new Date().toISOString(), filters: state.filters, serviceImpact: summarizeImpacts(rows), rows },
+      null,
+      2,
+    ),
     "application/json",
   );
 }
 
 function exportCsv() {
   const rows = sortRows(applyFilters(state.endpointRows));
-  const headers = ["service", "region", "host", "url", "status", "durationMs", "purposeShort", "source", "details"];
+  const headers = [
+    "service",
+    "region",
+    "host",
+    "url",
+    "status",
+    "durationMs",
+    "purposeShort",
+    "impactArea",
+    "impactFeature",
+    "impactSeverity",
+    "source",
+    "details",
+  ];
   const lines = [
     headers.join(","),
     ...rows.map((row) =>
