@@ -9,8 +9,10 @@ on:
       - "CheckMEMEndpoints.ps1"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
+  # "Update Microsoft service status" starts this workflow itself, and only when
+  # it committed a changed status file (see update-ms-status.yml).
   workflow_run:
-    workflows: ["Update endpoint data", "Update Microsoft service status"]
+    workflows: ["Update endpoint data"]
     types: [completed]
 
 permissions:

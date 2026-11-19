@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # needed to start the Pages deploy after a real change
 
 concurrency:
   group: ms-status
@@ -31,6 +32,7 @@ jobs:
         run: node tools/fetch-ms-status.mjs
 
       - name: Commit changes
+        id: commit
         run: |
           if git diff --quiet -- web/data/ms-status.generated.json && git ls-files --error-unmatch web/data/ms-status.generated.json >/dev/null 2>&1; then
             echo "No status changes."
@@ -42,3 +44,13 @@ jobs:
           git commit -m "chore: refresh Microsoft service status"
           git pull --rebase --autostash
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Deploy only when the status file was actually committed. A push made with
+      # GITHUB_TOKEN does not trigger the push event of other workflows, so the
+      # deploy is started explicitly via workflow_dispatch.
+      - name: Trigger Pages deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages.yml --ref main
