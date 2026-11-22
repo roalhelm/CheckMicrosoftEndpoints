@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-15T11:46:40.568Z",
+  "generatedAt": "2026-11-22T12:17:32.786Z",
   "whitelistMode": "relaxed",
   "totalServices": 10,
   "totalEndpoints": 277,
@@ -167,7 +167,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "device.autopatch.microsoft.com",
@@ -194,7 +199,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.microsoftonline.com",
@@ -203,7 +213,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.windows.net",
@@ -212,7 +227,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "manage.microsoft.com",
@@ -248,7 +268,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "services.autopatch.microsoft.com",
@@ -325,7 +350,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "c.manage.microsoft.com",
@@ -352,7 +382,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "device.login.microsoftonline.com",
@@ -361,7 +396,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "ecs.office.com",
@@ -370,7 +410,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "endpoint.microsoft.com",
@@ -406,7 +451,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "fd.api.orgmsg.microsoft.com",
@@ -424,7 +474,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "i.manage.microsoft.com",
@@ -442,7 +497,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "login.microsoftonline.com",
@@ -451,7 +511,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "m.manage.microsoft.com",
@@ -571,8 +636,8 @@
           "source": "microsoft-official+baseline"
         },
         {
-          "host": "swdc02-mscdn.manage.microsoft.com",
-          "url": "https://swdc02-mscdn.manage.microsoft.com",
+          "host": "swdc02-mscdn.manage.microsoft",
+          "url": "https://swdc02-mscdn.manage.microsoft",
           "purposeShort": "Intune: Endpoint für Dienstkommunikation",
           "ports": [
             443
@@ -642,7 +707,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Exchange",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.security.microsoft.com",
@@ -651,7 +721,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.wdcp.microsoft.com",
@@ -696,7 +771,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "unitedstates.cp.wd.microsoft.com",
@@ -723,7 +803,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         }
       ]
     },
@@ -733,7 +818,7 @@
       "region": "global",
       "sourceUrl": "https://learn.microsoft.com/en-us/azure/active-directory/hybrid/reference-connect-ports",
       "sourceScope": null,
-      "sourceStatus": "live+fallback-merged",
+      "sourceStatus": "fallback",
       "sourceUpdatedAt": null,
       "endpoints": [
         {
@@ -743,7 +828,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "aadcdn.msftauth.net",
@@ -752,7 +842,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "device.login.microsoftonline.com",
@@ -761,7 +856,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "enterpriseregistration.windows.net",
@@ -770,7 +870,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "login.microsoftonline.com",
@@ -779,7 +884,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "management.azure.com",
@@ -817,7 +927,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.aria.microsoft.com",
@@ -826,7 +941,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.auth.microsoft.com",
@@ -835,7 +955,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.azure-apim.net",
@@ -844,7 +969,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.azurerms.com",
@@ -853,7 +983,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.blob.core.windows.net",
@@ -871,7 +1006,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.events.data.microsoft.com",
@@ -880,7 +1020,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.flow.microsoft.com",
@@ -889,7 +1034,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.hip.live.com",
@@ -898,7 +1048,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.informationprotection.azure.com",
@@ -907,7 +1062,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.keydelivery.mediaservices.windows.net",
@@ -916,7 +1076,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.microsoft.com",
@@ -925,7 +1090,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "*.microsoftonline-p.com",
@@ -934,7 +1104,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.microsoftonline.com",
@@ -943,7 +1118,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.microsoftusercontent.com",
@@ -952,7 +1132,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "*.msauth.net",
@@ -961,7 +1146,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.msauthimages.net",
@@ -970,7 +1160,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.msocdn.com",
@@ -979,7 +1174,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "*.mx.microsoft",
@@ -988,7 +1188,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Exchange",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.office.com",
@@ -997,7 +1202,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.office.net",
@@ -1006,7 +1216,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.office365.com",
@@ -1015,7 +1230,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.officeapps.live.com",
@@ -1024,7 +1244,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.onedrive.com",
@@ -1042,7 +1267,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.onmicrosoft.com",
@@ -1051,7 +1281,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "*.protection.office.com",
@@ -1060,7 +1295,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.security.microsoft.com",
@@ -1069,7 +1309,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.sharepoint.com",
@@ -1078,7 +1323,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "SharePoint",
+            "category": "Optimize",
+            "required": true
+          }
         },
         {
           "host": "*.sharepointonline.com",
@@ -1087,7 +1337,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "SharePoint",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.skype.com",
@@ -1096,7 +1351,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.static.microsoft",
@@ -1105,7 +1365,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.streaming.mediaservices.windows.net",
@@ -1114,7 +1379,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.teams.cloud.microsoft",
@@ -1123,7 +1393,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.teams.microsoft.com",
@@ -1132,7 +1407,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "*.usercontent.microsoft",
@@ -1141,7 +1421,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "*.wns.windows.com",
@@ -1150,7 +1435,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "SharePoint",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "account.activedirectory.windowsazure.com",
@@ -1159,7 +1449,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "account.live.com",
@@ -1168,7 +1463,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "accounts.accesscontrol.windows.net",
@@ -1177,7 +1477,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "activation.sls.microsoft.com",
@@ -1186,7 +1491,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "activity.windows.com",
@@ -1195,7 +1505,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "adl.windows.com",
@@ -1204,7 +1519,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "admin.microsoft.com",
@@ -1213,7 +1533,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "admin.onedrive.com",
@@ -1222,7 +1547,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "SharePoint",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "adminwebservice.microsoftonline.com",
@@ -1231,7 +1561,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "amp.azure.net",
@@ -1240,7 +1575,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "api.passwordreset.microsoftonline.com",
@@ -1249,7 +1589,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "appsforoffice.microsoft.com",
@@ -1258,7 +1603,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "autologon.microsoftazuread-sso.com",
@@ -1267,7 +1617,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "c.live.com",
@@ -1276,7 +1631,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "c1.microsoft.com",
@@ -1285,7 +1645,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "ccs.login.microsoftonline.com",
@@ -1294,7 +1659,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "cdn.odc.officeapps.live.com",
@@ -1303,7 +1673,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "cdn.uci.officeapps.live.com",
@@ -1312,7 +1687,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "clientconfig.microsoftonline-p.net",
@@ -1321,7 +1701,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "companymanager.microsoftonline.com",
@@ -1330,7 +1715,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "compliance.microsoft.com",
@@ -1339,7 +1729,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "config.office.com",
@@ -1348,7 +1743,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "crl.microsoft.com",
@@ -1357,7 +1757,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "defender.microsoft.com",
@@ -1366,7 +1771,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "device.login.microsoftonline.com",
@@ -1375,7 +1785,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "endpoints.office.com",
@@ -1384,7 +1799,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "enterpriseregistration.windows.net",
@@ -1393,7 +1813,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "g.live.com",
@@ -1402,7 +1827,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "SharePoint",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "graph.microsoft.com",
@@ -1411,7 +1841,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "graph.windows.net",
@@ -1420,7 +1855,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "informationprotection.hosting.portal.azure.net",
@@ -1429,7 +1869,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "login-us.microsoftonline.com",
@@ -1438,7 +1883,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.live.com",
@@ -1447,7 +1897,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "login.microsoft.com",
@@ -1456,7 +1911,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.microsoftonline-p.com",
@@ -1465,7 +1925,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.microsoftonline.com",
@@ -1474,7 +1939,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.windows-ppe.net",
@@ -1483,7 +1953,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "login.windows.net",
@@ -1492,7 +1967,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "logincert.microsoftonline.com",
@@ -1501,7 +1981,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "loginex.microsoftonline.com",
@@ -1510,7 +1995,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "mscrl.microsoft.com",
@@ -1519,7 +2009,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "nexus.microsoftonline-p.com",
@@ -1528,7 +2023,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "o15.officeredir.microsoft.com",
@@ -1537,7 +2037,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "ocos-office365-s2s.msedge.net",
@@ -1546,7 +2051,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "office.live.com",
@@ -1555,7 +2065,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "office.microsoft",
@@ -1573,7 +2088,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "officeapps.live.com",
@@ -1582,7 +2102,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "officecdn.microsoft.com",
@@ -1591,7 +2116,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "officeclient.microsoft.com",
@@ -1600,7 +2130,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "SharePoint",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "officepreviewredir.microsoft.com",
@@ -1609,7 +2144,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "officeredir.microsoft.com",
@@ -1618,7 +2158,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "officespeech.platform.bing.com",
@@ -1627,7 +2172,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "oneocsp.microsoft.com",
@@ -1636,7 +2186,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "onmicrosoft.com",
@@ -1645,7 +2200,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "otelrules.azureedge.net",
@@ -1654,7 +2214,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "outlook.cloud.microsoft",
@@ -1663,7 +2228,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Exchange",
+            "category": "Optimize",
+            "required": true
+          }
         },
         {
           "host": "outlook.office.com",
@@ -1672,7 +2242,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Exchange",
+            "category": "Optimize",
+            "required": true
+          }
         },
         {
           "host": "outlook.office365.com",
@@ -1681,7 +2256,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Exchange",
+            "category": "Optimize",
+            "required": true
+          }
         },
         {
           "host": "partnerservices.getmicrosoftkey.com",
@@ -1690,7 +2270,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "passwordreset.microsoftonline.com",
@@ -1699,7 +2284,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "portal.office.com",
@@ -1708,7 +2298,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "protection.office.com",
@@ -1717,7 +2312,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "purview.microsoft.com",
@@ -1726,7 +2326,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "r.office.microsoft.com",
@@ -1735,7 +2340,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "security.microsoft.com",
@@ -1744,7 +2354,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "shellprod.msocdn.com",
@@ -1753,7 +2368,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "signup.live.com",
@@ -1762,7 +2382,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "smtp.office365.com",
@@ -1771,7 +2396,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Exchange",
+            "category": "Allow",
+            "required": false
+          }
         },
         {
           "host": "storage.live.com",
@@ -1780,7 +2410,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "SharePoint",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "teams.cloud.microsoft",
@@ -1789,7 +2424,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "teams.microsoft.com",
@@ -1798,7 +2438,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "www.microsoft365.com",
@@ -1807,7 +2452,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "www.onedrive.com",
@@ -1816,7 +2466,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         }
       ]
     },
@@ -1940,7 +2595,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "crl.microsoft.com",
@@ -1949,7 +2609,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "licensing.mp.microsoft.com",
@@ -2050,7 +2715,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "api.msa.diagnostics.office.com",
@@ -2059,7 +2729,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "cdn.odc.officeapps.live.com",
@@ -2068,7 +2743,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "clients.config.office.net",
@@ -2077,7 +2757,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "config.edge.skype.com",
@@ -2086,7 +2771,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Skype",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "cr.m365copilotapp.svc.cloud.microsoft",
@@ -2095,7 +2785,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "dual-s-01.dual.dualstack.edge-enterprise.activity.windows.com",
@@ -2104,7 +2799,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "edge.microsoft.com",
@@ -2131,7 +2831,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.live.com",
@@ -2140,7 +2845,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "login.microsoft.com",
@@ -2149,7 +2859,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.microsoftonline.com",
@@ -2158,7 +2873,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "login.windows.net",
@@ -2167,7 +2887,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "logincdn.msauth.net",
@@ -2176,7 +2901,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "m365.cloud.microsoft",
@@ -2185,7 +2915,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "msedge.api.cdp.microsoft.com",
@@ -2356,7 +3091,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Allow",
+            "required": true
+          }
         },
         {
           "host": "privacy.microsoft.com",
@@ -2383,7 +3123,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "substrate.svc.cloud.microsoft",
@@ -2392,7 +3137,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "unitedstates.smartscreen-prod.microsoft.com",
@@ -2466,7 +3216,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "eu-watsonc.events.data.microsoft.com",
@@ -2475,7 +3230,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "kmwatsonc.events.data.microsoft.com",
@@ -2484,7 +3244,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "login.live.com",
@@ -2493,7 +3258,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": false
+          }
         },
         {
           "host": "oca.microsoft.com",
@@ -2529,7 +3299,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "us-v10c.events.data.microsoft.com",
@@ -2538,7 +3313,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "v10.events.data.microsoft.com",
@@ -2547,7 +3327,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "v10.vortex-win.data.microsoft.com",
@@ -2565,7 +3350,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "v20.events.data.microsoft.com",
@@ -2574,7 +3364,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "watson.telemetry.microsoft.com",
@@ -2592,7 +3387,12 @@
           "ports": [
             443
           ],
-          "source": "microsoft-official+baseline"
+          "source": "microsoft-official+baseline",
+          "m365": {
+            "serviceArea": "Common",
+            "category": "Default",
+            "required": true
+          }
         },
         {
           "host": "weus2watcab01.blob.core.windows.net",
